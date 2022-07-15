@@ -1,6 +1,5 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:car_finder/screens/home_screen.dart';
-import 'package:car_finder/screens/inicio_Screen.dart';
+import 'package:car_finder/auth/main_page.dart';
 import 'package:car_finder/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -15,11 +14,11 @@ class _splashscState extends State<splashsc> {
   @override
   void initState() {
     Future.delayed(
-        Duration(milliseconds: 1500),
+        Duration(milliseconds: 3000),
         (() => Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => Inicio(),
+                builder: (context) => MainPage(),
               ),
             )));
     super.initState();
@@ -28,6 +27,7 @@ class _splashscState extends State<splashsc> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[300],
       body: Container(
         color: Colors.white,
         alignment: Alignment.center,

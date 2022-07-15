@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:animate_do/animate_do.dart';
 import 'package:car_finder/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +58,7 @@ class CajaAutos extends StatelessWidget {
                       padding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                       child: Stack(
-                        overflow: Overflow.visible,
+                        clipBehavior: Clip.none,
                         children: [
                           Column(
                             children: [
@@ -247,7 +249,7 @@ class CajaAutos extends StatelessWidget {
                                       ),
                                       Expanded(
                                           flex: 2,
-                                          child: OutlineButton(
+                                          child: RaisedButton(
                                             color: Colors.white,
                                             onPressed: () {},
                                             child: TextParrafo(
@@ -339,7 +341,7 @@ class CajaAutos extends StatelessWidget {
                       padding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                       child: Stack(
-                        overflow: Overflow.visible,
+                        clipBehavior: Clip.none,
                         children: [
                           Column(
                             children: [
@@ -512,7 +514,7 @@ class CajaAutos extends StatelessWidget {
                                       ),
                                       Expanded(
                                           flex: 2,
-                                          child: OutlineButton(
+                                          child: RaisedButton(
                                             color: Colors.white,
                                             onPressed: () {},
                                             child: TextParrafo(
@@ -589,7 +591,7 @@ class CajaAutos extends StatelessWidget {
                       padding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                       child: Stack(
-                        overflow: Overflow.visible,
+                        clipBehavior: Clip.none,
                         children: [
                           Column(
                             children: [
@@ -806,7 +808,7 @@ class CajaAutos extends StatelessWidget {
                                       ),
                                       Expanded(
                                           flex: 2,
-                                          child: OutlineButton(
+                                          child: RaisedButton(
                                             color: Colors.white,
                                             onPressed: () {},
                                             child: TextParrafo(

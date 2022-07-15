@@ -1,39 +1,51 @@
-// ignore_for_file: deprecated_member_use
 import 'package:car_finder/Authenticator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 var ax = 'biko';
 
-class Inicio extends StatefulWidget {
-  final VoidCallback showRegisterPage;
-  const Inicio({Key? key, required this.showRegisterPage}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  final VoidCallback showInicio;
+  const RegisterPage({Key? key, required this.showInicio}) : super(key: key);
 
   @override
-  State<Inicio> createState() => _InicioState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _InicioState extends State<Inicio> {
+class _RegisterPageState extends State<RegisterPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  Future signIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim());
-  }
+  final _confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
+  }
+
+  Future signUp() async {
+    if (passwordConfirmed()) {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+    } else {}
+  }
+
+  bool passwordConfirmed() {
+    if (_passwordController.text.trim() ==
+        _confirmPasswordController.text.trim()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    Firebase.initializeApp();
     return Scaffold(
         backgroundColor: Colors.grey[300],
         body: SafeArea(
@@ -45,7 +57,7 @@ class _InicioState extends State<Inicio> {
                   Image.asset('assets/logo2p.png', width: 200, height: 250),
                   SizedBox(height: 10),
                   Text(
-                    '¡Sea bienvenido!',
+                    '¡Nos alegra recibirlo!',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontFamily: ax,
@@ -54,13 +66,13 @@ class _InicioState extends State<Inicio> {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    'Nuevas oportunidades nos esperan...',
+                    'Regístrese a continuación con sus datos',
                     style: TextStyle(
                       fontSize: 20,
                       fontFamily: ax,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 25),
                   //logo xd
 
                   //username
@@ -87,7 +99,7 @@ class _InicioState extends State<Inicio> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 25),
+                  SizedBox(height: 20),
 
                   //passwd Textfield
                   Padding(
@@ -114,13 +126,40 @@ class _InicioState extends State<Inicio> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 20),
+
+                  //confirm passwd textfield
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: TextField(
+                      obscureText: true,
+                      controller: _confirmPasswordController,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color.fromARGB(255, 192, 0, 0)),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        hintText: 'Confirme la contraseña',
+                        hintStyle: TextStyle(
+                          fontFamily: ax,
+                        ),
+                        fillColor: Colors.grey[200],
+                        filled: true,
+                      ),
+                    ),
+                  ),
                   SizedBox(height: 25),
 
                   //sign-in button
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25.0),
                     child: GestureDetector(
-                      onTap: signIn,
+                      onTap: signUp,
                       child: Container(
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
@@ -129,37 +168,7 @@ class _InicioState extends State<Inicio> {
                         ),
                         child: Center(
                           child: Text(
-                            'Iniciar sesión',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: ax,
-                                fontSize: 20),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 10),
-
-                  //Google Button? xd
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: GestureDetector(
-                      onTap: () async {
-                        User? user =
-                            await Authenticator.iniciarSesion(context: context);
-                        print(user?.displayName);
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Entrar con Google',
+                            'Terminar',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -177,7 +186,7 @@ class _InicioState extends State<Inicio> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        '¿Aún no eres usuario? ',
+                        '¿Ya estás registrado? ',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontFamily: ax,
@@ -185,9 +194,9 @@ class _InicioState extends State<Inicio> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: widget.showRegisterPage,
+                        onTap: widget.showInicio,
                         child: Text(
-                          'Regístrate aquí',
+                          'Iniciar sesión',
                           style: TextStyle(
                             color: Colors.blue,
                             fontWeight: FontWeight.bold,

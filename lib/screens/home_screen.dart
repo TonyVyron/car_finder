@@ -3,12 +3,14 @@ import 'package:car_finder/screens/autoscaja.dart';
 import 'package:car_finder/screens/favoritos_Screen.dart';
 import 'package:car_finder/screens/filtro_Screen.dart';
 import 'package:car_finder/screens/historial_Screen.dart';
-import 'package:car_finder/screens/inicio_Screen.dart';
+//import 'package:car_finder/screens/inicio_Screen.dart';
 import 'package:car_finder/screens/perfil_Screen.dart';
-import 'package:car_finder/widgets/search_Auto.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:car_finder/widgets/search_Auto.dart';
 import 'package:flutter/material.dart';
 import 'package:car_finder/widgets/widgets.dart';
-import 'package:flutter/widgets.dart';
+//import 'package:flutter/widgets.dart';
 
 class home extends StatefulWidget {
   @override
@@ -16,6 +18,8 @@ class home extends StatefulWidget {
 }
 
 class _homeState extends State<home> {
+  final user = FirebaseAuth.instance.currentUser!;
+
   int selectDrawerItem = 1;
   final _passwordController = TextEditingController();
   bool _passwordVisible = true;
@@ -51,6 +55,7 @@ class _homeState extends State<home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.grey[300],
         appBar: AppBar(
           backgroundColor: RED_CAR,
           shape:
@@ -137,7 +142,7 @@ class _homeState extends State<home> {
                     children: [
                       Container(
                         width: 180,
-                        child: TextParrafo(text: 'Nombre de Usuario'),
+                        child: TextParrafo(text: '' + user.email!),
                       ),
                       Container(
                         width: 180,
@@ -148,7 +153,7 @@ class _homeState extends State<home> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            TextParrafo(text: 'Ver Cliente'),
+                            TextParrafo(text: 'Ver perfil'),
                             IconButton(
                                 iconSize: 35,
                                 onPressed: () {
@@ -291,7 +296,7 @@ class _homeState extends State<home> {
                     child: ListTile(
                       selected: false,
                       title: TextParrafo(
-                        text: 'Cerrar Sesión',
+                        text: 'Cerrar sesión',
                         style: TextStyle(
                             fontFamily: 'biko',
                             fontWeight: FontWeight.w500,
@@ -319,7 +324,7 @@ class _homeState extends State<home> {
                                         fontSize: 25,
                                       )),
                                   content: Text(
-                                      "¿Deseas Cerrar Sesión en la Aplicación?",
+                                      "Está a punto de salir, ¿realmente desea hacerlo?",
                                       style: TextStyle(
                                         fontSize: 20,
                                         color: Colors.black,
@@ -343,12 +348,7 @@ class _homeState extends State<home> {
                                         )),
                                     TextButton(
                                       onPressed: () {
-                                        Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => Inicio(),
-                                          ),
-                                        );
+                                        FirebaseAuth.instance.signOut();
                                       },
                                       child: Container(
                                         padding: EdgeInsets.only(
