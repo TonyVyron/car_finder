@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "36747584461-ujm84andmh7vpd8fkub68joonrblrdgv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.car_finder",
+            "certificate_hash": "8e63915942d04cdae350bee738f60009ca4bfded"
+          }
+        },
+        {
           "client_id": "36747584461-75tb8q47fvoojpfipkif0uokojq8v7vd.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -1,12 +1,19 @@
 import 'package:car_finder/SplashScreen.dart';
 import 'package:car_finder/blocs/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:car_finder/widgets/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() => runApp(Aplication());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  runApp(const Aplication());
+}
 
 class Aplication extends StatelessWidget {
+  const Aplication({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
