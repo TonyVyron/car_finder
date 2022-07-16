@@ -1,12 +1,22 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:animate_do/animate_do.dart';
+import 'package:car_finder/screens/infoAutos.dart';
 import 'package:car_finder/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-class CajaAutos extends StatelessWidget {
+bool _estrella = false;
+bool _estrella2 = false;
+bool _estrella3 = false;
+
+class CajaAutos extends StatefulWidget {
   const CajaAutos({Key? key}) : super(key: key);
 
+  @override
+  State<CajaAutos> createState() => _CajaAutosState();
+}
+
+class _CajaAutosState extends State<CajaAutos> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,21 +31,26 @@ class CajaAutos extends StatelessWidget {
                         isScrollControlled: true,
                         context: context,
                         builder: (context) {
-                          return FadeIn(
-                              duration: Duration(milliseconds: 600),
-                              child: Container(
-                                height: 750,
-                                child: Scaffold(
-                                  appBar: AppBar(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(0)),
-                                      backgroundColor: RED_CAR,
-                                      title: TextTitulo(text: 'Auto')),
-                                  body: Image.asset('assets/logo2p.png',
-                                      width: 330, height: 340),
-                                ),
-                              ));
+                          return AutosInfo(
+                              imagen:
+                                  'https://www.bmw.com.do/content/bmw/marketLATAM/bmw_com_do/es_DO/topics/fascination-bmw/bmw-concept-vehicle/bmw-concept-i4-highlights/jcr:content/par/mosaicgallery_a072/items/mosaicgalleryitem_f6/image/mobile.transform/mosaic963/image.1584526806688.jpg',
+                              context: context,
+                              precio: '300,000',
+                              Marca: 'BMW',
+                              Nombre: 'iX1 x Drive30',
+                              Kilometraje: '79,398',
+                              Gasolina: 'Diesel',
+                              Direccion: 'Villahermosa',
+                              porcentaje: '10',
+                              tipocarro: 'Coche',
+                              tipouso: 'Familiar',
+                              Fecha: '10/2018',
+                              potencia: '4.21/100 km',
+                              promocion: '270,000',
+                              Guia: 'No',
+                              traccion: 'Tracción Trasera',
+                              carroceria: 'Coche Pequeño',
+                              tipoCaja: i + 1);
                         });
                   },
                   child: Container(
@@ -156,7 +171,7 @@ class CajaAutos extends StatelessWidget {
                                                   fontFamily: 'biko',
                                                   fontSize: LABEL_CAJA,
                                                   color: Colors.black),
-                                              icon: Icons.car_rental),
+                                              icon: Icons.av_timer_sharp),
                                         ),
                                       ),
                                       Expanded(
@@ -184,14 +199,14 @@ class CajaAutos extends StatelessWidget {
                                                   fontFamily: 'biko',
                                                   fontSize: LABEL_CAJA,
                                                   color: Colors.black),
-                                              icon: Icons.electric_bike),
+                                              icon: Icons.local_gas_station),
                                         ),
                                       ),
                                       Expanded(
                                         flex: 5,
                                         child: Container(
                                           child: TextParrafo(
-                                              text: 'Ocasión',
+                                              text: 'Común',
                                               style: TextStyle(
                                                   fontFamily: 'biko',
                                                   fontSize: LABEL_CAJA,
@@ -212,19 +227,19 @@ class CajaAutos extends StatelessWidget {
                                                   fontFamily: 'biko',
                                                   fontSize: LABEL_CAJA,
                                                   color: Colors.black),
-                                              icon: Icons.card_travel),
+                                              icon: Icons.bolt),
                                         ),
                                       ),
                                       Expanded(
                                         flex: 5,
                                         child: Container(
                                           child: TextParrafo(
-                                              text: 'Carro',
+                                              text: 'Coche',
                                               style: TextStyle(
                                                   fontFamily: 'biko',
                                                   fontSize: LABEL_CAJA,
                                                   color: Colors.black),
-                                              icon: Icons.card_membership),
+                                              icon: Icons.directions_car),
                                         ),
                                       ),
                                     ],
@@ -239,7 +254,8 @@ class CajaAutos extends StatelessWidget {
                                         flex: 8,
                                         child: Container(
                                           child: TextParrafo(
-                                            text: 'ES-28850 TORRE RESD...',
+                                            text: 'BMW ix1 xdrive30...'
+                                                .toUpperCase(),
                                             style: TextStyle(
                                                 fontFamily: 'biko',
                                                 fontSize: LABEL_SIZE,
@@ -249,16 +265,59 @@ class CajaAutos extends StatelessWidget {
                                       ),
                                       Expanded(
                                           flex: 2,
-                                          child: RaisedButton(
-                                            color: Colors.white,
-                                            onPressed: () {},
-                                            child: TextParrafo(
-                                              text: '⭐',
-                                              style: TextStyle(
-                                                  fontFamily: 'biko',
-                                                  fontSize: 21,
-                                                  color: Colors.black),
+                                          child: IconButton(
+                                            icon: Icon(
+                                              Icons.star,
+                                              size: 35,
+                                              color: _estrella == true
+                                                  ? Colors.amber
+                                                  : Colors.black,
                                             ),
+                                            onPressed: () {
+                                              setState(() {
+                                                _estrella = !_estrella;
+                                              });
+                                              if (_estrella == true) {
+                                                // Scaffold.of(context)
+                                                //     .showSnackBar(SnackBar(
+                                                //   backgroundColor: Colors.amber,
+                                                //   shape: RoundedRectangleBorder(
+                                                //       borderRadius:
+                                                //           BorderRadius.only(
+                                                //               topLeft: Radius
+                                                //                   .circular(30),
+                                                //               topRight: Radius
+                                                //                   .circular(
+                                                //                       30))),
+                                                //   content: Container(
+                                                //       width: double.infinity,
+                                                //       child: Row(
+                                                //         mainAxisAlignment:
+                                                //             MainAxisAlignment
+                                                //                 .spaceEvenly,
+                                                //         children: [
+                                                //           Icon(
+                                                //             Icons.star,
+                                                //             size: 35,
+                                                //             color: Colors.black,
+                                                //           ),
+                                                //           Text(
+                                                //               "Agregado a Favoritos",
+                                                //               textAlign:
+                                                //                   TextAlign
+                                                //                       .center,
+                                                //               style: TextStyle(
+                                                //                 fontFamily:
+                                                //                     'biko',
+                                                //                 fontSize: 22,
+                                                //                 color: Colors
+                                                //                     .black,
+                                                //               ))
+                                                //         ],
+                                                //       )),
+                                                // ));
+                                              } else {}
+                                            },
                                           )),
                                     ],
                                   ),
@@ -306,19 +365,24 @@ class CajaAutos extends StatelessWidget {
                         isScrollControlled: true,
                         context: context,
                         builder: (context) {
-                          return FadeIn(
-                              duration: Duration(milliseconds: 600),
-                              child: Container(
-                                height: 750,
-                                child: Scaffold(
-                                  appBar: AppBar(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(0)),
-                                      backgroundColor: RED_CAR,
-                                      title: TextTitulo(text: 'Auto')),
-                                ),
-                              ));
+                          return AutosInfo(
+                              imagen:
+                                  'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/07_Chevrolet_Aveo.jpg/1200px-07_Chevrolet_Aveo.jpg',
+                              context: context,
+                              precio: '120,000',
+                              Marca: 'Chevrolet',
+                              Nombre: 'Aveo',
+                              Kilometraje: '80,508 km',
+                              Gasolina: 'Magna',
+                              Direccion: 'Centro',
+                              tipocarro: 'Coche',
+                              tipouso: 'Familiar',
+                              Fecha: '05/2016',
+                              potencia: '6.21/100 km',
+                              Guia: 'No',
+                              traccion: 'Tracción Trasera',
+                              carroceria: 'Coche Pequeño',
+                              tipoCaja: i + 1);
                         });
                   },
                   child: Container(
@@ -390,7 +454,7 @@ class CajaAutos extends StatelessWidget {
                                               Expanded(
                                                 child: Container(
                                                   child: TextParrafo(
-                                                    text: '\$ 300,000',
+                                                    text: '\$ 120,000',
                                                     style: TextStyle(
                                                         fontFamily: 'biko',
                                                         fontSize: 25,
@@ -421,7 +485,7 @@ class CajaAutos extends StatelessWidget {
                                                   fontFamily: 'biko',
                                                   fontSize: LABEL_CAJA,
                                                   color: Colors.black),
-                                              icon: Icons.car_rental),
+                                              icon: Icons.av_timer_sharp),
                                         ),
                                       ),
                                       Expanded(
@@ -449,14 +513,14 @@ class CajaAutos extends StatelessWidget {
                                                   fontFamily: 'biko',
                                                   fontSize: LABEL_CAJA,
                                                   color: Colors.black),
-                                              icon: Icons.electric_bike),
+                                              icon: Icons.local_gas_station),
                                         ),
                                       ),
                                       Expanded(
                                         flex: 5,
                                         child: Container(
                                           child: TextParrafo(
-                                              text: 'Ocasión',
+                                              text: 'Común',
                                               style: TextStyle(
                                                   fontFamily: 'biko',
                                                   fontSize: LABEL_CAJA,
@@ -477,19 +541,19 @@ class CajaAutos extends StatelessWidget {
                                                   fontFamily: 'biko',
                                                   fontSize: LABEL_CAJA,
                                                   color: Colors.black),
-                                              icon: Icons.card_travel),
+                                              icon: Icons.bolt),
                                         ),
                                       ),
                                       Expanded(
                                         flex: 5,
                                         child: Container(
                                           child: TextParrafo(
-                                              text: 'Carro',
+                                              text: 'Coche',
                                               style: TextStyle(
                                                   fontFamily: 'biko',
                                                   fontSize: LABEL_CAJA,
                                                   color: Colors.black),
-                                              icon: Icons.card_membership),
+                                              icon: Icons.directions_car),
                                         ),
                                       ),
                                     ],
@@ -504,7 +568,8 @@ class CajaAutos extends StatelessWidget {
                                         flex: 8,
                                         child: Container(
                                           child: TextParrafo(
-                                            text: 'ES-28850 TORRE RESD...',
+                                            text: 'chevrolet Aveo...'
+                                                .toUpperCase(),
                                             style: TextStyle(
                                                 fontFamily: 'biko',
                                                 fontSize: LABEL_SIZE,
@@ -514,16 +579,59 @@ class CajaAutos extends StatelessWidget {
                                       ),
                                       Expanded(
                                           flex: 2,
-                                          child: RaisedButton(
-                                            color: Colors.white,
-                                            onPressed: () {},
-                                            child: TextParrafo(
-                                              text: '⭐',
-                                              style: TextStyle(
-                                                  fontFamily: 'biko',
-                                                  fontSize: 21,
-                                                  color: Colors.black),
+                                          child: IconButton(
+                                            icon: Icon(
+                                              Icons.star,
+                                              size: 35,
+                                              color: _estrella2 == true
+                                                  ? Colors.amber
+                                                  : Colors.black,
                                             ),
+                                            onPressed: () {
+                                              setState(() {
+                                                _estrella2 = !_estrella2;
+                                              });
+                                              if (_estrella2 == true) {
+                                                // Scaffold.of(context)
+                                                //     .showSnackBar(SnackBar(
+                                                //   backgroundColor: Colors.amber,
+                                                //   shape: RoundedRectangleBorder(
+                                                //       borderRadius:
+                                                //           BorderRadius.only(
+                                                //               topLeft: Radius
+                                                //                   .circular(30),
+                                                //               topRight: Radius
+                                                //                   .circular(
+                                                //                       30))),
+                                                //   content: Container(
+                                                //       width: double.infinity,
+                                                //       child: Row(
+                                                //         mainAxisAlignment:
+                                                //             MainAxisAlignment
+                                                //                 .spaceEvenly,
+                                                //         children: [
+                                                //           Icon(
+                                                //             Icons.star,
+                                                //             size: 35,
+                                                //             color: Colors.black,
+                                                //           ),
+                                                //           Text(
+                                                //               "Agregado a Favoritos",
+                                                //               textAlign:
+                                                //                   TextAlign
+                                                //                       .center,
+                                                //               style: TextStyle(
+                                                //                 fontFamily:
+                                                //                     'biko',
+                                                //                 fontSize: 22,
+                                                //                 color: Colors
+                                                //                     .black,
+                                                //               ))
+                                                //         ],
+                                                //       )),
+                                                // ));
+                                              } else {}
+                                            },
                                           )),
                                     ],
                                   ),
@@ -556,19 +664,28 @@ class CajaAutos extends StatelessWidget {
                         isScrollControlled: true,
                         context: context,
                         builder: (context) {
-                          return FadeIn(
-                              duration: Duration(milliseconds: 600),
-                              child: Container(
-                                height: 750,
-                                child: Scaffold(
-                                  appBar: AppBar(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(0)),
-                                      backgroundColor: RED_CAR,
-                                      title: TextTitulo(text: 'Auto')),
-                                ),
-                              ));
+                          return AutosInfo(
+                              imagen:
+                                  'https://dealcar.mx/wp-content/uploads/2021/03/nissan-march-sense-blanco-2018-2-876x535.jpg',
+                              context: context,
+                              precio: '70,000',
+                              Marca: 'Nissan',
+                              promocion: '63,000',
+                              Nombre: 'March',
+                              Kilometraje: '110,390 km',
+                              Gasolina: 'Magna',
+                              Direccion: 'Macuspana',
+                              tipocarro: 'Coche',
+                              tipouso: 'Familiar',
+                              Fecha: '12/2020',
+                              potencia: '7.21/100 km',
+                              detalleprin: 'Aire Acondicionado',
+                              Guia: 'No',
+                              detalles:
+                                  'El aire acondicionado tiene fallos en algunas cosas pero de ahi en fuera todo bien',
+                              traccion: 'Tracción Trasera',
+                              carroceria: 'Coche Pequeño',
+                              tipoCaja: i + 1);
                         });
                   },
                   child: Container(
@@ -715,7 +832,7 @@ class CajaAutos extends StatelessWidget {
                                                   fontFamily: 'biko',
                                                   fontSize: LABEL_CAJA,
                                                   color: Colors.black),
-                                              icon: Icons.car_rental),
+                                              icon: Icons.av_timer_sharp),
                                         ),
                                       ),
                                       Expanded(
@@ -743,14 +860,14 @@ class CajaAutos extends StatelessWidget {
                                                   fontFamily: 'biko',
                                                   fontSize: LABEL_CAJA,
                                                   color: Colors.black),
-                                              icon: Icons.electric_bike),
+                                              icon: Icons.local_gas_station),
                                         ),
                                       ),
                                       Expanded(
                                         flex: 5,
                                         child: Container(
                                           child: TextParrafo(
-                                              text: 'Ocasión',
+                                              text: 'Común',
                                               style: TextStyle(
                                                   fontFamily: 'biko',
                                                   fontSize: LABEL_CAJA,
@@ -771,19 +888,19 @@ class CajaAutos extends StatelessWidget {
                                                   fontFamily: 'biko',
                                                   fontSize: LABEL_CAJA,
                                                   color: Colors.black),
-                                              icon: Icons.card_travel),
+                                              icon: Icons.bolt),
                                         ),
                                       ),
                                       Expanded(
                                         flex: 5,
                                         child: Container(
                                           child: TextParrafo(
-                                              text: 'Carro',
+                                              text: 'Coche',
                                               style: TextStyle(
                                                   fontFamily: 'biko',
                                                   fontSize: LABEL_CAJA,
                                                   color: Colors.black),
-                                              icon: Icons.card_membership),
+                                              icon: Icons.directions_car),
                                         ),
                                       ),
                                     ],
@@ -798,7 +915,8 @@ class CajaAutos extends StatelessWidget {
                                         flex: 8,
                                         child: Container(
                                           child: TextParrafo(
-                                            text: 'ES-28850 TORRE RESD...',
+                                            text:
+                                                'Nissan March...'.toUpperCase(),
                                             style: TextStyle(
                                                 fontFamily: 'biko',
                                                 fontSize: LABEL_SIZE,
@@ -808,16 +926,59 @@ class CajaAutos extends StatelessWidget {
                                       ),
                                       Expanded(
                                           flex: 2,
-                                          child: RaisedButton(
-                                            color: Colors.white,
-                                            onPressed: () {},
-                                            child: TextParrafo(
-                                              text: '⭐',
-                                              style: TextStyle(
-                                                  fontFamily: 'biko',
-                                                  fontSize: 21,
-                                                  color: Colors.black),
+                                          child: IconButton(
+                                            icon: Icon(
+                                              Icons.star,
+                                              size: 35,
+                                              color: _estrella3 == true
+                                                  ? Colors.amber
+                                                  : Colors.black,
                                             ),
+                                            onPressed: () {
+                                              setState(() {
+                                                _estrella3 = !_estrella3;
+                                              });
+                                              if (_estrella3 == true) {
+                                                // Scaffold.of(context)
+                                                //     .showSnackBar(SnackBar(
+                                                //   backgroundColor: Colors.amber,
+                                                //   shape: RoundedRectangleBorder(
+                                                //       borderRadius:
+                                                //           BorderRadius.only(
+                                                //               topLeft: Radius
+                                                //                   .circular(30),
+                                                //               topRight: Radius
+                                                //                   .circular(
+                                                //                       30))),
+                                                //   content: Container(
+                                                //       width: double.infinity,
+                                                //       child: Row(
+                                                //         mainAxisAlignment:
+                                                //             MainAxisAlignment
+                                                //                 .spaceEvenly,
+                                                //         children: [
+                                                //           Icon(
+                                                //             Icons.star,
+                                                //             size: 35,
+                                                //             color: Colors.black,
+                                                //           ),
+                                                //           Text(
+                                                //               "Agregado a Favoritos",
+                                                //               textAlign:
+                                                //                   TextAlign
+                                                //                       .center,
+                                                //               style: TextStyle(
+                                                //                 fontFamily:
+                                                //                     'biko',
+                                                //                 fontSize: 22,
+                                                //                 color: Colors
+                                                //                     .black,
+                                                //               ))
+                                                //         ],
+                                                //       )),
+                                                // ));
+                                              } else {}
+                                            },
                                           )),
                                     ],
                                   ),
