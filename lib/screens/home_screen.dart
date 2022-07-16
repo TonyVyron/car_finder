@@ -1,3 +1,4 @@
+import 'package:car_finder/Authenticator.dart';
 import 'package:car_finder/screens/atencionc_Screen.dart';
 import 'package:car_finder/screens/autoscaja.dart';
 import 'package:car_finder/screens/favoritos_Screen.dart';
@@ -55,7 +56,6 @@ class _homeState extends State<home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[300],
         appBar: AppBar(
           backgroundColor: RED_CAR,
           shape:
@@ -104,75 +104,87 @@ class _homeState extends State<home> {
               padding: EdgeInsets.symmetric(vertical: 10),
               margin: EdgeInsets.only(bottom: 2),
               color: RED_CAR,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              child: Column(
                 children: [
-                  // Container(
-                  //   padding: EdgeInsets.all(2),
-                  //   decoration: BoxDecoration(
-                  //       border: Border.all(
-                  //         color: Colors.white,
-                  //         width: 5,
-                  //       ),
-                  //       shape: BoxShape.circle),
-                  //   child: Icon(
-                  //     Icons.person,
-                  //     size: 70,
-                  //     color: Colors.white,
-                  //   ),
-                  // ),
-                  CircleAvatar(
-                    radius: 40,
-                    child: Container(
-                      height: 80,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: Image.network(
-                                    'https://static.vecteezy.com/system/resources/previews/007/319/933/non_2x/black-avatar-person-icons-user-profile-icon-vector.jpg')
-                                .image,
-                            fit: BoxFit.cover),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      // Container(
+                      //   padding: EdgeInsets.all(2),
+                      //   decoration: BoxDecoration(
+                      //       border: Border.all(
+                      //         color: Colors.white,
+                      //         width: 5,
+                      //       ),
+                      //       shape: BoxShape.circle),
+                      //   child: Icon(
+                      //     Icons.person,
+                      //     size: 70,
+                      //     color: Colors.white,
+                      //   ),
+                      // ),
+                      CircleAvatar(
+                        radius: 40,
+                        child: Container(
+                          height: 80,
+                          width: 80,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: Image.network(
+                                        'https://static.vecteezy.com/system/resources/previews/007/319/933/non_2x/black-avatar-person-icons-user-profile-icon-vector.jpg')
+                                    .image,
+                                fit: BoxFit.cover),
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 150,
+                            child: TextParrafo(text: 'Cliente'),
+                          ),
+                          Container(
+                            width: 150,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                TextParrafo(text: 'Ver perfil'),
+                                IconButton(
+                                    iconSize: 35,
+                                    onPressed: () {
+                                      onSelectItem(0);
+                                    },
+                                    icon: Icon(
+                                      Icons.arrow_circle_right,
+                                      color: Colors.white,
+                                    ))
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    width: double.infinity,
+                    child: TextParrafo(
+                      text: '' + user.email!,
+                      style: TextStyle(
+                        fontFamily: 'biko',
+                        fontSize: 16,
                         color: Colors.white,
-                        shape: BoxShape.circle,
                       ),
                     ),
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: 180,
-                        child: TextParrafo(text: '' + user.email!),
-                      ),
-                      Container(
-                        width: 180,
-                        child: TextParrafo(text: 'Cliente'),
-                      ),
-                      Container(
-                        width: 180,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            TextParrafo(text: 'Ver perfil'),
-                            IconButton(
-                                iconSize: 35,
-                                onPressed: () {
-                                  onSelectItem(0);
-                                },
-                                icon: Icon(
-                                  Icons.arrow_circle_right,
-                                  color: Colors.white,
-                                ))
-                          ],
-                        ),
-                      ),
-                    ],
-                  )
                 ],
               ),
             ),
             Container(
-              height: 502,
+              height: 505,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -285,7 +297,7 @@ class _homeState extends State<home> {
                         size: 30,
                       ),
                       onTap: () {
-                        onSelectItem(4);
+                        onSelectItem(3);
                       },
                     ),
                   ),
@@ -310,7 +322,6 @@ class _homeState extends State<home> {
                       ),
                       onTap: () {
                         showDialog(
-                            barrierDismissible: false,
                             context: context,
                             builder: (_) => new AlertDialog(
                                   shape: RoundedRectangleBorder(
@@ -348,6 +359,7 @@ class _homeState extends State<home> {
                                         )),
                                     TextButton(
                                       onPressed: () {
+                                        Navigator.pop(context);
                                         FirebaseAuth.instance.signOut();
                                       },
                                       child: Container(
