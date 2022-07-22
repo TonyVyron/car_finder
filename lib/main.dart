@@ -1,62 +1,71 @@
-import 'package:car_finder/SplashScreen.dart';
-import 'package:car_finder/blocs/theme.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:car_finder/screens/inicio_Screen.dart';
+import 'package:car_finder/screens/perfil_Screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:car_finder/firebase_options.dart';
+import 'package:car_finder/screens/home_screen.dart';
+import 'package:car_finder/screens/login_email_password_screen.dart';
+import 'package:car_finder/screens/phone_screen.dart';
+import 'package:car_finder/screens/signup_email_password_screen.dart';
+import 'package:car_finder/services/firebase_auth_methods.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:provider/provider.dart';
+
+import 'SplashScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-
-  runApp(const Aplication());
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const MyApp());
 }
 
-class Aplication extends StatelessWidget {
-  const Aplication({Key? key}) : super(key: key);
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (BuildContext context) => ThemeChanger(ThemeData(
-            primaryColor: buildMaterialColor(Color.fromARGB(255, 192, 0, 0)),
-            primarySwatch: buildMaterialColor(Color.fromARGB(255, 192, 0, 0)),
-            brightness: Brightness.light,
-            floatingActionButtonTheme:
-                FloatingActionButtonThemeData(backgroundColor: Colors.black))),
-        child: MaterialAppWithTheme());
-  }
-}
-
-class MaterialAppWithTheme extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final theme = Provider.of<ThemeChanger>(context);
-
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'CAR FINDER',
-      theme: theme.getTheme(),
-      home: splashsc(),
+    return MultiProvider(
+      providers: [
+        Provider<FirebaseAuthMethods>(
+          create: (_) => FirebaseAuthMethods(FirebaseAuth.instance),
+        ),
+        StreamProvider(
+          create: (context) => context.read<FirebaseAuthMethods>().authState,
+          initialData: null,
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Flutter Firebase Auth Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const AuthWrapper(),
+        routes: {
+          EmailPasswordSignup.routeName: (context) =>
+              const EmailPasswordSignup(),
+          EmailPasswordLogin.routeName: (context) => const EmailPasswordLogin(),
+          PhoneScreen.routeName: (context) => const PhoneScreen(),
+          home.routeName: (context) => home(),
+          Perfil.routeName: (context) => const Perfil(),
+        },
+      ),
     );
   }
 }
 
-MaterialColor buildMaterialColor(Color color) {
-  List strengths = <double>[.05];
-  Map<int, Color> swatch = {};
-  final int r = color.red, g = color.green, b = color.blue;
+class AuthWrapper extends StatelessWidget {
+  const AuthWrapper({Key? key}) : super(key: key);
 
-  for (int i = 1; i < 10; i++) {
-    strengths.add(0.1 * i);
+  @override
+  Widget build(BuildContext context) {
+    final firebaseUser = context.watch<User?>();
+
+    if (firebaseUser != null) {
+      return home();
+    }
+    return splashsc();
   }
-  strengths.forEach((strength) {
-    final double ds = 0.5 - strength;
-    swatch[(strength * 1000).round()] = Color.fromRGBO(
-      r + ((ds < 0 ? r : (255 - r)) * ds).round(),
-      g + ((ds < 0 ? g : (255 - g)) * ds).round(),
-      b + ((ds < 0 ? b : (255 - b)) * ds).round(),
-      1,
-    );
-  });
-  return MaterialColor(color.value, swatch);
 }

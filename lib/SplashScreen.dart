@@ -1,5 +1,5 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:car_finder/auth/main_page.dart';
+import 'package:car_finder/screens/inicio_Screen.dart';
 import 'package:car_finder/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +18,7 @@ class _splashscState extends State<splashsc> {
         (() => Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => MainPage(),
+                builder: (context) => InicioScreen(),
               ),
             )));
     super.initState();
