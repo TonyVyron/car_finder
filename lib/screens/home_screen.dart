@@ -1,19 +1,15 @@
-import 'package:car_finder/Authenticator.dart';
 import 'package:car_finder/screens/atencionc_Screen.dart';
 import 'package:car_finder/screens/autoscaja.dart';
 import 'package:car_finder/screens/favoritos_Screen.dart';
 import 'package:car_finder/screens/filtro_Screen.dart';
 import 'package:car_finder/screens/historial_Screen.dart';
-//import 'package:car_finder/screens/inicio_Screen.dart';
 import 'package:car_finder/screens/perfil_Screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
-//import 'package:car_finder/widgets/search_Auto.dart';
 import 'package:flutter/material.dart';
 import 'package:car_finder/widgets/widgets.dart';
-//import 'package:flutter/widgets.dart';
 
 class home extends StatefulWidget {
+  static String routeName = '/home';
   @override
   State<home> createState() => _homeState();
 }
@@ -22,13 +18,11 @@ class _homeState extends State<home> {
   final user = FirebaseAuth.instance.currentUser!;
 
   int selectDrawerItem = 1;
-  final _passwordController = TextEditingController();
-  bool _passwordVisible = true;
 
   getDrawerItemWidget(int pos) {
     switch (pos) {
       case 0:
-        return Pefil();
+        return Perfil();
       case 1:
         return CajaAutos();
       case 2:
@@ -172,7 +166,7 @@ class _homeState extends State<home> {
                     margin: EdgeInsets.symmetric(horizontal: 20),
                     width: double.infinity,
                     child: TextParrafo(
-                      text: '' + user.email!,
+                      text: 'Hello!',
                       style: TextStyle(
                         fontFamily: 'biko',
                         fontSize: 16,

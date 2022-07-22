@@ -1,6 +1,6 @@
 //import 'dart:html';
-import 'package:car_finder/auth/auth_page.dart';
 import 'package:car_finder/screens/home_screen.dart';
+import 'package:car_finder/screens/inicio_Screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +16,7 @@ class MainPage extends StatelessWidget {
         if (snapshot.hasData) {
           return home();
         } else {
-          return AuthPage();
+          return InicioScreen();
         }
       },
     ));
