@@ -3,6 +3,7 @@ import 'package:car_finder/screens/login_email_password_screen.dart';
 import 'package:car_finder/screens/phone_screen.dart';
 import 'package:car_finder/screens/signup_email_password_screen.dart';
 import 'package:car_finder/services/firebase_auth_methods.dart';
+import 'package:car_finder/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:page_indicator/page_indicator.dart';
@@ -20,7 +21,6 @@ class InicioScreen extends StatelessWidget {
       decoration: BoxDecoration(
           image: DecorationImage(
               image: AssetImage("assets/fondo.png"), fit: BoxFit.fill)),
-      alignment: Alignment(0, 0),
       child: _InicioPager(),
     ));
   }
@@ -54,7 +54,7 @@ class _InicioPager extends HookWidget {
       length: 4,
       align: IndicatorAlign.bottom,
       indicatorSpace: 12,
-      indicatorColor: Color.fromARGB(255, 192, 0, 0),
+      indicatorColor: RED_CAR,
     );
   }
 }
@@ -74,34 +74,36 @@ class _DescriptionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(35),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Image.asset(
-            imagePath,
-            width: 250,
-            height: 250,
-          ),
-          SizedBox(height: 20),
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontFamily: ax,
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
+      margin: EdgeInsets.all(25),
+      alignment: Alignment.center,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Image.asset(
+              imagePath,
+              width: 250,
+              height: 250,
             ),
-          ),
-          SizedBox(
-            height: 25,
-          ),
-          Text(
-            text,
-            textAlign: TextAlign.justify,
-            style: TextStyle(fontFamily: ax, fontSize: 25),
-          ),
-        ],
+            SizedBox(height: 20),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: ax,
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(
+              height: 25,
+            ),
+            Text(
+              text,
+              textAlign: TextAlign.justify,
+              style: TextStyle(fontFamily: ax, fontSize: 20),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -110,12 +112,8 @@ class _DescriptionPage extends StatelessWidget {
 class _LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Container(
-      decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/fondo.png"), fit: BoxFit.fill)),
-      alignment: Alignment(0, 0),
+    return Container(
+      alignment: Alignment.center,
       child: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -171,7 +169,7 @@ class _LoginPage extends StatelessWidget {
                           flex: 2,
                           child: Container(
                             child: Icon(
-                              Icons.mail_lock_outlined,
+                              Icons.mail_outline_outlined,
                               color: Colors.white,
                               size: 25,
                             ),
@@ -348,53 +346,53 @@ class _LoginPage extends StatelessWidget {
               SizedBox(height: 10),
 
               //sign-in Anononimously button
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: GestureDetector(
-                  onTap: () {
-                    context
-                        .read<FirebaseAuthMethods>()
-                        .signInAnonymously(context);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Center(
-                        child: Row(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Container(
-                            child: Icon(
-                              Icons.supervised_user_circle,
-                              color: Colors.white,
-                              size: 25,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Container(
-                            width: double.infinity,
-                            child: Text(
-                              'Entrar anónimamente',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: ax,
-                                  fontSize: 20),
-                            ),
-                          ),
-                        ),
-                      ],
-                    )),
-                  ),
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              //   child: GestureDetector(
+              //     onTap: () {
+              //       context
+              //           .read<FirebaseAuthMethods>()
+              //           .signInAnonymously(context);
+              //     },
+              //     child: Container(
+              //       padding: EdgeInsets.all(10),
+              //       decoration: BoxDecoration(
+              //         color: Colors.grey,
+              //         borderRadius: BorderRadius.circular(12),
+              //       ),
+              //       child: Center(
+              //           child: Row(
+              //         children: [
+              //           Expanded(
+              //             flex: 2,
+              //             child: Container(
+              //               child: Icon(
+              //                 Icons.supervised_user_circle,
+              //                 color: Colors.white,
+              //                 size: 25,
+              //               ),
+              //             ),
+              //           ),
+              //           Expanded(
+              //             flex: 5,
+              //             child: Container(
+              //               width: double.infinity,
+              //               child: Text(
+              //                 'Entrar anónimamente',
+              //                 textAlign: TextAlign.left,
+              //                 style: TextStyle(
+              //                     color: Colors.white,
+              //                     fontWeight: FontWeight.w500,
+              //                     fontFamily: ax,
+              //                     fontSize: 20),
+              //               ),
+              //             ),
+              //           ),
+              //         ],
+              //       )),
+              //     ),
+              //   ),
+              // ),
               SizedBox(height: 20),
 
               //not a member? Register now
@@ -433,6 +431,6 @@ class _LoginPage extends StatelessWidget {
           ),
         ),
       ),
-    ));
+    );
   }
 }

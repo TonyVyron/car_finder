@@ -247,12 +247,12 @@ Widget AutosInfo(
                         ],
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Expanded(
                               flex: 5,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Container(
                                     padding: EdgeInsets.all(5),
@@ -262,7 +262,7 @@ Widget AutosInfo(
                                     ),
                                   ),
                                   Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Container(
                                         child: Text(

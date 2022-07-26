@@ -107,7 +107,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
                     onTap: () {
                       context
                           .read<FirebaseAuthMethods>()
-                          .phoneSignIn(context, phoneController.text);
+                          .phoneSignIn(context, "+52" + phoneController.text);
                     },
                     child: Container(
                       padding: EdgeInsets.all(10),

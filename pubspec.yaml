@@ -9,21 +9,21 @@ environment:
   sdk: ">=2.16.2 <3.0.0"
 
 dependencies:
-  animate_do: null
+  animate_do: 
   card_swiper: ^2.0.4
   cupertino_icons: ^1.0.2
   filter_list: null
-  firebase_auth: ^3.5.0
-  firebase_core: ^1.20.0
+  firebase_auth: 
+  firebase_core: 
   flutter:
     sdk: flutter
-  flutter_facebook_auth: ^4.4.0+1
-  flutter_hooks: ^0.16.0
-  font_awesome_flutter: ^9.0.0
-  google_sign_in: ^5.4.0
+  flutter_facebook_auth: 
+  flutter_hooks: 
+  font_awesome_flutter: 
+  google_sign_in: 
   http: null
-  page_indicator: ^0.4.1
-  provider: ^6.0.3
+  page_indicator:
+  provider: 
 
 dev_dependencies:
   flutter_launcher_icons: ^0.9.3
