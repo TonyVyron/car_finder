@@ -1,116 +1,43 @@
-import 'package:animate_do/animate_do.dart';
-import 'package:car_finder/screens/inicio_Screen.dart';
-import 'package:car_finder/screens/perfil_Screen.dart';
-import 'package:car_finder/widgets/widgets.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:car_finder/firebase_options.dart';
-import 'package:car_finder/screens/home_screen.dart';
-import 'package:car_finder/screens/login_email_password_screen.dart';
-import 'package:car_finder/screens/phone_screen.dart';
-import 'package:car_finder/screens/signup_email_password_screen.dart';
-import 'package:car_finder/services/firebase_auth_methods.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:car_finder/SplashScreen.dart';
+import 'package:car_finder/blocs/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:provider/provider.dart';
-
-import 'SplashScreen.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(const MyApp());
+  await Firebase.initializeApp();
+
+  runApp(const Aplication());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class Aplication extends StatelessWidget {
+  const Aplication({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        Provider<FirebaseAuthMethods>(
-          create: (_) => FirebaseAuthMethods(FirebaseAuth.instance),
-        ),
-        StreamProvider(
-          create: (context) => context.read<FirebaseAuthMethods>().authState,
-          initialData: null,
-        ),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Firebase Auth Demo',
-        theme: ThemeData(
-          primaryColor: buildMaterialColor(Color.fromARGB(255, 192, 0, 0)),
-          primarySwatch: buildMaterialColor(Color.fromARGB(255, 192, 0, 0)),
-          brightness: Brightness.light,
-          floatingActionButtonTheme:
-              FloatingActionButtonThemeData(backgroundColor: Colors.black),
-        ),
-        home: const AuthWrapper(),
-        routes: {
-          EmailPasswordSignup.routeName: (context) =>
-              const EmailPasswordSignup(),
-          EmailPasswordLogin.routeName: (context) => const EmailPasswordLogin(),
-          PhoneScreen.routeName: (context) => const PhoneScreen(),
-          home.routeName: (context) => home(),
-          Perfil.routeName: (context) => const Perfil(),
-        },
-      ),
-    );
+    return ChangeNotifierProvider(
+        create: (BuildContext context) => ThemeChanger(ThemeData(
+            primaryColor: buildMaterialColor(Color.fromARGB(255, 192, 0, 0)),
+            primarySwatch: buildMaterialColor(Color.fromARGB(255, 192, 0, 0)),
+            brightness: Brightness.light,
+            floatingActionButtonTheme:
+                FloatingActionButtonThemeData(backgroundColor: Colors.black))),
+        child: MaterialAppWithTheme());
   }
 }
 
-class AuthWrapper extends StatelessWidget {
-  const AuthWrapper({Key? key}) : super(key: key);
-
+class MaterialAppWithTheme extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final firebaseUser = context.watch<User?>();
+    final theme = Provider.of<ThemeChanger>(context);
 
-    if (firebaseUser != null) {
-      Future.delayed(
-          Duration(milliseconds: 3000),
-          (() => Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => home(),
-                ),
-              )));
-      return Scaffold(
-        backgroundColor: Colors.grey[300],
-        body: Container(
-          color: Colors.white,
-          alignment: Alignment.center,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ZoomIn(
-                    child: Image.asset('assets/logo2p.png',
-                        width: 290, height: 300)),
-                ElasticInUp(
-                  child: SizedBox(
-                    height: 100,
-                    width: 100,
-                    child: Center(
-                        child: Transform.scale(
-                      scale: 1.6,
-                      child: CircularProgressIndicator(
-                        color: RED_CAR,
-                      ),
-                    )),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    }
-    return splashsc();
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'CAR FINDER',
+      theme: theme.getTheme(),
+      home: splashsc(),
+    );
   }
 }
 
