@@ -1,32 +1,50 @@
-import 'package:car_finder/services/firebase_auth_methods.dart';
-//import 'package:car_finder/widgets/widgets.dart';
-import 'package:car_finder/screens/login_email_password_screen.dart';
+import 'package:car_finder/Authenticator.dart';
+import 'package:car_finder/widgets/widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import 'login_email_password_screen.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 var ax = 'biko';
 bool _passwordVisible = true;
+bool _passwordVisible2 = true;
 
-class EmailPasswordSignup extends StatefulWidget {
-  static String routeName = '/signup-email-password';
-  const EmailPasswordSignup({Key? key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  final VoidCallback showInicio;
+  const RegisterPage({Key? key, required this.showInicio}) : super(key: key);
 
   @override
-  _EmailPasswordSignupState createState() => _EmailPasswordSignupState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _EmailPasswordSignupState extends State<EmailPasswordSignup> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+class _RegisterPageState extends State<RegisterPage> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
-  void signUpUser() async {
-    context.read<FirebaseAuthMethods>().signUpWithEmail(
-          email: emailController.text,
-          password: passwordController.text,
-          context: context,
-        );
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  Future signUp() async {
+    if (passwordConfirmed()) {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+    } else {}
+  }
+
+  bool passwordConfirmed() {
+    if (_passwordController.text.trim() ==
+        _confirmPasswordController.text.trim()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
@@ -73,7 +91,7 @@ class _EmailPasswordSignupState extends State<EmailPasswordSignup> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: TextField(
-                  controller: emailController,
+                  controller: _emailController,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.white),
@@ -95,7 +113,7 @@ class _EmailPasswordSignupState extends State<EmailPasswordSignup> {
                       icon: Icon(
                         Icons.close,
                       ),
-                      onPressed: () => emailController.clear(),
+                      onPressed: () => _emailController.clear(),
                     ),
                     fillColor: Colors.grey[200],
                     filled: true,
@@ -109,7 +127,7 @@ class _EmailPasswordSignupState extends State<EmailPasswordSignup> {
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: TextField(
                   obscureText: _passwordVisible,
-                  controller: passwordController,
+                  controller: _passwordController,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.white),
@@ -145,13 +163,85 @@ class _EmailPasswordSignupState extends State<EmailPasswordSignup> {
                 ),
               ),
               SizedBox(height: 20),
+
+              //confirm passwd textfield
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: TextField(
+                  obscureText: _passwordVisible,
+                  controller: _confirmPasswordController,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Color.fromARGB(255, 192, 0, 0)),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    hintText: 'Confirme la contraseña',
+                    hintStyle: TextStyle(
+                      fontFamily: ax,
+                    ),
+                    prefixIcon: Icon(
+                      Icons.lock,
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _passwordVisible
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _passwordVisible = !_passwordVisible;
+                        });
+                      },
+                    ),
+                    fillColor: Colors.grey[200],
+                    filled: true,
+                  ),
+                ),
+              ),
+              SizedBox(height: 25),
+
               //sign-in button
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: GestureDetector(
                   onTap: () {
-                    signUpUser();
-                    Navigator.pushNamed(context, '/home');
+                    if (passwordConfirmed() == true &&
+                        _emailController.text.isNotEmpty) {
+                      signUp();
+                    } else {
+                      Scaffold.of(context).showSnackBar(SnackBar(
+                        backgroundColor: RED_CAR,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(30),
+                                topRight: Radius.circular(30))),
+                        content: Container(
+                            width: double.infinity,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Icon(
+                                  Icons.error,
+                                  size: 25,
+                                  color: Colors.white,
+                                ),
+                                Text("Parametros Incorrectos",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontFamily: 'biko',
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ))
+                              ],
+                            )),
+                      ));
+                    }
                   },
                   child: Container(
                     padding: EdgeInsets.all(10),
@@ -183,52 +273,37 @@ class _EmailPasswordSignupState extends State<EmailPasswordSignup> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, EmailPasswordLogin.routeName);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 192, 0, 0),
-                      borderRadius: BorderRadius.circular(12),
+              SizedBox(height: 20),
+
+              //not a member? Register now
+              Container(
+                width: double.infinity,
+                margin: EdgeInsets.symmetric(horizontal: 25),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '¿Ya estás registrado? ',
+                      style: TextStyle(
+                        fontFamily: ax,
+                        fontSize: 18,
+                      ),
                     ),
-                    child: Center(
-                        child: Row(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Container(
-                            child: Icon(
-                              Icons.login,
-                              color: Colors.white,
-                              size: 25,
-                            ),
-                          ),
+                    GestureDetector(
+                      onTap: widget.showInicio,
+                      child: Text(
+                        'Iniciar sesión',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontFamily: ax,
+                          fontSize: 18,
                         ),
-                        Expanded(
-                          flex: 5,
-                          child: Container(
-                            width: double.infinity,
-                            child: Text(
-                              'Iniciar sesión',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: ax,
-                                  fontSize: 20),
-                            ),
-                          ),
-                        ),
-                      ],
-                    )),
-                  ),
+                      ),
+                    )
+                  ],
                 ),
               ),
+              SizedBox(height: 30),
             ],
           ),
         ),

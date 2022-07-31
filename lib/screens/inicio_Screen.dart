@@ -1,119 +1,47 @@
-//import 'dart:html';
-import 'package:car_finder/screens/login_email_password_screen.dart';
-import 'package:car_finder/screens/phone_screen.dart';
-import 'package:car_finder/screens/signup_email_password_screen.dart';
-import 'package:car_finder/services/firebase_auth_methods.dart';
+// ignore_for_file: deprecated_member_use
+import 'package:car_finder/Authenticator.dart';
 import 'package:car_finder/widgets/widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:page_indicator/page_indicator.dart';
-import 'package:provider/provider.dart';
 
 var ax = 'biko';
+bool _passwordVisible = true;
 
-class InicioScreen extends StatelessWidget {
-  static Widget create(BuildContext context) => InicioScreen();
+class Inicio extends StatefulWidget {
+  final VoidCallback showRegisterPage;
+  const Inicio({Key? key, required this.showRegisterPage}) : super(key: key);
+
+  @override
+  State<Inicio> createState() => _InicioState();
+}
+
+class _InicioState extends State<Inicio> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  Future signIn() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim());
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    // TODO: implement build
+    Firebase.initializeApp();
     return Scaffold(
         body: Container(
       decoration: BoxDecoration(
           image: DecorationImage(
               image: AssetImage("assets/fondo.png"), fit: BoxFit.fill)),
-      child: _InicioPager(),
-    ));
-  }
-}
-
-class _InicioPager extends HookWidget {
-  @override
-  Widget build(BuildContext context) {
-    return PageIndicatorContainer(
-      child: PageView(
-        children: [
-          _DescriptionPage(
-              title: 'Encuentra opciones de acuerdo a tu medida',
-              text:
-                  'No importa el número de puertas, de seguro encuentras la opción que más se ajuste a tu presupuesto y gustos',
-              imagePath: 'assets/Page1.png'),
-          _DescriptionPage(
-              title: 'Seguridad',
-              text:
-                  'Nos aseguramos de que nuestros vendedores cuenten con los documentos necesarios para hacer de forma práctica y confiable el trato con usted',
-              imagePath: 'assets/Page2.png'),
-          _DescriptionPage(
-              title: '¡Estas y más marcas!',
-              text: 'La más amplia variedad que tendrá al alcance de un toque',
-              imagePath: 'assets/Page3.png'),
-          Container(
-            child: _LoginPage(),
-          ),
-        ],
-      ),
-      length: 4,
-      align: IndicatorAlign.bottom,
-      indicatorSpace: 12,
-      indicatorColor: RED_CAR,
-    );
-  }
-}
-
-class _DescriptionPage extends StatelessWidget {
-  final String title;
-  final String text;
-  final String imagePath;
-
-  const _DescriptionPage(
-      {Key? key,
-      required this.title,
-      required this.text,
-      required this.imagePath})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(25),
-      alignment: Alignment.center,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Image.asset(
-              imagePath,
-              width: 250,
-              height: 250,
-            ),
-            SizedBox(height: 20),
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: ax,
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(
-              height: 25,
-            ),
-            Text(
-              text,
-              textAlign: TextAlign.justify,
-              style: TextStyle(fontFamily: ax, fontSize: 20),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _LoginPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
+      alignment: Alignment(0, 0),
       child: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -124,7 +52,7 @@ class _LoginPage extends StatelessWidget {
                 margin: EdgeInsets.symmetric(horizontal: 25),
                 child: Text(
                   '¡Sea Bienvenido!',
-                  textAlign: TextAlign.center,
+                  textAlign: TextAlign.left,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontFamily: ax,
@@ -138,7 +66,7 @@ class _LoginPage extends StatelessWidget {
                 margin: EdgeInsets.symmetric(horizontal: 25),
                 child: Text(
                   'Nuevas oportunidades nos esperan...',
-                  textAlign: TextAlign.center,
+                  textAlign: TextAlign.left,
                   style: TextStyle(
                     fontFamily: ax,
                     fontSize: 20,
@@ -149,12 +77,119 @@ class _LoginPage extends StatelessWidget {
               SizedBox(height: 20),
               //logo xd
 
-              //sign-in email button
+              //username
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: TextFormField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Color.fromARGB(255, 192, 0, 0)),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    hintText: 'Correo Electrónico',
+                    hintStyle: TextStyle(
+                      fontFamily: ax,
+                    ),
+                    prefixIcon: Icon(
+                      Icons.email,
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        Icons.close,
+                      ),
+                      onPressed: () => _emailController.clear(),
+                    ),
+                    fillColor: Colors.grey[200],
+                    filled: true,
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+
+              //passwd Textfield
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: TextField(
+                  obscureText: _passwordVisible,
+                  controller: _passwordController,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Color.fromARGB(255, 192, 0, 0)),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    hintText: 'Contraseña',
+                    prefixIcon: Icon(
+                      Icons.lock,
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _passwordVisible
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _passwordVisible = !_passwordVisible;
+                        });
+                      },
+                    ),
+                    hintStyle: TextStyle(
+                      fontFamily: ax,
+                    ),
+                    fillColor: Colors.grey[200],
+                    filled: true,
+                  ),
+                ),
+              ),
+              SizedBox(height: 25),
+
+              //sign-in button
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, EmailPasswordLogin.routeName);
+                    if (_emailController.text.isNotEmpty &&
+                        _passwordController.text.isNotEmpty) {
+                      signIn();
+                    } else {
+                      Scaffold.of(context).showSnackBar(SnackBar(
+                        backgroundColor: RED_CAR,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(30),
+                                topRight: Radius.circular(30))),
+                        content: Container(
+                            width: double.infinity,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Icon(
+                                  Icons.error,
+                                  size: 25,
+                                  color: Colors.white,
+                                ),
+                                Text("Paramateros Incompletos",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontFamily: 'biko',
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ))
+                              ],
+                            )),
+                      ));
+                    }
                   },
                   child: Container(
                     padding: EdgeInsets.all(10),
@@ -169,7 +204,7 @@ class _LoginPage extends StatelessWidget {
                           flex: 2,
                           child: Container(
                             child: Icon(
-                              Icons.mail_outline_outlined,
+                              Icons.login,
                               color: Colors.white,
                               size: 25,
                             ),
@@ -180,55 +215,7 @@ class _LoginPage extends StatelessWidget {
                           child: Container(
                             width: double.infinity,
                             child: Text(
-                              'Entrar con correo',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: ax,
-                                  fontSize: 20),
-                            ),
-                          ),
-                        ),
-                      ],
-                    )),
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-
-              //sign-in phone button
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, PhoneScreen.routeName);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Center(
-                        child: Row(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Container(
-                            child: Icon(
-                              Icons.phone_android,
-                              color: Colors.white,
-                              size: 25,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Container(
-                            width: double.infinity,
-                            child: Text(
-                              'Entrar con número',
+                              'Iniciar sesión',
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                   color: Colors.white,
@@ -249,15 +236,15 @@ class _LoginPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: GestureDetector(
-                  onTap: () {
-                    context
-                        .read<FirebaseAuthMethods>()
-                        .signInWithGoogle(context);
+                  onTap: () async {
+                    User? user =
+                        await Authenticator.iniciarSesion(context: context);
+                    print(user?.displayName);
                   },
                   child: Container(
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: Colors.lightBlueAccent,
+                      color: Colors.blue,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Center(
@@ -293,106 +280,6 @@ class _LoginPage extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
-
-              //sign-in Facebook button
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: GestureDetector(
-                  onTap: () {
-                    context
-                        .read<FirebaseAuthMethods>()
-                        .signInWithFacebook(context);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.blueAccent,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Center(
-                        child: Row(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Container(
-                            child: Icon(
-                              Icons.facebook,
-                              color: Colors.white,
-                              size: 25,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Container(
-                            width: double.infinity,
-                            child: Text(
-                              'Entrar con Facebook',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: ax,
-                                  fontSize: 20),
-                            ),
-                          ),
-                        ),
-                      ],
-                    )),
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-
-              //sign-in Anononimously button
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: 25.0),
-              //   child: GestureDetector(
-              //     onTap: () {
-              //       context
-              //           .read<FirebaseAuthMethods>()
-              //           .signInAnonymously(context);
-              //     },
-              //     child: Container(
-              //       padding: EdgeInsets.all(10),
-              //       decoration: BoxDecoration(
-              //         color: Colors.grey,
-              //         borderRadius: BorderRadius.circular(12),
-              //       ),
-              //       child: Center(
-              //           child: Row(
-              //         children: [
-              //           Expanded(
-              //             flex: 2,
-              //             child: Container(
-              //               child: Icon(
-              //                 Icons.supervised_user_circle,
-              //                 color: Colors.white,
-              //                 size: 25,
-              //               ),
-              //             ),
-              //           ),
-              //           Expanded(
-              //             flex: 5,
-              //             child: Container(
-              //               width: double.infinity,
-              //               child: Text(
-              //                 'Entrar anónimamente',
-              //                 textAlign: TextAlign.left,
-              //                 style: TextStyle(
-              //                     color: Colors.white,
-              //                     fontWeight: FontWeight.w500,
-              //                     fontFamily: ax,
-              //                     fontSize: 20),
-              //               ),
-              //             ),
-              //           ),
-              //         ],
-              //       )),
-              //     ),
-              //   ),
-              // ),
               SizedBox(height: 20),
 
               //not a member? Register now
@@ -410,10 +297,7 @@ class _LoginPage extends StatelessWidget {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(
-                            context, EmailPasswordSignup.routeName);
-                      },
+                      onTap: widget.showRegisterPage,
                       child: Text(
                         'Regístrate',
                         style: TextStyle(
@@ -431,6 +315,6 @@ class _LoginPage extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ));
   }
 }
