@@ -4,6 +4,7 @@ import 'package:car_finder/screens/autoscaja.dart';
 import 'package:car_finder/screens/favoritos_Screen.dart';
 import 'package:car_finder/screens/filtro_Screen.dart';
 import 'package:car_finder/screens/historial_Screen.dart';
+import 'package:car_finder/screens/logintipo.dart';
 //import 'package:car_finder/screens/inicio_Screen.dart';
 import 'package:car_finder/screens/perfil_Screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,7 +29,7 @@ class _homeState extends State<home> {
   getDrawerItemWidget(int pos) {
     switch (pos) {
       case 0:
-        return Pefil();
+        return Perfil();
       case 1:
         return CajaAutos();
       case 2:
@@ -37,6 +38,8 @@ class _homeState extends State<home> {
         return Favoritos();
       case 4:
         return Atencion_Clientes();
+      case 5:
+        return LoginTipo();
     }
   }
 
@@ -71,7 +74,9 @@ class _homeState extends State<home> {
                               ? "Historial"
                               : selectDrawerItem == 3
                                   ? "Favoritos"
-                                  : "Atención A Clientes")),
+                                  : selectDrawerItem == 4
+                                      ? "Atención A Clientes"
+                                      : "Login Tipo")),
           actions: selectDrawerItem == 1
               ? [filtroautos()]
               : [
@@ -184,7 +189,6 @@ class _homeState extends State<home> {
               ),
             ),
             Container(
-              height: 505,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -264,6 +268,32 @@ class _homeState extends State<home> {
                         ),
                         onTap: () {
                           onSelectItem(3);
+                        },
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment(0, 0),
+                      height: 50,
+                      color: selectDrawerItem == 5
+                          ? Color.fromARGB(255, 227, 226, 226)
+                          : Color.fromARGB(0, 0, 0, 0),
+                      margin: EdgeInsets.only(bottom: 2),
+                      child: ListTile(
+                        title: TextParrafo(
+                          text: 'Login Tipo',
+                          style: TextStyle(
+                              fontFamily: 'biko',
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18,
+                              color: RED_CAR),
+                        ),
+                        leading: Icon(
+                          Icons.login,
+                          color: RED_CAR,
+                          size: 30,
+                        ),
+                        onTap: () {
+                          onSelectItem(5);
                         },
                       ),
                     ),

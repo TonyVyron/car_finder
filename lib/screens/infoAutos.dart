@@ -252,7 +252,7 @@ Widget AutosInfo(
                           Expanded(
                               flex: 5,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Container(
                                     padding: EdgeInsets.all(5),
@@ -262,7 +262,7 @@ Widget AutosInfo(
                                     ),
                                   ),
                                   Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Container(
                                         child: Text(
@@ -1043,7 +1043,7 @@ Widget _swiper({required int tipos, required String urll, String? porce}) {
               ],
               Positioned(
                 bottom: 10,
-                left: 240,
+                right: 15,
                 child: Container(
                     padding: EdgeInsets.all(3),
                     decoration: BoxDecoration(
