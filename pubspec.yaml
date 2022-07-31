@@ -43,6 +43,8 @@ dependencies:
   filter_list: 
   google_sign_in: ^5.4.0
   card_swiper: ^2.0.4
+  page_indicator:
+  flutter_hooks: 
   
 
 dev_dependencies:
