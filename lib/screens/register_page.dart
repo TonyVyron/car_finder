@@ -1,8 +1,9 @@
-import 'package:car_finder/Authenticator.dart';
+//import 'package:car_finder/Authenticator.dart';
 import 'package:car_finder/widgets/widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 var ax = 'biko';
 bool _passwordVisible = true;
@@ -20,22 +21,56 @@ class _RegisterPageState extends State<RegisterPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _directionController = TextEditingController();
+  final _ageController = TextEditingController();
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
+    _nameController.dispose();
+    _lastNameController.dispose();
+    _directionController.dispose();
+    _ageController.dispose();
     super.dispose();
   }
 
   Future signUp() async {
+    //authenticate user
     if (passwordConfirmed()) {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
-    } else {}
+      //Add user details
+      addUserDetails(
+        _nameController.text.trim(),
+        _lastNameController.text.trim(),
+        _emailController.text.trim(),
+        _directionController.text.trim(),
+        int.parse(_ageController.text.trim()),
+      );
+    }
+  }
+
+  Future addUserDetails(
+    String firstName,
+    String lastName,
+    String email,
+    String direction,
+    int age,
+  ) async {
+    await FirebaseFirestore.instance.collection('users').add({
+      'first name': firstName,
+      'last name': lastName,
+      'email': email,
+      'status': 'cliente',
+      'direction': direction,
+      'age': age,
+    });
   }
 
   bool passwordConfirmed() {
@@ -60,7 +95,7 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('assets/logob.png', width: 250, height: 240),
+              Image.asset('assets/logob.png', width: 210, height: 200),
 
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 25),
@@ -73,7 +108,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 5),
+              SizedBox(height: 10),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 25),
                 child: Text(
@@ -120,7 +155,95 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 5),
+
+              //campo nombre
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: TextField(
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: RED_CAR),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    hintText: 'Nombre(s)',
+                    fillColor: Colors.grey[200],
+                    filled: true,
+                  ),
+                ),
+              ),
+              SizedBox(height: 5),
+
+              //campo apellidos
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: TextField(
+                  controller: _lastNameController,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: RED_CAR),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    hintText: 'Apellidos',
+                    fillColor: Colors.grey[200],
+                    filled: true,
+                  ),
+                ),
+              ),
+              SizedBox(height: 5),
+
+              //campo edad
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: TextField(
+                  controller: _ageController,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: RED_CAR),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    hintText: 'Edad',
+                    fillColor: Colors.grey[200],
+                    filled: true,
+                  ),
+                ),
+              ),
+              SizedBox(height: 5),
+
+              //campo dirección
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: TextField(
+                  controller: _directionController,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: RED_CAR),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    hintText: 'Dirección',
+                    fillColor: Colors.grey[200],
+                    filled: true,
+                  ),
+                ),
+              ),
+              SizedBox(height: 5),
 
               //passwd Textfield
               Padding(
@@ -162,7 +285,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 5),
 
               //confirm passwd textfield
               Padding(
@@ -204,7 +327,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 25),
+              SizedBox(height: 10),
 
               //sign-in button
               Padding(
@@ -256,7 +379,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         Container(
                             margin: EdgeInsets.only(right: 20),
                             child: Icon(
-                              Icons.app_registration,
+                              Icons.app_registration_outlined,
                               size: 30,
                               color: Colors.white,
                             )),
