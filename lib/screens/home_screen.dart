@@ -1,20 +1,15 @@
-import 'package:car_finder/Authenticator.dart';
 import 'package:car_finder/screens/atencionc_Screen.dart';
 import 'package:car_finder/screens/autoscaja.dart';
 import 'package:car_finder/screens/favoritos_Screen.dart';
 import 'package:car_finder/screens/filtro_Screen.dart';
 import 'package:car_finder/screens/historial_Screen.dart';
-import 'package:car_finder/screens/logintipo.dart';
-//import 'package:car_finder/screens/inicio_Screen.dart';
 import 'package:car_finder/screens/perfil_Screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
-//import 'package:car_finder/widgets/search_Auto.dart';
 import 'package:flutter/material.dart';
 import 'package:car_finder/widgets/widgets.dart';
-//import 'package:flutter/widgets.dart';
 
 class home extends StatefulWidget {
+  static String routeName = '/home';
   @override
   State<home> createState() => _homeState();
 }
@@ -23,8 +18,6 @@ class _homeState extends State<home> {
   final user = FirebaseAuth.instance.currentUser!;
 
   int selectDrawerItem = 1;
-  final _passwordController = TextEditingController();
-  bool _passwordVisible = true;
 
   getDrawerItemWidget(int pos) {
     switch (pos) {
@@ -38,8 +31,6 @@ class _homeState extends State<home> {
         return Favoritos();
       case 4:
         return Atencion_Clientes();
-      case 5:
-        return LoginTipo();
     }
   }
 
@@ -74,9 +65,7 @@ class _homeState extends State<home> {
                               ? "Historial"
                               : selectDrawerItem == 3
                                   ? "Favoritos"
-                                  : selectDrawerItem == 4
-                                      ? "Atención A Clientes"
-                                      : "Login Tipo")),
+                                  : "Atención A Clientes")),
           actions: selectDrawerItem == 1
               ? [filtroautos()]
               : [
@@ -173,22 +162,11 @@ class _homeState extends State<home> {
                       )
                     ],
                   ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20),
-                    width: double.infinity,
-                    child: TextParrafo(
-                      text: '' + user.email!,
-                      style: TextStyle(
-                        fontFamily: 'biko',
-                        fontSize: 16,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
             Container(
+              height: 505,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -268,32 +246,6 @@ class _homeState extends State<home> {
                         ),
                         onTap: () {
                           onSelectItem(3);
-                        },
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment(0, 0),
-                      height: 50,
-                      color: selectDrawerItem == 5
-                          ? Color.fromARGB(255, 227, 226, 226)
-                          : Color.fromARGB(0, 0, 0, 0),
-                      margin: EdgeInsets.only(bottom: 2),
-                      child: ListTile(
-                        title: TextParrafo(
-                          text: 'Login Tipo',
-                          style: TextStyle(
-                              fontFamily: 'biko',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18,
-                              color: RED_CAR),
-                        ),
-                        leading: Icon(
-                          Icons.login,
-                          color: RED_CAR,
-                          size: 30,
-                        ),
-                        onTap: () {
-                          onSelectItem(5);
                         },
                       ),
                     ),

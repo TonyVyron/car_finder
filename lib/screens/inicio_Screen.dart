@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:page_indicator/page_indicator.dart';
 
+import 'forgot_pw_page.dart';
+
 var ax = 'biko';
 bool _passwordVisible = true;
 
@@ -36,7 +38,6 @@ class _InicioState extends State<Inicio> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     Firebase.initializeApp();
     return Scaffold(
         body: Container(
@@ -86,11 +87,11 @@ class _InicioState extends State<Inicio> {
               margin: EdgeInsets.symmetric(horizontal: 25),
               child: Text(
                 '¡Sea Bienvenido!',
-                textAlign: TextAlign.left,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontFamily: ax,
-                  fontSize: 30,
+                  fontSize: 35,
                 ),
               ),
             ),
@@ -100,7 +101,7 @@ class _InicioState extends State<Inicio> {
               margin: EdgeInsets.symmetric(horizontal: 25),
               child: Text(
                 'Nuevas oportunidades nos esperan...',
-                textAlign: TextAlign.left,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: ax,
                   fontSize: 20,
@@ -186,6 +187,36 @@ class _InicioState extends State<Inicio> {
                 ),
               ),
             ),
+
+            SizedBox(height: 15),
+
+            //Forgot passwd
+            Container(
+              width: double.infinity,
+              margin: EdgeInsets.symmetric(horizontal: 25),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return ForgotPasswordPage();
+                      }));
+                    },
+                    child: Text(
+                      '¿Olvidaste tu contraseña?',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontFamily: ax,
+                        fontSize: 18,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+
             SizedBox(height: 25),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),

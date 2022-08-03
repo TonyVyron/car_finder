@@ -1,6 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:animate_do/animate_do.dart';
+//import 'package:animate_do/animate_do.dart';
 import 'package:car_finder/screens/infoAutos.dart';
 import 'package:car_finder/widgets/widgets.dart';
 import 'package:flutter/material.dart';
