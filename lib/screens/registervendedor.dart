@@ -23,7 +23,7 @@ class _RegistroVendedorState extends State<RegistroVendedor> {
       height: 680,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(50), topRight: Radius.circular(50)),
+              bottomLeft: Radius.circular(30), topRight: Radius.circular(30)),
           image: DecorationImage(
               image: AssetImage("assets/fondo.png"), fit: BoxFit.fill)),
       child: SingleChildScrollView(

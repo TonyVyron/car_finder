@@ -8,7 +8,7 @@ class Favoritos extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: TextParrafo(
-        text: 'Historial',
+        text: 'Favoritos',
         style: TextStyle(
             fontFamily: 'biko',
             fontWeight: FontWeight.bold,
