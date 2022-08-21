@@ -1,7 +1,6 @@
 import 'package:car_finder/screens/inicio_Screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import '../widgets/widgets.dart';
 
 var ax = 'biko';
@@ -28,10 +27,22 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           .sendPasswordResetEmail(email: _emailController.text.trim());
       showDialog(
           context: context,
-          builder: (context) {
+          builder: (BuildContext context) {
             return AlertDialog(
+              title: CircleAvatar(
+                radius: 65,
+                backgroundColor: Colors.white,
+                child: Image(
+                  image: AssetImage("assets/logob.png"),
+                  width: 220,
+                  height: 220,
+                ),
+              ),
               content: Text(
-                  '¡El link ha sido enviado! Por favor, revise su correo. \n(De no encontrarlo revise la bandeja de spam)'),
+                '¡El link ha sido enviado! Por favor, revise su correo. \n(De no encontrarlo revise la bandeja de spam)',
+                textAlign: TextAlign.justify,
+                style: TextStyle(fontFamily: 'biko', fontSize: 17),
+              ),
             );
           });
     } on FirebaseAuthException catch (e) {
@@ -49,11 +60,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: RED_CAR,
-          elevation: 0,
-        ),
-        body: Container(
+        body: Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Container(
           decoration: BoxDecoration(
               image: DecorationImage(
                   image: AssetImage("assets/fondo.png"), fit: BoxFit.fill)),
@@ -165,6 +175,21 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               ),
             ),
           ),
-        ));
+        ),
+        Positioned(
+          top: 50,
+          left: 5,
+          child: IconButton(
+              iconSize: 50,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(
+                Icons.arrow_circle_left,
+                color: Colors.white,
+              )),
+        ),
+      ],
+    ));
   }
 }

@@ -1,5 +1,4 @@
 //import 'dart:html';
-
 import 'package:car_finder/screens/inicio_Screen.dart';
 import 'package:car_finder/screens/register_page.dart';
 import 'package:flutter/material.dart';

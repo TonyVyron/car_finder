@@ -1,23 +1,44 @@
+import 'package:car_finder/imageupload/image_upload.dart';
+import 'package:car_finder/imageupload/mis_carros.dart';
+import 'package:car_finder/imageupload/show_horizontal.dart';
+import 'package:car_finder/models/user_model.dart';
 import 'package:car_finder/screens/atencionc_Screen.dart';
 import 'package:car_finder/screens/autoscaja.dart';
 import 'package:car_finder/screens/favoritos_Screen.dart';
 import 'package:car_finder/screens/filtro_Screen.dart';
+import 'package:car_finder/screens/formulario_carro.dart';
 import 'package:car_finder/screens/historial_Screen.dart';
+import 'package:car_finder/screens/inicio_Screen.dart';
 import 'package:car_finder/screens/perfil_Screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:car_finder/widgets/widgets.dart';
 
 class home extends StatefulWidget {
-  static String routeName = '/home';
   @override
   State<home> createState() => _homeState();
 }
 
 class _homeState extends State<home> {
-  final user = FirebaseAuth.instance.currentUser!;
-
   int selectDrawerItem = 1;
+
+  User? user = FirebaseAuth.instance.currentUser;
+
+  UserModel loggedInUser = UserModel();
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      this.loggedInUser = UserModel.fromMap(value.data());
+      setState(() {});
+    });
+  }
 
   getDrawerItemWidget(int pos) {
     switch (pos) {
@@ -31,6 +52,10 @@ class _homeState extends State<home> {
         return Favoritos();
       case 4:
         return Atencion_Clientes();
+      case 5:
+        return Agregar_Carro();
+      case 6:
+        return mis_carros();
     }
   }
 
@@ -47,6 +72,29 @@ class _homeState extends State<home> {
     });
   }
 
+  getitulo(String selectDrawerItem) {
+    switch (selectDrawerItem) {
+      case "0":
+        return loggedInUser.status.toString() == 'Vendedor'
+            ? "Perfil del Local"
+            : "Perfil de Usuario";
+      case "1":
+        return "Recomendaciones";
+      case "2":
+        return "Historial";
+      case "3":
+        return "Favoritos";
+      case "4":
+        return loggedInUser.status.toString() == 'Vendedor'
+            ? "Atención a Vendedores"
+            : "Atención a Clientes";
+      case "5":
+        return "Agregar Vehículo";
+      case "6":
+        return "Mis Vehículos";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,16 +104,7 @@ class _homeState extends State<home> {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Container(
               width: double.infinity,
-              child: TextTitulo(
-                  text: selectDrawerItem == 0
-                      ? "Perfil de Usuario"
-                      : selectDrawerItem == 1
-                          ? "Recomendaciones"
-                          : selectDrawerItem == 2
-                              ? "Historial"
-                              : selectDrawerItem == 3
-                                  ? "Favoritos"
-                                  : "Atención A Clientes")),
+              child: TextTitulo(text: getitulo(selectDrawerItem.toString()))),
           actions: selectDrawerItem == 1
               ? [filtroautos()]
               : [
@@ -80,9 +119,12 @@ class _homeState extends State<home> {
                           width: 34,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: Image.network(
-                                        'https://static.vecteezy.com/system/resources/previews/007/319/933/non_2x/black-avatar-person-icons-user-profile-icon-vector.jpg')
-                                    .image,
+                                image: loggedInUser.foto == null
+                                    ? Image.network(
+                                            'https://static.vecteezy.com/system/resources/previews/007/319/933/non_2x/black-avatar-person-icons-user-profile-icon-vector.jpg')
+                                        .image
+                                    : Image.network('${loggedInUser.foto}')
+                                        .image,
                                 fit: BoxFit.cover),
                             color: Colors.white,
                             shape: BoxShape.circle,
@@ -124,9 +166,12 @@ class _homeState extends State<home> {
                           width: 80,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: Image.network(
-                                        'https://static.vecteezy.com/system/resources/previews/007/319/933/non_2x/black-avatar-person-icons-user-profile-icon-vector.jpg')
-                                    .image,
+                                image: loggedInUser.foto == null
+                                    ? Image.network(
+                                            'https://static.vecteezy.com/system/resources/previews/007/319/933/non_2x/black-avatar-person-icons-user-profile-icon-vector.jpg')
+                                        .image
+                                    : Image.network('${loggedInUser.foto}')
+                                        .image,
                                 fit: BoxFit.cover),
                             color: Colors.white,
                             shape: BoxShape.circle,
@@ -138,7 +183,9 @@ class _homeState extends State<home> {
                         children: [
                           Container(
                             width: 150,
-                            child: TextParrafo(text: 'Cliente'),
+                            child: TextParrafo(
+                                text:
+                                    '${loggedInUser.Nombre}${loggedInUser.Apellidos}'),
                           ),
                           Container(
                             width: 150,
@@ -166,7 +213,6 @@ class _homeState extends State<home> {
               ),
             ),
             Container(
-              height: 505,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -197,58 +243,114 @@ class _homeState extends State<home> {
                         },
                       ),
                     ),
-                    Container(
-                      alignment: Alignment(0, 0),
-                      height: 50,
-                      color: selectDrawerItem == 2
-                          ? Color.fromARGB(255, 227, 226, 226)
-                          : Color.fromARGB(0, 0, 0, 0),
-                      margin: EdgeInsets.only(bottom: 2),
-                      child: ListTile(
-                        title: TextParrafo(
-                          text: 'Historial',
-                          style: TextStyle(
-                              fontFamily: 'biko',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18,
-                              color: RED_CAR),
+                    if (loggedInUser.status.toString() == 'Cliente')
+                      Container(
+                        alignment: Alignment(0, 0),
+                        height: 50,
+                        color: selectDrawerItem == 2
+                            ? Color.fromARGB(255, 227, 226, 226)
+                            : Color.fromARGB(0, 0, 0, 0),
+                        margin: EdgeInsets.only(bottom: 2),
+                        child: ListTile(
+                          title: TextParrafo(
+                            text: 'Historial',
+                            style: TextStyle(
+                                fontFamily: 'biko',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
+                                color: RED_CAR),
+                          ),
+                          leading: Icon(
+                            Icons.history,
+                            color: RED_CAR,
+                            size: 30,
+                          ),
+                          onTap: () {
+                            onSelectItem(2);
+                          },
                         ),
-                        leading: Icon(
-                          Icons.history,
-                          color: RED_CAR,
-                          size: 30,
-                        ),
-                        onTap: () {
-                          onSelectItem(2);
-                        },
                       ),
-                    ),
-                    Container(
-                      alignment: Alignment(0, 0),
-                      height: 50,
-                      color: selectDrawerItem == 3
-                          ? Color.fromARGB(255, 227, 226, 226)
-                          : Color.fromARGB(0, 0, 0, 0),
-                      margin: EdgeInsets.only(bottom: 2),
-                      child: ListTile(
-                        title: TextParrafo(
-                          text: 'Favoritos',
-                          style: TextStyle(
-                              fontFamily: 'biko',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18,
-                              color: RED_CAR),
+                    if (loggedInUser.status.toString() == 'Cliente')
+                      Container(
+                        alignment: Alignment(0, 0),
+                        height: 50,
+                        color: selectDrawerItem == 3
+                            ? Color.fromARGB(255, 227, 226, 226)
+                            : Color.fromARGB(0, 0, 0, 0),
+                        margin: EdgeInsets.only(bottom: 2),
+                        child: ListTile(
+                          title: TextParrafo(
+                            text: 'Favoritos',
+                            style: TextStyle(
+                                fontFamily: 'biko',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
+                                color: RED_CAR),
+                          ),
+                          leading: Icon(
+                            Icons.favorite,
+                            color: RED_CAR,
+                            size: 30,
+                          ),
+                          onTap: () {
+                            onSelectItem(3);
+                          },
                         ),
-                        leading: Icon(
-                          Icons.favorite,
-                          color: RED_CAR,
-                          size: 30,
-                        ),
-                        onTap: () {
-                          onSelectItem(3);
-                        },
                       ),
-                    ),
+                    if (loggedInUser.status.toString() == 'Vendedor')
+                      Container(
+                        alignment: Alignment(0, 0),
+                        height: 50,
+                        color: selectDrawerItem == 3
+                            ? Color.fromARGB(255, 227, 226, 226)
+                            : Color.fromARGB(0, 0, 0, 0),
+                        margin: EdgeInsets.only(bottom: 2),
+                        child: ListTile(
+                          title: TextParrafo(
+                            text: 'Agregar Vehículo',
+                            style: TextStyle(
+                                fontFamily: 'biko',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
+                                color: RED_CAR),
+                          ),
+                          leading: Icon(
+                            Icons.shopping_bag,
+                            color: RED_CAR,
+                            size: 30,
+                          ),
+                          onTap: () {
+                            onSelectItem(5);
+                          },
+                        ),
+                      ),
+                    if (loggedInUser.status.toString() == 'Vendedor')
+                      Container(
+                        alignment: Alignment(0, 0),
+                        height: 50,
+                        color: selectDrawerItem == 3
+                            ? Color.fromARGB(255, 227, 226, 226)
+                            : Color.fromARGB(0, 0, 0, 0),
+                        margin: EdgeInsets.only(bottom: 2),
+                        child: ListTile(
+                          title: TextParrafo(
+                            text: 'Mis Vehículos',
+                            style: TextStyle(
+                                fontFamily: 'biko',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
+                                color: RED_CAR),
+                          ),
+                          leading: Icon(
+                            Icons.car_rental,
+                            color: RED_CAR,
+                            size: 30,
+                          ),
+                          onTap: () {
+                            onSelectItem(6);
+                          },
+                        ),
+                      ),
                   ],
                 ),
               ),
@@ -279,7 +381,7 @@ class _homeState extends State<home> {
                         size: 30,
                       ),
                       onTap: () {
-                        onSelectItem(3);
+                        onSelectItem(4);
                       },
                     ),
                   ),
@@ -342,7 +444,9 @@ class _homeState extends State<home> {
                                     TextButton(
                                       onPressed: () {
                                         Navigator.pop(context);
-                                        FirebaseAuth.instance.signOut();
+                                        setState(() {
+                                          FirebaseAuth.instance.signOut();
+                                        });
                                       },
                                       child: Container(
                                         padding: EdgeInsets.only(
@@ -372,4 +476,10 @@ class _homeState extends State<home> {
         )),
         body: getDrawerItemWidget(selectDrawerItem));
   }
+
+  // Future<void> logout(BuildContext context) async {
+  //   await FirebaseAuth.instance.signOut();
+  //   Navigator.of(context)
+  //       .pushReplacement(MaterialPageRoute(builder: (context) => Inicio()));
+  // }
 }

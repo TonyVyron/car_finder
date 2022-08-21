@@ -1,29 +1,25 @@
-// ignore_for_file: deprecated_member_use
-
-//import 'package:animate_do/animate_do.dart';
+import 'dart:ffi';
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:intl/intl.dart';
+import 'package:car_finder/models/carro_model.dart';
 import 'package:car_finder/models/user_model.dart';
 import 'package:car_finder/screens/infoAutos.dart';
 import 'package:car_finder/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:page_indicator/page_indicator.dart';
 
-bool _estrella = false;
-bool _estrella2 = false;
-bool _estrella3 = false;
-
-final maxheight = 0.9;
-final minheight = 0.4;
-final initheight = 0.4;
-
-class CajaAutos extends StatefulWidget {
-  const CajaAutos({Key? key}) : super(key: key);
+class mis_carros extends StatefulWidget {
+  mis_carros({Key? key}) : super(key: key);
 
   @override
-  State<CajaAutos> createState() => _CajaAutosState();
+  State<mis_carros> createState() => _mis_carrosState();
 }
 
-class _CajaAutosState extends State<CajaAutos> {
+class _mis_carrosState extends State<mis_carros> {
   final user = FirebaseAuth.instance.currentUser!;
 
   UserModel loggedInUser = UserModel();
@@ -50,10 +46,25 @@ class _CajaAutosState extends State<CajaAutos> {
     });
   }
 
+  Future firedelete(String id_vendedor, String id_carro, int largo) async {
+    for (var i = 0; i < largo; i++) {
+      final storageRef = FirebaseStorage.instance.ref();
+      final desertRef = storageRef
+          .child("${user.uid}/images")
+          .child('Vehículo_${id_carro}')
+          .child('Subido_${i + 1}');
+
+      await desertRef.delete();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection('carros').snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection('carros')
+          .where('uid_vendedor', isEqualTo: loggedInUser.uid)
+          .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (!snapshot.hasData) {
           return Container(
@@ -450,60 +461,114 @@ class _CajaAutosState extends State<CajaAutos> {
                                                 ),
                                                 Expanded(
                                                     flex: 2,
-                                                    child: IconButton(
-                                                      icon: Icon(
-                                                        Icons.star,
-                                                        size: 35,
-                                                        color: _estrella == true
-                                                            ? Colors.amber
-                                                            : Colors.black,
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5),
+                                                          border: Border.all()),
+                                                      child: IconButton(
+                                                        icon: Icon(Icons.delete,
+                                                            size: 35,
+                                                            color: RED_CAR),
+                                                        onPressed: () {
+                                                          showDialog(
+                                                              context: context,
+                                                              builder: (_) =>
+                                                                  new AlertDialog(
+                                                                    shape: RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.only(topRight: Radius.circular(50))),
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .white,
+                                                                    title: Text(
+                                                                        "Eliminar Vehículo",
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontFamily:
+                                                                              'biko',
+                                                                          color:
+                                                                              Colors.black,
+                                                                          fontSize:
+                                                                              25,
+                                                                        )),
+                                                                    content: Text(
+                                                                        "¿Desea Eliminar este Vehículo?",
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              20,
+                                                                          color:
+                                                                              Colors.black,
+                                                                          fontFamily:
+                                                                              'biko',
+                                                                        )),
+                                                                    actions: [
+                                                                      TextButton(
+                                                                          onPressed:
+                                                                              () {
+                                                                            Navigator.pop(context);
+                                                                          },
+                                                                          child:
+                                                                              Container(
+                                                                            padding:
+                                                                                EdgeInsets.all(10),
+                                                                            color:
+                                                                                RED_CAR,
+                                                                            child:
+                                                                                Text(
+                                                                              "No",
+                                                                              style: TextStyle(fontFamily: 'biko', color: Colors.white, fontWeight: FontWeight.bold),
+                                                                            ),
+                                                                          )),
+                                                                      TextButton(
+                                                                        onPressed:
+                                                                            () {
+                                                                          final elim =
+                                                                              info_carro['uid'];
+
+                                                                          setState(
+                                                                              () {
+                                                                            FirebaseFirestore.instance.collection("users").doc(loggedInUser.uid).collection('Vehículos').doc(elim).delete().then(
+                                                                                  (doc) => print("Document deleted"),
+                                                                                  onError: (e) => print("Error updating document $e"),
+                                                                                );
+
+                                                                            FirebaseFirestore.instance.collection("carros").doc(elim).delete().then(
+                                                                                  (doc) => print("Document deleted"),
+                                                                                  onError: (e) => print("Error updating document $e"),
+                                                                                );
+                                                                            print('/${loggedInUser.uid}/images/Vehículo_${elim}');
+                                                                            // FirebaseStorage.instance.ref('/${loggedInUser.uid}/images/Vehículo_${elim}').delete();
+                                                                          });
+
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                        },
+                                                                        child:
+                                                                            Container(
+                                                                          padding: EdgeInsets.only(
+                                                                              right: 13,
+                                                                              top: 10,
+                                                                              bottom: 10,
+                                                                              left: 13),
+                                                                          color:
+                                                                              RED_CAR,
+                                                                          child:
+                                                                              Text(
+                                                                            "Si",
+                                                                            style: TextStyle(
+                                                                                fontFamily: 'biko',
+                                                                                color: Colors.white,
+                                                                                fontWeight: FontWeight.bold),
+                                                                          ),
+                                                                        ),
+                                                                      )
+                                                                    ],
+                                                                  ));
+                                                        },
                                                       ),
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          _estrella =
-                                                              !_estrella;
-                                                        });
-                                                        if (_estrella == true) {
-                                                          // Scaffold.of(context)
-                                                          //     .showSnackBar(SnackBar(
-                                                          //   backgroundColor: Colors.amber,
-                                                          //   shape: RoundedRectangleBorder(
-                                                          //       borderRadius:
-                                                          //           BorderRadius.only(
-                                                          //               topLeft: Radius
-                                                          //                   .circular(30),
-                                                          //               topRight: Radius
-                                                          //                   .circular(
-                                                          //                       30))),
-                                                          //   content: Container(
-                                                          //       width: double.infinity,
-                                                          //       child: Row(
-                                                          //         mainAxisAlignment:
-                                                          //             MainAxisAlignment
-                                                          //                 .spaceEvenly,
-                                                          //         children: [
-                                                          //           Icon(
-                                                          //             Icons.star,
-                                                          //             size: 35,
-                                                          //             color: Colors.black,
-                                                          //           ),
-                                                          //           Text(
-                                                          //               "Agregado a Favoritos",
-                                                          //               textAlign:
-                                                          //                   TextAlign
-                                                          //                       .center,
-                                                          //               style: TextStyle(
-                                                          //                 fontFamily:
-                                                          //                     'biko',
-                                                          //                 fontSize: 22,
-                                                          //                 color: Colors
-                                                          //                     .black,
-                                                          //               ))
-                                                          //         ],
-                                                          //       )),
-                                                          // ));
-                                                        } else {}
-                                                      },
                                                     )),
                                               ],
                                             ),
@@ -850,62 +915,96 @@ class _CajaAutosState extends State<CajaAutos> {
                                                     ),
                                                     Expanded(
                                                         flex: 2,
-                                                        child: IconButton(
-                                                          icon: Icon(
-                                                            Icons.star,
-                                                            size: 35,
-                                                            color: _estrella2 ==
-                                                                    true
-                                                                ? Colors.amber
-                                                                : Colors.black,
+                                                        child: Container(
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          5),
+                                                              border:
+                                                                  Border.all()),
+                                                          child: IconButton(
+                                                            icon: Icon(
+                                                                Icons.delete,
+                                                                size: 35,
+                                                                color: RED_CAR),
+                                                            onPressed: () {
+                                                              showDialog(
+                                                                  context:
+                                                                      context,
+                                                                  builder: (_) =>
+                                                                      new AlertDialog(
+                                                                        shape: RoundedRectangleBorder(
+                                                                            borderRadius:
+                                                                                BorderRadius.only(topRight: Radius.circular(50))),
+                                                                        backgroundColor:
+                                                                            Colors.white,
+                                                                        title: Text(
+                                                                            "Eliminar Vehículo",
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontFamily: 'biko',
+                                                                              color: Colors.black,
+                                                                              fontSize: 25,
+                                                                            )),
+                                                                        content: Text(
+                                                                            "¿Desea Eliminar este Vehículo?",
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontSize: 20,
+                                                                              color: Colors.black,
+                                                                              fontFamily: 'biko',
+                                                                            )),
+                                                                        actions: [
+                                                                          TextButton(
+                                                                              onPressed: () {
+                                                                                Navigator.pop(context);
+                                                                              },
+                                                                              child: Container(
+                                                                                padding: EdgeInsets.all(10),
+                                                                                color: RED_CAR,
+                                                                                child: Text(
+                                                                                  "No",
+                                                                                  style: TextStyle(fontFamily: 'biko', color: Colors.white, fontWeight: FontWeight.bold),
+                                                                                ),
+                                                                              )),
+                                                                          TextButton(
+                                                                            onPressed:
+                                                                                () {
+                                                                              final id_car = info_carro['uid'];
+                                                                              final cant_fotos = info_carro['fotos'].length;
+
+                                                                              setState(() {
+                                                                                FirebaseFirestore.instance.collection("users").doc(loggedInUser.uid).collection('Vehículos').doc(id_car).delete().then(
+                                                                                      (doc) => print("Document deleted"),
+                                                                                      onError: (e) => print("Error updating document $e"),
+                                                                                    );
+
+                                                                                FirebaseFirestore.instance.collection("carros").doc(id_car).delete().then(
+                                                                                      (doc) => print("Document deleted"),
+                                                                                      onError: (e) => print("Error updating document $e"),
+                                                                                    );
+
+                                                                                print('/${loggedInUser.uid}/images/Vehículo_${id_car}');
+
+                                                                                firedelete(loggedInUser.uid.toString(), id_car, cant_fotos);
+                                                                              });
+                                                                              Navigator.pop(context);
+                                                                            },
+                                                                            child:
+                                                                                Container(
+                                                                              padding: EdgeInsets.only(right: 13, top: 10, bottom: 10, left: 13),
+                                                                              color: RED_CAR,
+                                                                              child: Text(
+                                                                                "Si",
+                                                                                style: TextStyle(fontFamily: 'biko', color: Colors.white, fontWeight: FontWeight.bold),
+                                                                              ),
+                                                                            ),
+                                                                          )
+                                                                        ],
+                                                                      ));
+                                                            },
                                                           ),
-                                                          onPressed: () {
-                                                            setState(() {
-                                                              _estrella2 =
-                                                                  !_estrella2;
-                                                            });
-                                                            if (_estrella2 ==
-                                                                true) {
-                                                              // Scaffold.of(context)
-                                                              //     .showSnackBar(SnackBar(
-                                                              //   backgroundColor: Colors.amber,
-                                                              //   shape: RoundedRectangleBorder(
-                                                              //       borderRadius:
-                                                              //           BorderRadius.only(
-                                                              //               topLeft: Radius
-                                                              //                   .circular(30),
-                                                              //               topRight: Radius
-                                                              //                   .circular(
-                                                              //                       30))),
-                                                              //   content: Container(
-                                                              //       width: double.infinity,
-                                                              //       child: Row(
-                                                              //         mainAxisAlignment:
-                                                              //             MainAxisAlignment
-                                                              //                 .spaceEvenly,
-                                                              //         children: [
-                                                              //           Icon(
-                                                              //             Icons.star,
-                                                              //             size: 35,
-                                                              //             color: Colors.black,
-                                                              //           ),
-                                                              //           Text(
-                                                              //               "Agregado a Favoritos",
-                                                              //               textAlign:
-                                                              //                   TextAlign
-                                                              //                       .center,
-                                                              //               style: TextStyle(
-                                                              //                 fontFamily:
-                                                              //                     'biko',
-                                                              //                 fontSize: 22,
-                                                              //                 color: Colors
-                                                              //                     .black,
-                                                              //               ))
-                                                              //         ],
-                                                              //       )),
-                                                              // ));
-                                                            } else {}
-                                                          },
                                                         )),
                                                   ],
                                                 ),
@@ -1308,62 +1407,93 @@ class _CajaAutosState extends State<CajaAutos> {
                                                     ),
                                                     Expanded(
                                                         flex: 2,
-                                                        child: IconButton(
-                                                          icon: Icon(
-                                                            Icons.star,
-                                                            size: 35,
-                                                            color: _estrella3 ==
-                                                                    true
-                                                                ? Colors.amber
-                                                                : Colors.black,
+                                                        child: Container(
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          5),
+                                                              border:
+                                                                  Border.all()),
+                                                          child: IconButton(
+                                                            icon: Icon(
+                                                                Icons.delete,
+                                                                size: 35,
+                                                                color: RED_CAR),
+                                                            onPressed: () {
+                                                              showDialog(
+                                                                  context:
+                                                                      context,
+                                                                  builder: (_) =>
+                                                                      new AlertDialog(
+                                                                        shape: RoundedRectangleBorder(
+                                                                            borderRadius:
+                                                                                BorderRadius.only(topRight: Radius.circular(50))),
+                                                                        backgroundColor:
+                                                                            Colors.white,
+                                                                        title: Text(
+                                                                            "Eliminar Vehículo",
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontFamily: 'biko',
+                                                                              color: Colors.black,
+                                                                              fontSize: 25,
+                                                                            )),
+                                                                        content: Text(
+                                                                            "¿Desea Eliminar este Vehículo?",
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontSize: 20,
+                                                                              color: Colors.black,
+                                                                              fontFamily: 'biko',
+                                                                            )),
+                                                                        actions: [
+                                                                          TextButton(
+                                                                              onPressed: () {
+                                                                                Navigator.pop(context);
+                                                                              },
+                                                                              child: Container(
+                                                                                padding: EdgeInsets.all(10),
+                                                                                color: RED_CAR,
+                                                                                child: Text(
+                                                                                  "No",
+                                                                                  style: TextStyle(fontFamily: 'biko', color: Colors.white, fontWeight: FontWeight.bold),
+                                                                                ),
+                                                                              )),
+                                                                          TextButton(
+                                                                            onPressed:
+                                                                                () {
+                                                                              final elim = info_carro['uid'];
+
+                                                                              setState(() {
+                                                                                FirebaseFirestore.instance.collection("users").doc(loggedInUser.uid).collection('Vehículos').doc(elim).delete().then(
+                                                                                      (doc) => print("Document deleted"),
+                                                                                      onError: (e) => print("Error updating document $e"),
+                                                                                    );
+
+                                                                                FirebaseFirestore.instance.collection("carros").doc(elim).delete().then(
+                                                                                      (doc) => print("Document deleted"),
+                                                                                      onError: (e) => print("Error updating document $e"),
+                                                                                    );
+                                                                                print('/${loggedInUser.uid}/images/Vehículo_${elim}');
+                                                                                // FirebaseStorage.instance.ref('/${loggedInUser.uid}/images/Vehículo_${elim}').delete();
+                                                                              });
+                                                                              Navigator.pop(context);
+                                                                            },
+                                                                            child:
+                                                                                Container(
+                                                                              padding: EdgeInsets.only(right: 13, top: 10, bottom: 10, left: 13),
+                                                                              color: RED_CAR,
+                                                                              child: Text(
+                                                                                "Si",
+                                                                                style: TextStyle(fontFamily: 'biko', color: Colors.white, fontWeight: FontWeight.bold),
+                                                                              ),
+                                                                            ),
+                                                                          )
+                                                                        ],
+                                                                      ));
+                                                            },
                                                           ),
-                                                          onPressed: () {
-                                                            setState(() {
-                                                              _estrella3 =
-                                                                  !_estrella3;
-                                                            });
-                                                            if (_estrella3 ==
-                                                                true) {
-                                                              // Scaffold.of(context)
-                                                              //     .showSnackBar(SnackBar(
-                                                              //   backgroundColor: Colors.amber,
-                                                              //   shape: RoundedRectangleBorder(
-                                                              //       borderRadius:
-                                                              //           BorderRadius.only(
-                                                              //               topLeft: Radius
-                                                              //                   .circular(30),
-                                                              //               topRight: Radius
-                                                              //                   .circular(
-                                                              //                       30))),
-                                                              //   content: Container(
-                                                              //       width: double.infinity,
-                                                              //       child: Row(
-                                                              //         mainAxisAlignment:
-                                                              //             MainAxisAlignment
-                                                              //                 .spaceEvenly,
-                                                              //         children: [
-                                                              //           Icon(
-                                                              //             Icons.star,
-                                                              //             size: 35,
-                                                              //             color: Colors.black,
-                                                              //           ),
-                                                              //           Text(
-                                                              //               "Agregado a Favoritos",
-                                                              //               textAlign:
-                                                              //                   TextAlign
-                                                              //                       .center,
-                                                              //               style: TextStyle(
-                                                              //                 fontFamily:
-                                                              //                     'biko',
-                                                              //                 fontSize: 22,
-                                                              //                 color: Colors
-                                                              //                     .black,
-                                                              //               ))
-                                                              //         ],
-                                                              //       )),
-                                                              // ));
-                                                            } else {}
-                                                          },
                                                         )),
                                                   ],
                                                 ),

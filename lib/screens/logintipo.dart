@@ -1,7 +1,9 @@
+import 'package:car_finder/screens/register_page.dart';
 import 'package:car_finder/screens/registercliente.dart';
 import 'package:car_finder/screens/registervendedor.dart';
 import 'package:car_finder/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class LoginTipo extends StatefulWidget {
   LoginTipo({Key? key}) : super(key: key);
@@ -20,6 +22,8 @@ class _LoginTipoState extends State<LoginTipo> {
       width: double.infinity,
       alignment: Alignment.center,
       decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(30), topRight: Radius.circular(30)),
           image: DecorationImage(
               image: AssetImage("assets/fondo.png"), fit: BoxFit.fill)),
       child: SingleChildScrollView(
@@ -32,7 +36,7 @@ class _LoginTipoState extends State<LoginTipo> {
                 '¿Como Desea Ingresar?',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w500,
                   fontFamily: 'biko',
                   fontSize: 25,
                 ),
@@ -58,13 +62,12 @@ class _LoginTipoState extends State<LoginTipo> {
                           builder: (BuildContext context) {
                             return Dialog(
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(50),
-                                        topRight: Radius.circular(50))),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
                                 insetPadding: EdgeInsets.all(5),
                                 child: Container(
                                   width: double.infinity,
-                                  height: 680,
+                                  height: 530,
                                   child: RegistroCliente(),
                                 ));
                           });
@@ -93,7 +96,7 @@ class _LoginTipoState extends State<LoginTipo> {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontFamily: 'biko',
-                                    fontSize: 18,
+                                    fontSize: 17,
                                   ),
                                 ),
                               ),
@@ -120,10 +123,13 @@ class _LoginTipoState extends State<LoginTipo> {
                             return Dialog(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(50),
-                                        topRight: Radius.circular(50))),
+                                        topRight: Radius.circular(30),
+                                        bottomLeft: Radius.circular(30))),
                                 insetPadding: EdgeInsets.all(5),
-                                child: RegistroVendedor());
+                                child: Container(
+                                  width: double.infinity,
+                                  child: RegistroVendedor(),
+                                ));
                           });
                     },
                     child: Container(
@@ -150,7 +156,7 @@ class _LoginTipoState extends State<LoginTipo> {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontFamily: 'biko',
-                                    fontSize: 18,
+                                    fontSize: 17,
                                   ),
                                 ),
                               ),
