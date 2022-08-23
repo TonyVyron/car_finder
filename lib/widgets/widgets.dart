@@ -39,7 +39,7 @@ TextParrafo(
                 margin: EdgeInsets.only(right: 3),
                 child: Icon(
                   icon,
-                  color: islighted ? Colors.black : Colors.black,
+                  color: RED_CAR,
                   size: LABEL_SIZE * 1.5,
                 ),
               ),

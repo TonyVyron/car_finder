@@ -1,34 +1,49 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:car_finder/imageupload/show_horizontal.dart';
 import 'package:car_finder/models/carro_model.dart';
+import 'package:car_finder/models/user_model.dart';
 import 'package:car_finder/screens/home_screen.dart';
+import 'package:car_finder/screens/registervendedor.dart';
 import 'package:car_finder/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
 
+UserModel loggedInUser2 = UserModel();
+
 Widget AutosInfo(
     {required BuildContext context,
     required int tipoCaja,
     String? Marca,
     String? Nombre,
+    String? yo,
     String? Gasolina,
     String? promocion,
     String? precio,
-    String? Direccion,
+    String? modelo,
+    String? puertas,
     String? porcentaje,
     String? detalleprin,
     String? detalles,
+    String? garantia,
     String? Kilometraje,
     String? Fecha,
     String? tipouso,
-    String? imagenVendedor,
     String? potencia,
     String? carroceria,
     String? Guia,
+    String? id_vendedor,
     required List<dynamic>? imagen,
     String? traccion}) {
+  final jala = FirebaseFirestore.instance
+      .collection('users')
+      .doc(id_vendedor)
+      .get()
+      .then((value) {
+    loggedInUser2 = UserModel.fromMap(value.data());
+  });
+
   return FadeIn(
       duration: Duration(milliseconds: 600),
       child: Stack(
@@ -60,23 +75,23 @@ Widget AutosInfo(
                     Container(
                       width: double.infinity,
                       child: Text(
-                        "${Marca}",
+                        Nombre.toString(),
                         style: TextStyle(
                             fontFamily: 'biko',
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20,
-                            color: Colors.black),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 28,
+                            color: RED_CAR),
                       ),
                     ),
                     SizedBox(height: 10),
                     Container(
                       width: double.infinity,
                       child: Text(
-                        "${Nombre}",
+                        Marca.toString(),
                         style: TextStyle(
                             fontFamily: 'biko',
-                            fontWeight: FontWeight.w700,
-                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 22,
                             color: Colors.black),
                       ),
                     ),
@@ -88,13 +103,13 @@ Widget AutosInfo(
                           children: [
                             Container(
                                 child: Icon(
-                              Icons.add_location,
+                              Icons.place,
                               color: Color.fromARGB(255, 5, 97, 173),
                               size: 30,
                             )),
                             Expanded(
                               child: Text(
-                                "Tabasco/${Direccion}",
+                                "Tabasco/${loggedInUser2.Direcc.toString()}",
                                 style: TextStyle(
                                   fontFamily: 'biko',
                                   fontSize: LABEL_CAJA,
@@ -117,7 +132,7 @@ Widget AutosInfo(
                                 '\$ ${tipoCaja == 1 || tipoCaja == 3 ? promocion : precio}',
                             style: TextStyle(
                                 fontFamily: 'biko',
-                                fontSize: tipoCaja == 2 ? 36 : 32,
+                                fontSize: tipoCaja == 2 ? 34 : 32,
                                 fontWeight: FontWeight.bold,
                                 color: tipoCaja == 1
                                     ? Colors.green
@@ -136,7 +151,7 @@ Widget AutosInfo(
                                 fontSize: 18,
                                 decoration: TextDecoration.lineThrough,
                                 fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w500,
                                 color: tipoCaja == 3 ? RED_CAR : Colors.black),
                           ),
                         ),
@@ -145,12 +160,12 @@ Widget AutosInfo(
                       Container(
                         width: double.infinity,
                         child: TextParrafo(
-                          text: '${detalleprin}',
+                          text: '${detalleprin}'.toTitleCase(),
                           style: TextStyle(
                               fontFamily: 'biko',
                               fontSize: 18,
                               fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w500,
                               color: tipoCaja == 3 ? RED_CAR : Colors.black),
                         ),
                       ),
@@ -159,30 +174,33 @@ Widget AutosInfo(
                       color: Colors.black.withOpacity(.3),
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Expanded(
                             flex: 5,
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Container(
-                                  padding: EdgeInsets.all(5),
-                                  child: Icon(
-                                    Icons.av_timer_sharp,
-                                    size: 40,
+                                Expanded(
+                                  flex: 4,
+                                  child: Container(
+                                    padding: EdgeInsets.all(5),
+                                    child: Icon(
+                                      Icons.av_timer_sharp,
+                                      size: 35,
+                                    ),
                                   ),
                                 ),
-                                Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        padding: EdgeInsets.only(bottom: 5),
-                                        child: Align(
-                                          alignment: Alignment.centerLeft,
+                                Expanded(
+                                  flex: 6,
+                                  child: Container(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.only(bottom: 5),
                                           child: Text(
                                             "Kilometraje",
+                                            textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 fontFamily: 'biko',
                                                 fontSize: 14,
@@ -190,18 +208,16 @@ Widget AutosInfo(
                                                 color: Colors.black),
                                           ),
                                         ),
-                                      ),
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
+                                        Text(
                                           '${Kilometraje}',
+                                          textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontFamily: 'biko',
                                               fontSize: LABEL_CAJA,
                                               color: Colors.black),
-                                        ),
-                                      )
-                                    ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 )
                               ],
@@ -209,28 +225,29 @@ Widget AutosInfo(
                         Expanded(
                             flex: 5,
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Align(
-                                  alignment: Alignment.centerLeft,
+                                Expanded(
+                                  flex: 4,
                                   child: Container(
                                     padding: EdgeInsets.all(5),
                                     child: Icon(
                                       Icons.local_gas_station,
-                                      size: 40,
+                                      size: 35,
                                     ),
                                   ),
                                 ),
-                                Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        padding: EdgeInsets.only(bottom: 5),
-                                        child: Align(
-                                          alignment: Alignment.centerLeft,
+                                Expanded(
+                                  flex: 6,
+                                  child: Container(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.only(bottom: 5),
                                           child: Text(
                                             "Gasolina",
+                                            textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 fontFamily: 'biko',
                                                 fontSize: 14,
@@ -238,101 +255,113 @@ Widget AutosInfo(
                                                 color: Colors.black),
                                           ),
                                         ),
-                                      ),
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
+                                        Text(
                                           '${Gasolina}',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontFamily: 'biko',
+                                              fontSize: 15,
+                                              color: Colors.black),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                            flex: 5,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 4,
+                                  child: Container(
+                                    padding: EdgeInsets.all(5),
+                                    child: Icon(
+                                      Icons.calendar_month_outlined,
+                                      size: 35,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 6,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.only(bottom: 5),
+                                        child: Text(
+                                          "Fecha de Adquisición",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontFamily: 'biko',
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black),
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Text(
+                                          "${Fecha}",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontFamily: 'biko',
+                                              fontSize: 15,
+                                              color: Colors.black),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            )),
+                        Expanded(
+                            flex: 5,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 4,
+                                  child: Container(
+                                    padding: EdgeInsets.all(5),
+                                    child: Icon(
+                                      Icons.directions_car,
+                                      size: 35,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 6,
+                                  child: Container(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.only(bottom: 5),
+                                          child: Text(
+                                            "Tipo de Auto",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontFamily: 'biko',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black),
+                                          ),
+                                        ),
+                                        Text(
+                                          '${carroceria}',
+                                          textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontFamily: 'biko',
                                               fontSize: LABEL_CAJA,
                                               color: Colors.black),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            )),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                            flex: 5,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(5),
-                                  child: Icon(
-                                    Icons.date_range,
-                                    size: 40,
-                                  ),
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        "Fecha Compra",
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                            fontFamily: 'biko',
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black),
-                                      ),
+                                        )
+                                      ],
                                     ),
-                                    Container(
-                                      child: Text(
-                                        "${Fecha}",
-                                        style: TextStyle(
-                                            fontFamily: 'biko',
-                                            fontSize: 16,
-                                            color: Colors.black),
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            )),
-                        Expanded(
-                            flex: 5,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(5),
-                                  child: Icon(
-                                    Icons.directions_car,
-                                    size: 40,
-                                  ),
-                                ),
-                                Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        padding: EdgeInsets.only(bottom: 5),
-                                        child: Text(
-                                          "Tipo de Auto",
-                                          style: TextStyle(
-                                              fontFamily: 'biko',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black),
-                                        ),
-                                      ),
-                                      Text(
-                                        '${carroceria}',
-                                        style: TextStyle(
-                                            fontFamily: 'biko',
-                                            fontSize: LABEL_CAJA,
-                                            color: Colors.black),
-                                      )
-                                    ],
                                   ),
                                 )
                               ],
@@ -344,38 +373,46 @@ Widget AutosInfo(
                         Expanded(
                             flex: 5,
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Container(
-                                  padding: EdgeInsets.all(5),
-                                  child: Icon(
-                                    Icons.bolt,
-                                    size: 40,
+                                Expanded(
+                                  flex: 4,
+                                  child: Container(
+                                    padding: EdgeInsets.all(5),
+                                    child: Icon(
+                                      Icons.date_range,
+                                      size: 35,
+                                    ),
                                   ),
                                 ),
-                                Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        padding: EdgeInsets.only(bottom: 5),
-                                        child: Text(
-                                          "Potencia",
+                                Expanded(
+                                  flex: 6,
+                                  child: Container(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.only(bottom: 5),
+                                          child: Text(
+                                            "Modelo",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontFamily: 'biko',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black),
+                                          ),
+                                        ),
+                                        Text(
+                                          '${modelo}',
+                                          textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontFamily: 'biko',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
+                                              fontSize: LABEL_CAJA,
                                               color: Colors.black),
-                                        ),
-                                      ),
-                                      Text(
-                                        '${potencia}',
-                                        style: TextStyle(
-                                            fontFamily: 'biko',
-                                            fontSize: LABEL_CAJA,
-                                            color: Colors.black),
-                                      )
-                                    ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 )
                               ],
@@ -383,38 +420,46 @@ Widget AutosInfo(
                         Expanded(
                             flex: 5,
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Container(
-                                  padding: EdgeInsets.all(5),
-                                  child: Icon(
-                                    Icons.family_restroom,
-                                    size: 40,
+                                Expanded(
+                                  flex: 4,
+                                  child: Container(
+                                    padding: EdgeInsets.all(5),
+                                    child: Icon(
+                                      Icons.family_restroom,
+                                      size: 35,
+                                    ),
                                   ),
                                 ),
-                                Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        padding: EdgeInsets.only(bottom: 5),
-                                        child: Text(
-                                          "Tipo de Uso",
+                                Expanded(
+                                  flex: 6,
+                                  child: Container(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.only(bottom: 5),
+                                          child: Text(
+                                            "Tipo de Uso",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontFamily: 'biko',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black),
+                                          ),
+                                        ),
+                                        Text(
+                                          '${tipouso}',
+                                          textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontFamily: 'biko',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
+                                              fontSize: LABEL_CAJA,
                                               color: Colors.black),
-                                        ),
-                                      ),
-                                      Text(
-                                        '${tipouso}',
-                                        style: TextStyle(
-                                            fontFamily: 'biko',
-                                            fontSize: LABEL_CAJA,
-                                            color: Colors.black),
-                                      )
-                                    ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 )
                               ],
@@ -425,20 +470,204 @@ Widget AutosInfo(
                       thickness: 2,
                       color: Colors.black.withOpacity(.3),
                     ),
-                    CircleAvatar(
-                      radius: 40,
-                      child: Container(
-                        height: 80,
-                        width: 80,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: Image.network(imagenVendedor.toString())
-                                  .image,
-                              fit: BoxFit.cover),
-                          color: Colors.white,
-                          shape: BoxShape.circle,
+                    InkWell(
+                      onTap: () {
+                        if (yo == 'Cliente')
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Dialog(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(25))),
+                                    insetPadding: EdgeInsets.all(20),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          image: DecorationImage(
+                                              image: AssetImage(
+                                                  'assets/fondo.png'),
+                                              fit: BoxFit.fill)),
+                                      height: 400,
+                                      alignment: Alignment.center,
+                                      width: double.infinity,
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          children: [
+                                            CircleAvatar(
+                                              radius: 68,
+                                              child: Container(
+                                                height: 130,
+                                                width: 130,
+                                                decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                      image: Image.network(
+                                                              loggedInUser2.foto
+                                                                  .toString())
+                                                          .image,
+                                                      fit: BoxFit.cover),
+                                                  color: Colors.white,
+                                                  shape: BoxShape.circle,
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.symmetric(
+                                                  vertical: 10),
+                                              child: Text(
+                                                loggedInUser2.NombreLocal
+                                                    .toString(),
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontFamily: 'biko',
+                                                    fontSize: 22,
+                                                    color: RED_CAR),
+                                              ),
+                                            ),
+                                            Text(
+                                              loggedInUser2.Telefono.toString(),
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontFamily: 'biko',
+                                                  fontSize: LABEL_CAJA,
+                                                  color: Colors.black),
+                                            ),
+                                            Text(
+                                              loggedInUser2.Direcc.toString(),
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontFamily: 'biko',
+                                                  fontSize: LABEL_CAJA,
+                                                  color: Colors.black),
+                                            ),
+                                            Text(
+                                              loggedInUser2.email.toString(),
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontFamily: 'biko',
+                                                  fontSize: LABEL_CAJA,
+                                                  color: Colors.black),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(top: 10),
+                                              child: Text(
+                                                'Puntuar Vendedor:'.toString(),
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontFamily: 'biko',
+                                                    fontSize: 22,
+                                                    color: RED_CAR),
+                                              ),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  margin: EdgeInsets.symmetric(
+                                                      vertical: 5),
+                                                  child: InkWell(
+                                                    onTap: () {},
+                                                    child: Icon(Icons.star,
+                                                        size: 35,
+                                                        color: Colors.amber),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.symmetric(
+                                                      vertical: 5),
+                                                  child: InkWell(
+                                                    onTap: () {},
+                                                    child: Icon(Icons.star,
+                                                        size: 35,
+                                                        color: Colors.amber),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.symmetric(
+                                                      vertical: 5),
+                                                  child: InkWell(
+                                                    onTap: () {},
+                                                    child: Icon(Icons.star,
+                                                        size: 35,
+                                                        color: Colors.amber),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.symmetric(
+                                                      vertical: 5),
+                                                  child: InkWell(
+                                                    onTap: () {},
+                                                    child: Icon(Icons.star,
+                                                        size: 35,
+                                                        color: Colors.amber),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.symmetric(
+                                                      vertical: 5),
+                                                  child: InkWell(
+                                                    onTap: () {},
+                                                    child: Icon(Icons.star,
+                                                        size: 35,
+                                                        color: Colors.amber),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ));
+                              });
+                      },
+                      child: CircleAvatar(
+                        radius: 45,
+                        child: Container(
+                          height: 90,
+                          width: 90,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image:
+                                    Image.network(loggedInUser2.foto.toString())
+                                        .image,
+                                fit: BoxFit.cover),
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
                         ),
                       ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 5),
+                          child:
+                              Icon(Icons.star, size: 35, color: Colors.amber),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 5),
+                          child:
+                              Icon(Icons.star, size: 35, color: Colors.amber),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 5),
+                          child:
+                              Icon(Icons.star, size: 35, color: Colors.amber),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 5),
+                          child:
+                              Icon(Icons.star, size: 35, color: Colors.amber),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 5),
+                          child:
+                              Icon(Icons.star, size: 35, color: Colors.amber),
+                        ),
+                      ],
                     ),
                     Divider(
                       thickness: 2,
@@ -452,15 +681,18 @@ Widget AutosInfo(
                           child: Icon(
                             Icons.wine_bar_outlined,
                             size: 30,
+                            color: RED_CAR,
                           ),
                         ),
-                        Text(
-                          'compra con Confianza'.toTitleCase(),
-                          style: TextStyle(
-                            fontFamily: 'biko',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18,
-                            color: Colors.black,
+                        Expanded(
+                          child: Text(
+                            'compra con Confianza'.toTitleCase(),
+                            style: TextStyle(
+                              fontFamily: 'biko',
+                              fontWeight: FontWeight.w500,
+                              fontSize: 20,
+                              color: RED_CAR,
+                            ),
                           ),
                         ),
                       ],
@@ -478,6 +710,7 @@ Widget AutosInfo(
                               margin: EdgeInsets.only(right: 10),
                               child: Icon(
                                 Icons.directions_car,
+                                color: RED_CAR,
                                 size: 30,
                               ),
                             ),
@@ -485,9 +718,9 @@ Widget AutosInfo(
                               'Datos Basicos'.toTitleCase(),
                               style: TextStyle(
                                 fontFamily: 'biko',
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w500,
                                 fontSize: 20,
-                                color: Colors.black,
+                                color: RED_CAR,
                               ),
                             ),
                           ],
@@ -506,8 +739,8 @@ Widget AutosInfo(
                                   'carrocería'.toTitleCase(),
                                   style: TextStyle(
                                     fontFamily: 'biko',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 19,
                                     color: Colors.black,
                                   ),
                                 ),
@@ -543,8 +776,8 @@ Widget AutosInfo(
                                   'Número de Puertas'.toTitleCase(),
                                   style: TextStyle(
                                     fontFamily: 'biko',
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.w500,
                                     color: Colors.black,
                                   ),
                                 ),
@@ -555,7 +788,7 @@ Widget AutosInfo(
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  '4'.toTitleCase(),
+                                  puertas.toString().toTitleCase(),
                                   style: TextStyle(
                                     fontFamily: 'biko',
                                     fontSize: 16,
@@ -569,43 +802,45 @@ Widget AutosInfo(
                         SizedBox(
                           height: 10,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Expanded(
-                              flex: 5,
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  'Garantía'.toTitleCase(),
-                                  style: TextStyle(
-                                    fontFamily: 'biko',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 18,
-                                    color: Colors.black,
+                        if (garantia != null) ...[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Expanded(
+                                flex: 5,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Garantía'.toTitleCase(),
+                                    style: TextStyle(
+                                      fontFamily: 'biko',
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 19,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              flex: 5,
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  '12 Meses'.toTitleCase(),
-                                  style: TextStyle(
-                                    fontFamily: 'biko',
-                                    fontSize: 16,
-                                    color: Colors.black,
+                              Expanded(
+                                flex: 5,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    garantia.toString().toTitleCase(),
+                                    style: TextStyle(
+                                      fontFamily: 'biko',
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -617,8 +852,8 @@ Widget AutosInfo(
                                   'Tracción'.toTitleCase(),
                                   style: TextStyle(
                                     fontFamily: 'biko',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 19,
                                     color: Colors.black,
                                   ),
                                 ),
@@ -651,11 +886,11 @@ Widget AutosInfo(
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  'Estado'.toTitleCase(),
+                                  'Tipo de Uso'.toTitleCase(),
                                   style: TextStyle(
                                     fontFamily: 'biko',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 19,
                                     color: Colors.black,
                                   ),
                                 ),
@@ -694,15 +929,16 @@ Widget AutosInfo(
                           child: Icon(
                             Icons.history,
                             size: 30,
+                            color: RED_CAR,
                           ),
                         ),
                         Text(
                           'Historial de Vehículo'.toTitleCase(),
                           style: TextStyle(
                             fontFamily: 'biko',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18,
-                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 20,
+                            color: RED_CAR,
                           ),
                         ),
                       ],
@@ -721,8 +957,8 @@ Widget AutosInfo(
                               'Kilometraje'.toTitleCase(),
                               style: TextStyle(
                                 fontFamily: 'biko',
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 19,
                                 color: Colors.black,
                               ),
                             ),
@@ -755,11 +991,11 @@ Widget AutosInfo(
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              'Año'.toTitleCase(),
+                              "Fecha de Adquisición".toTitleCase(),
                               style: TextStyle(
                                 fontFamily: 'biko',
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 19,
                                 color: Colors.black,
                               ),
                             ),
@@ -792,11 +1028,48 @@ Widget AutosInfo(
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
+                              'Año del Modelo'.toTitleCase(),
+                              style: TextStyle(
+                                fontFamily: 'biko',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 19,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              modelo.toString().toTitleCase(),
+                              style: TextStyle(
+                                fontFamily: 'biko',
+                                fontSize: 16,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          flex: 5,
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
                               'Guía de Mantenimiento'.toTitleCase(),
                               style: TextStyle(
                                 fontFamily: 'biko',
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 19,
                                 color: Colors.black,
                               ),
                             ),
@@ -837,15 +1110,16 @@ Widget AutosInfo(
                             child: Icon(
                               Icons.history,
                               size: 30,
+                              color: RED_CAR,
                             ),
                           ),
                           Text(
                             'Detalles'.toTitleCase(),
                             style: TextStyle(
                               fontFamily: 'biko',
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18,
-                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 20,
+                              color: RED_CAR,
                             ),
                           ),
                         ],
@@ -862,7 +1136,7 @@ Widget AutosInfo(
                               fontFamily: 'biko',
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
-                              color: RED_CAR),
+                              color: Colors.black),
                         ),
                       ),
                       SizedBox(
@@ -881,15 +1155,16 @@ Widget AutosInfo(
                           child: Icon(
                             Icons.car_repair,
                             size: 30,
+                            color: RED_CAR,
                           ),
                         ),
                         Text(
                           'Vehículos Similares'.toTitleCase(),
                           style: TextStyle(
                             fontFamily: 'biko',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18,
-                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 20,
+                            color: RED_CAR,
                           ),
                         ),
                       ],

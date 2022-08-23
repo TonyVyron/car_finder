@@ -169,7 +169,7 @@ class _autosHorizontalState extends State<autosHorizontal> {
                                     ),
                                   ),
                                   Text(
-                                    '${snapshot.data!.docs[i]['kilometraje']}, ${snapshot.data!.docs[i]['tipo_gasolina']}, ${snapshot.data!.docs[i]['fecha_compra']}, ${snapshot.data!.docs[i]['tipo_uso']}, Puertas 4, ${snapshot.data!.docs[i]['tipo_uso']}',
+                                    '${snapshot.data!.docs[i]['kilometraje']}, ${snapshot.data!.docs[i]['tipo_gasolina']}, ${snapshot.data!.docs[i]['fecha_compra']}, ${snapshot.data!.docs[i]['tipo_uso']}, Puertas ${snapshot.data!.docs[i]['numero_puertas']}, ${snapshot.data!.docs[i]['carroceria']}',
                                     style: TextStyle(
                                       fontFamily: 'biko',
                                       fontSize: 14,
