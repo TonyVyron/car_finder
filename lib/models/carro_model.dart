@@ -102,7 +102,7 @@ class CarroModel {
       'traccion': traccion,
       'estado_porcentaje': estado_porcentaje,
       'porcentaje_descuento': porcentaje_descuento,
-      ' guia_mantenimiento': guia_mantenimiento,
+      'guia_mantenimiento': guia_mantenimiento,
     };
   }
 }

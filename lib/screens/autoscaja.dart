@@ -27,7 +27,6 @@ class _CajaAutosState extends State<CajaAutos> {
   final user = FirebaseAuth.instance.currentUser!;
 
   UserModel loggedInUser = UserModel();
-  UserModel loggedInUser2 = UserModel();
 
   bool _estrella = false;
   bool _estrella2 = false;
@@ -128,13 +127,6 @@ class _CajaAutosState extends State<CajaAutos> {
                     promo2 = info_carro['precio'] - descuento2;
                   }
                 }
-                final jala = FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(info_carro['uid_vendedor'])
-                    .get()
-                    .then((value) {
-                  this.loggedInUser2 = UserModel.fromMap(value.data());
-                });
 
                 return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -159,26 +151,32 @@ class _CajaAutosState extends State<CajaAutos> {
                                           child: AutosInfo(
                                               imagen: info_carro['fotos'],
                                               context: context,
+                                              yo: loggedInUser.status
+                                                  .toString(),
                                               precio: numberFormat2(
                                                   info_carro['precio']),
                                               Marca: info_carro['nombre_marca'],
+                                              puertas:
+                                                  info_carro['numero_puertas'],
                                               Nombre:
                                                   info_carro['nombre_carro'],
+                                              garantia: info_carro['garantia'],
                                               Kilometraje:
                                                   '${info_carro['kilometraje']} km',
+                                              modelo: info_carro['ano_modelo'],
                                               Gasolina:
                                                   info_carro['tipo_gasolina'],
-                                              Direccion: loggedInUser2.Direcc,
                                               tipouso: info_carro['tipo_uso'],
                                               Fecha: info_carro['fecha_compra'],
                                               potencia: '6.21/100 km',
-                                              Guia: 'No',
+                                              Guia: info_carro[
+                                                  'guia_mantenimiento'],
+                                              id_vendedor:
+                                                  info_carro['uid_vendedor'],
                                               porcentaje: info_carro[
                                                       'porcentaje_descuento']
                                                   .toString(),
                                               promocion: numberFormat(promo),
-                                              imagenVendedor:
-                                                  loggedInUser2.foto,
                                               traccion: info_carro['traccion'],
                                               carroceria:
                                                   info_carro['carroceria'],
@@ -232,19 +230,17 @@ class _CajaAutosState extends State<CajaAutos> {
                                                           Alignment.centerLeft,
                                                       child: Container(
                                                         child: TextParrafo(
-                                                          text: info_carro[
-                                                                  'nombre_marca']
-                                                              .toString(),
+                                                          text:
+                                                              '${info_carro['nombre_carro']}'
+                                                                  .toString(),
                                                           style: TextStyle(
                                                               fontFamily:
                                                                   'biko',
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .bold,
-                                                              fontSize:
-                                                                  LABEL_SIZE,
-                                                              color:
-                                                                  Colors.black),
+                                                                      .w500,
+                                                              fontSize: 25,
+                                                              color: RED_CAR),
                                                         ),
                                                       ),
                                                     ),
@@ -254,13 +250,12 @@ class _CajaAutosState extends State<CajaAutos> {
                                                       child: Container(
                                                         child: TextParrafo(
                                                           text: info_carro[
-                                                                  'nombre_carro']
+                                                                  'nombre_marca']
                                                               .toString(),
                                                           style: TextStyle(
                                                               fontFamily:
                                                                   'biko',
-                                                              fontSize:
-                                                                  LABEL_SIZE,
+                                                              fontSize: 18,
                                                               color:
                                                                   Colors.black),
                                                         ),
@@ -350,63 +345,80 @@ class _CajaAutosState extends State<CajaAutos> {
                                                                 LABEL_CAJA,
                                                             color:
                                                                 Colors.black),
+                                                        icon: Icons
+                                                            .calendar_month_outlined),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Container(
+                                                      child: Row(children: [
+                                                    Container(
+                                                      margin: EdgeInsets.only(
+                                                          right: 3),
+                                                      child: Icon(
+                                                        Icons.local_gas_station,
+                                                        color: RED_CAR,
+                                                        size: LABEL_SIZE * 1.5,
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: Text(
+                                                        info_carro[
+                                                            'tipo_gasolina'],
+                                                        style: TextStyle(
+                                                          fontFamily: 'biko',
+                                                          fontSize: LABEL_CAJA,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ])),
+                                                ),
+                                                Expanded(
+                                                  child: Container(
+                                                      child: Row(children: [
+                                                    Container(
+                                                      margin: EdgeInsets.only(
+                                                          right: 3),
+                                                      child: Icon(
+                                                        Icons.family_restroom,
+                                                        color: RED_CAR,
+                                                        size: LABEL_SIZE * 1.5,
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: Text(
+                                                        info_carro['tipo_uso'],
+                                                        style: TextStyle(
+                                                          fontFamily: 'biko',
+                                                          fontSize: LABEL_CAJA,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ])),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  flex: 5,
+                                                  child: Container(
+                                                    child: TextParrafo(
+                                                        text: info_carro[
+                                                            'ano_modelo'],
+                                                        style: TextStyle(
+                                                            fontFamily: 'biko',
+                                                            fontSize:
+                                                                LABEL_CAJA,
+                                                            color:
+                                                                Colors.black),
                                                         icon: Icons.date_range),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Expanded(
-                                                  flex: 5,
-                                                  child: Container(
-                                                    child: TextParrafo(
-                                                        text: info_carro[
-                                                                'tipo_gasolina']
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                            fontFamily: 'biko',
-                                                            fontSize:
-                                                                LABEL_CAJA,
-                                                            color:
-                                                                Colors.black),
-                                                        icon: Icons
-                                                            .local_gas_station),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  flex: 5,
-                                                  child: Container(
-                                                    child: TextParrafo(
-                                                        text: info_carro[
-                                                                'tipo_uso']
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                            fontFamily: 'biko',
-                                                            fontSize:
-                                                                LABEL_CAJA,
-                                                            color:
-                                                                Colors.black),
-                                                        icon: Icons
-                                                            .family_restroom),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Expanded(
-                                                  flex: 5,
-                                                  child: Container(
-                                                    child: TextParrafo(
-                                                        text: '4,21/100 km',
-                                                        style: TextStyle(
-                                                            fontFamily: 'biko',
-                                                            fontSize:
-                                                                LABEL_CAJA,
-                                                            color:
-                                                                Colors.black),
-                                                        icon: Icons.bolt),
                                                   ),
                                                 ),
                                                 Expanded(
@@ -439,72 +451,39 @@ class _CajaAutosState extends State<CajaAutos> {
                                                   child: Container(
                                                     child: TextParrafo(
                                                       text:
-                                                          '${info_carro['nombre_marca']}${info_carro['nombre_carro']}...'
-                                                              .toUpperCase(),
+                                                          '${info_carro['nombre_carro']} ${info_carro['nombre_marca']}...'
+                                                              .toTitleCase(),
                                                       style: TextStyle(
                                                           fontFamily: 'biko',
-                                                          fontSize: LABEL_SIZE,
+                                                          fontSize: 20,
                                                           color: Colors.black),
                                                     ),
                                                   ),
                                                 ),
-                                                Expanded(
-                                                    flex: 2,
-                                                    child: IconButton(
-                                                      icon: Icon(
-                                                        Icons.star,
-                                                        size: 35,
-                                                        color: _estrella == true
-                                                            ? Colors.amber
-                                                            : Colors.black,
-                                                      ),
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          _estrella =
-                                                              !_estrella;
-                                                        });
-                                                        if (_estrella == true) {
-                                                          // Scaffold.of(context)
-                                                          //     .showSnackBar(SnackBar(
-                                                          //   backgroundColor: Colors.amber,
-                                                          //   shape: RoundedRectangleBorder(
-                                                          //       borderRadius:
-                                                          //           BorderRadius.only(
-                                                          //               topLeft: Radius
-                                                          //                   .circular(30),
-                                                          //               topRight: Radius
-                                                          //                   .circular(
-                                                          //                       30))),
-                                                          //   content: Container(
-                                                          //       width: double.infinity,
-                                                          //       child: Row(
-                                                          //         mainAxisAlignment:
-                                                          //             MainAxisAlignment
-                                                          //                 .spaceEvenly,
-                                                          //         children: [
-                                                          //           Icon(
-                                                          //             Icons.star,
-                                                          //             size: 35,
-                                                          //             color: Colors.black,
-                                                          //           ),
-                                                          //           Text(
-                                                          //               "Agregado a Favoritos",
-                                                          //               textAlign:
-                                                          //                   TextAlign
-                                                          //                       .center,
-                                                          //               style: TextStyle(
-                                                          //                 fontFamily:
-                                                          //                     'biko',
-                                                          //                 fontSize: 22,
-                                                          //                 color: Colors
-                                                          //                     .black,
-                                                          //               ))
-                                                          //         ],
-                                                          //       )),
-                                                          // ));
-                                                        } else {}
-                                                      },
-                                                    )),
+                                                if (loggedInUser.status
+                                                        .toString() ==
+                                                    'Cliente')
+                                                  Expanded(
+                                                      flex: 2,
+                                                      child: IconButton(
+                                                        icon: Icon(
+                                                          Icons.star,
+                                                          size: 35,
+                                                          color: _estrella ==
+                                                                  true
+                                                              ? Colors.amber
+                                                              : Colors.black,
+                                                        ),
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            _estrella =
+                                                                !_estrella;
+                                                          });
+                                                          if (_estrella ==
+                                                              true) {
+                                                          } else {}
+                                                        },
+                                                      )),
                                               ],
                                             ),
                                           ],
@@ -572,24 +551,31 @@ class _CajaAutosState extends State<CajaAutos> {
                                                       context: context,
                                                       precio: numberFormat2(
                                                           info_carro['precio']),
+                                                      yo: loggedInUser.status
+                                                          .toString(),
                                                       Marca: info_carro[
                                                           'nombre_marca'],
                                                       Nombre: info_carro[
                                                           'nombre_carro'],
+                                                      id_vendedor: info_carro[
+                                                          'uid_vendedor'],
+                                                      garantia: info_carro[
+                                                          'garantia'],
+                                                      puertas: info_carro[
+                                                          'numero_puertas'],
                                                       Kilometraje:
                                                           '${info_carro['kilometraje']} km',
                                                       Gasolina: info_carro[
                                                           'tipo_gasolina'],
-                                                      Direccion:
-                                                          loggedInUser2.Direcc,
                                                       tipouso: info_carro[
                                                           'tipo_uso'],
+                                                      Guia: info_carro[
+                                                          'guia_mantenimiento'],
+                                                      modelo: info_carro[
+                                                          'ano_modelo'],
                                                       Fecha: info_carro[
                                                           'fecha_compra'],
                                                       potencia: '6.21/100 km',
-                                                      Guia: 'No',
-                                                      imagenVendedor:
-                                                          loggedInUser2.foto,
                                                       traccion: info_carro[
                                                           'traccion'],
                                                       carroceria: info_carro[
@@ -644,20 +630,17 @@ class _CajaAutosState extends State<CajaAutos> {
                                                               .centerLeft,
                                                           child: Container(
                                                             child: TextParrafo(
-                                                              text: info_carro[
-                                                                      'nombre_marca']
-                                                                  .toString()
-                                                                  .toUpperCase(),
+                                                              text: '${info_carro['nombre_carro']}'
+                                                                  .toString(),
                                                               style: TextStyle(
                                                                   fontFamily:
                                                                       'biko',
                                                                   fontWeight:
                                                                       FontWeight
-                                                                          .bold,
-                                                                  fontSize:
-                                                                      LABEL_SIZE,
-                                                                  color: Colors
-                                                                      .black),
+                                                                          .w500,
+                                                                  fontSize: 25,
+                                                                  color:
+                                                                      RED_CAR),
                                                             ),
                                                           ),
                                                         ),
@@ -667,14 +650,12 @@ class _CajaAutosState extends State<CajaAutos> {
                                                           child: Container(
                                                             child: TextParrafo(
                                                               text: info_carro[
-                                                                      'nombre_carro']
-                                                                  .toString()
-                                                                  .toTitleCase(),
+                                                                      'nombre_marca']
+                                                                  .toString(),
                                                               style: TextStyle(
                                                                   fontFamily:
                                                                       'biko',
-                                                                  fontSize:
-                                                                      LABEL_SIZE,
+                                                                  fontSize: 18,
                                                                   color: Colors
                                                                       .black),
                                                             ),
@@ -714,7 +695,6 @@ class _CajaAutosState extends State<CajaAutos> {
                                                 Row(
                                                   children: [
                                                     Expanded(
-                                                      flex: 5,
                                                       child: Container(
                                                         child: TextParrafo(
                                                             text:
@@ -731,7 +711,6 @@ class _CajaAutosState extends State<CajaAutos> {
                                                       ),
                                                     ),
                                                     Expanded(
-                                                      flex: 5,
                                                       child: Container(
                                                         child: TextParrafo(
                                                             text:
@@ -744,7 +723,7 @@ class _CajaAutosState extends State<CajaAutos> {
                                                                 color: Colors
                                                                     .black),
                                                             icon: Icons
-                                                                .date_range),
+                                                                .calendar_month_outlined),
                                                       ),
                                                     ),
                                                   ],
@@ -752,45 +731,72 @@ class _CajaAutosState extends State<CajaAutos> {
                                                 Row(
                                                   children: [
                                                     Expanded(
-                                                      flex: 5,
                                                       child: Container(
-                                                        child: TextParrafo(
-                                                            text: info_carro[
+                                                          child: Row(children: [
+                                                        Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  right: 3),
+                                                          child: Icon(
+                                                            Icons
+                                                                .local_gas_station,
+                                                            color: RED_CAR,
+                                                            size: LABEL_SIZE *
+                                                                1.5,
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          child: Text(
+                                                            info_carro[
                                                                 'tipo_gasolina'],
                                                             style: TextStyle(
-                                                                fontFamily:
-                                                                    'biko',
-                                                                fontSize:
-                                                                    LABEL_CAJA,
-                                                                color: Colors
-                                                                    .black),
-                                                            icon: Icons
-                                                                .local_gas_station),
-                                                      ),
+                                                              fontFamily:
+                                                                  'biko',
+                                                              fontSize:
+                                                                  LABEL_CAJA,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ])),
                                                     ),
                                                     Expanded(
-                                                      flex: 5,
                                                       child: Container(
-                                                        child: TextParrafo(
-                                                            text:
-                                                                '${info_carro['tipo_uso']}',
+                                                          child: Row(children: [
+                                                        Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  right: 3),
+                                                          child: Icon(
+                                                            Icons
+                                                                .family_restroom,
+                                                            color: RED_CAR,
+                                                            size: LABEL_SIZE *
+                                                                1.5,
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          child: Text(
+                                                            info_carro[
+                                                                'tipo_uso'],
                                                             style: TextStyle(
-                                                                fontFamily:
-                                                                    'biko',
-                                                                fontSize:
-                                                                    LABEL_CAJA,
-                                                                color: Colors
-                                                                    .black),
-                                                            icon: Icons
-                                                                .family_restroom),
-                                                      ),
-                                                    )
+                                                              fontFamily:
+                                                                  'biko',
+                                                              fontSize:
+                                                                  LABEL_CAJA,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ])),
+                                                    ),
                                                   ],
                                                 ),
                                                 Row(
                                                   children: [
                                                     Expanded(
-                                                      flex: 5,
                                                       child: Container(
                                                         child: TextParrafo(
                                                             text: info_carro[
@@ -803,11 +809,10 @@ class _CajaAutosState extends State<CajaAutos> {
                                                                 color: Colors
                                                                     .black),
                                                             icon: Icons
-                                                                .calendar_today_rounded),
+                                                                .date_range),
                                                       ),
                                                     ),
                                                     Expanded(
-                                                      flex: 5,
                                                       child: Container(
                                                         child: TextParrafo(
                                                             text:
@@ -836,77 +841,42 @@ class _CajaAutosState extends State<CajaAutos> {
                                                       child: Container(
                                                         child: TextParrafo(
                                                           text:
-                                                              '${info_carro['nombre_carro']} ${info_carro['nombre_marca']}'
-                                                                  .toUpperCase(),
+                                                              '${info_carro['nombre_carro']} ${info_carro['nombre_marca']}...'
+                                                                  .toTitleCase(),
                                                           style: TextStyle(
                                                               fontFamily:
                                                                   'biko',
-                                                              fontSize:
-                                                                  LABEL_SIZE,
+                                                              fontSize: 20,
                                                               color:
                                                                   Colors.black),
                                                         ),
                                                       ),
                                                     ),
-                                                    Expanded(
-                                                        flex: 2,
-                                                        child: IconButton(
-                                                          icon: Icon(
-                                                            Icons.star,
-                                                            size: 35,
-                                                            color: _estrella2 ==
-                                                                    true
-                                                                ? Colors.amber
-                                                                : Colors.black,
-                                                          ),
-                                                          onPressed: () {
-                                                            setState(() {
-                                                              _estrella2 =
-                                                                  !_estrella2;
-                                                            });
-                                                            if (_estrella2 ==
-                                                                true) {
-                                                              // Scaffold.of(context)
-                                                              //     .showSnackBar(SnackBar(
-                                                              //   backgroundColor: Colors.amber,
-                                                              //   shape: RoundedRectangleBorder(
-                                                              //       borderRadius:
-                                                              //           BorderRadius.only(
-                                                              //               topLeft: Radius
-                                                              //                   .circular(30),
-                                                              //               topRight: Radius
-                                                              //                   .circular(
-                                                              //                       30))),
-                                                              //   content: Container(
-                                                              //       width: double.infinity,
-                                                              //       child: Row(
-                                                              //         mainAxisAlignment:
-                                                              //             MainAxisAlignment
-                                                              //                 .spaceEvenly,
-                                                              //         children: [
-                                                              //           Icon(
-                                                              //             Icons.star,
-                                                              //             size: 35,
-                                                              //             color: Colors.black,
-                                                              //           ),
-                                                              //           Text(
-                                                              //               "Agregado a Favoritos",
-                                                              //               textAlign:
-                                                              //                   TextAlign
-                                                              //                       .center,
-                                                              //               style: TextStyle(
-                                                              //                 fontFamily:
-                                                              //                     'biko',
-                                                              //                 fontSize: 22,
-                                                              //                 color: Colors
-                                                              //                     .black,
-                                                              //               ))
-                                                              //         ],
-                                                              //       )),
-                                                              // ));
-                                                            } else {}
-                                                          },
-                                                        )),
+                                                    if (loggedInUser.status
+                                                            .toString() ==
+                                                        'Cliente')
+                                                      Expanded(
+                                                          flex: 2,
+                                                          child: IconButton(
+                                                            icon: Icon(
+                                                              Icons.star,
+                                                              size: 35,
+                                                              color: _estrella2 ==
+                                                                      true
+                                                                  ? Colors.amber
+                                                                  : Colors
+                                                                      .black,
+                                                            ),
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                _estrella2 =
+                                                                    !_estrella2;
+                                                              });
+                                                              if (_estrella2 ==
+                                                                  true) {
+                                                              } else {}
+                                                            },
+                                                          )),
                                                   ],
                                                 ),
                                               ],
@@ -953,10 +923,16 @@ class _CajaAutosState extends State<CajaAutos> {
                                                 child: AutosInfo(
                                                     imagen: info_carro['fotos'],
                                                     context: context,
+                                                    yo: loggedInUser.status
+                                                        .toString(),
                                                     precio: numberFormat2(
                                                         info_carro['precio']),
                                                     Marca: info_carro[
                                                         'nombre_marca'],
+                                                    Guia: info_carro[
+                                                        'guia_mantenimiento'],
+                                                    id_vendedor: info_carro[
+                                                        'uid_vendedor'],
                                                     Nombre: info_carro[
                                                         'nombre_carro'],
                                                     Kilometraje:
@@ -965,29 +941,29 @@ class _CajaAutosState extends State<CajaAutos> {
                                                         'tipo_gasolina'],
                                                     promocion:
                                                         numberFormat(promo2),
+                                                    puertas: info_carro[
+                                                        'numero_puertas'],
                                                     porcentaje: info_carro[
                                                             'porcentaje_falla']
                                                         .toString(),
-                                                    Direccion:
-                                                        loggedInUser2.Direcc,
                                                     tipouso:
                                                         info_carro['tipo_uso'],
                                                     detalleprin: info_carro[
                                                         'detalle_principal'],
+                                                    modelo: info_carro[
+                                                        'ano_modelo'],
+                                                    garantia:
+                                                        info_carro['garantia'],
                                                     detalles:
                                                         info_carro['detalles'],
                                                     Fecha: info_carro[
                                                         'fecha_compra'],
                                                     potencia: '6.21/100 km',
-                                                    Guia: 'No',
-                                                    imagenVendedor:
-                                                        loggedInUser2.foto,
                                                     traccion:
                                                         info_carro['traccion'],
-                                                    carroceria: info_carro[
-                                                        'carroceria'],
-                                                    tipoCaja: info_carro[
-                                                        'tipo_agregado']),
+                                                    carroceria:
+                                                        info_carro['carroceria'],
+                                                    tipoCaja: info_carro['tipo_agregado']),
                                               );
                                             }),
                                   );
@@ -1037,19 +1013,17 @@ class _CajaAutosState extends State<CajaAutos> {
                                                               .centerLeft,
                                                           child: Container(
                                                             child: TextParrafo(
-                                                              text: info_carro[
-                                                                      'nombre_marca']
+                                                              text: '${info_carro['nombre_carro']}'
                                                                   .toString(),
                                                               style: TextStyle(
                                                                   fontFamily:
                                                                       'biko',
                                                                   fontWeight:
                                                                       FontWeight
-                                                                          .bold,
-                                                                  fontSize:
-                                                                      LABEL_SIZE,
-                                                                  color: Colors
-                                                                      .black),
+                                                                          .w500,
+                                                                  fontSize: 25,
+                                                                  color:
+                                                                      RED_CAR),
                                                             ),
                                                           ),
                                                         ),
@@ -1059,13 +1033,12 @@ class _CajaAutosState extends State<CajaAutos> {
                                                           child: Container(
                                                             child: TextParrafo(
                                                               text: info_carro[
-                                                                      'nombre_carro']
+                                                                      'nombre_marca']
                                                                   .toString(),
                                                               style: TextStyle(
                                                                   fontFamily:
                                                                       'biko',
-                                                                  fontSize:
-                                                                      LABEL_SIZE,
+                                                                  fontSize: 18,
                                                                   color: Colors
                                                                       .black),
                                                             ),
@@ -1147,7 +1120,8 @@ class _CajaAutosState extends State<CajaAutos> {
                                                             child: TextParrafo(
                                                               text: info_carro[
                                                                       'detalle_principal']
-                                                                  .toString(),
+                                                                  .toString()
+                                                                  .toTitleCase(),
                                                               style: TextStyle(
                                                                   fontFamily:
                                                                       'biko',
@@ -1201,8 +1175,74 @@ class _CajaAutosState extends State<CajaAutos> {
                                                                 color: Colors
                                                                     .black),
                                                             icon: Icons
-                                                                .date_range),
+                                                                .calendar_month_outlined),
                                                       ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: Container(
+                                                          child: Row(children: [
+                                                        Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  right: 3),
+                                                          child: Icon(
+                                                            Icons
+                                                                .local_gas_station,
+                                                            color: RED_CAR,
+                                                            size: LABEL_SIZE *
+                                                                1.5,
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          child: Text(
+                                                            info_carro[
+                                                                'tipo_gasolina'],
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  'biko',
+                                                              fontSize:
+                                                                  LABEL_CAJA,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ])),
+                                                    ),
+                                                    Expanded(
+                                                      child: Container(
+                                                          child: Row(children: [
+                                                        Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  right: 3),
+                                                          child: Icon(
+                                                            Icons
+                                                                .family_restroom,
+                                                            color: RED_CAR,
+                                                            size: LABEL_SIZE *
+                                                                1.5,
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          child: Text(
+                                                            info_carro[
+                                                                'tipo_uso'],
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  'biko',
+                                                              fontSize:
+                                                                  LABEL_CAJA,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ])),
                                                     ),
                                                   ],
                                                 ),
@@ -1213,8 +1253,7 @@ class _CajaAutosState extends State<CajaAutos> {
                                                       child: Container(
                                                         child: TextParrafo(
                                                             text: info_carro[
-                                                                    'tipo_gasolina']
-                                                                .toString(),
+                                                                'ano_modelo'],
                                                             style: TextStyle(
                                                                 fontFamily:
                                                                     'biko',
@@ -1223,44 +1262,7 @@ class _CajaAutosState extends State<CajaAutos> {
                                                                 color: Colors
                                                                     .black),
                                                             icon: Icons
-                                                                .local_gas_station),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      flex: 5,
-                                                      child: Container(
-                                                        child: TextParrafo(
-                                                            text: info_carro[
-                                                                    'tipo_uso']
-                                                                .toString(),
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'biko',
-                                                                fontSize:
-                                                                    LABEL_CAJA,
-                                                                color: Colors
-                                                                    .black),
-                                                            icon: Icons
-                                                                .family_restroom),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Expanded(
-                                                      flex: 5,
-                                                      child: Container(
-                                                        child: TextParrafo(
-                                                            text: '7,21/100 km',
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'biko',
-                                                                fontSize:
-                                                                    LABEL_CAJA,
-                                                                color: Colors
-                                                                    .black),
-                                                            icon: Icons.bolt),
+                                                                .calendar_month_outlined),
                                                       ),
                                                     ),
                                                     Expanded(
@@ -1294,13 +1296,12 @@ class _CajaAutosState extends State<CajaAutos> {
                                                       child: Container(
                                                         child: TextParrafo(
                                                           text:
-                                                              '${info_carro['nombre_carro']} ${info_carro['nombre_marca']}'
-                                                                  .toUpperCase(),
+                                                              '${info_carro['nombre_carro']} ${info_carro['nombre_marca']}...'
+                                                                  .toTitleCase(),
                                                           style: TextStyle(
                                                               fontFamily:
                                                                   'biko',
-                                                              fontSize:
-                                                                  LABEL_SIZE,
+                                                              fontSize: 20,
                                                               color:
                                                                   Colors.black),
                                                         ),

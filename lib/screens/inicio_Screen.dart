@@ -197,12 +197,13 @@ class _InicioState extends State<Inicio> {
     final butinicio = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: ElevatedButton(
-          style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(RED_CAR),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ))),
+          style: ElevatedButton.styleFrom(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            onPrimary: Colors.white,
+            shadowColor: Colors.black,
+            elevation: 15,
+          ),
           onPressed: () {
             signIn2(_emailController.text, _passwordController.text);
           },
@@ -244,12 +245,14 @@ class _InicioState extends State<Inicio> {
     final entrargoogle = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: ElevatedButton(
-          style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.blue),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ))),
+          style: ElevatedButton.styleFrom(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            onPrimary: Colors.white,
+            primary: Colors.blue,
+            shadowColor: Colors.black,
+            elevation: 15,
+          ),
           onPressed: () async {
             User? user = await Authenticator.iniciarSesion(context: context);
             print(user?.displayName);
@@ -308,57 +311,86 @@ class _InicioState extends State<Inicio> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            '¿Aún no eres usuario? ',
-            style: TextStyle(
-              fontFamily: ax,
-              fontSize: 16,
-            ),
-          ),
-          SpeedDial(
-            label: Text(
-              "Registro",
+          Expanded(
+            flex: 6,
+            child: Text(
+              '¿Aún no eres usuario? ',
               style: TextStyle(
-                color: Colors.white,
                 fontFamily: ax,
-                fontSize: 15,
+                fontSize: 17,
               ),
             ),
-            visible: true,
-            curve: Curves.bounceIn,
-            children: [
-              // FAB 1
-              SpeedDialChild(
-                  child: Icon(
-                    Icons.person,
-                    color: Colors.white,
-                  ),
-                  backgroundColor: RED_CAR,
-                  onTap: widget.showRegisterPage,
-                  label: 'Cliente',
-                  labelStyle: TextStyle(
-                    color: Colors.white,
-                    fontFamily: ax,
-                    fontSize: 18,
-                  ),
-                  labelBackgroundColor: RED_CAR),
-              // FAB 2
-              SpeedDialChild(
-                  child: Icon(
-                    Icons.shopping_cart,
-                    color: Colors.white,
-                  ),
-                  backgroundColor: RED_CAR,
-                  onTap: () {},
-                  label: 'Vendedor',
-                  labelStyle: TextStyle(
+          ),
+          Expanded(
+            flex: 4,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50)),
+                onPrimary: Colors.white,
+                primary: Colors.black,
+                shadowColor: Colors.black,
+                elevation: 15,
+              ),
+              onPressed: widget.showRegisterPage,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                child: Text(
+                  "Registro",
+                  style: TextStyle(
                     color: Colors.white,
                     fontFamily: ax,
                     fontSize: 18,
                   ),
-                  labelBackgroundColor: RED_CAR)
-            ],
-          )
+                ),
+              ),
+            ),
+          ),
+          // SpeedDial(
+          //   label: Text(
+          //     "Registro",
+          //     style: TextStyle(
+          //       color: Colors.white,
+          //       fontFamily: ax,
+          //       fontSize: 15,
+          //     ),
+          //   ),
+          //   visible: true,
+          //   curve: Curves.bounceIn,
+          //   children: [
+          //     // FAB 1
+          //     SpeedDialChild(
+          //         child: Icon(
+          //           Icons.person,
+          //           color: Colors.white,
+          //         ),
+          //         backgroundColor: RED_CAR,
+          //         onTap: widget.showRegisterPage,
+          //         label: 'Cliente',
+          //         labelStyle: TextStyle(
+          //           color: Colors.white,
+          //           fontFamily: ax,
+          //           fontSize: 18,
+          //         ),
+          //         labelBackgroundColor: RED_CAR),
+          //     // FAB 2
+          //     SpeedDialChild(
+          //         child: Icon(
+          //           Icons.shopping_cart,
+          //           color: Colors.white,
+          //         ),
+          //         backgroundColor: RED_CAR,
+          //         onTap: () {},
+          //         label: 'Vendedor',
+          //         labelStyle: TextStyle(
+          //           color: Colors.white,
+          //           fontFamily: ax,
+          //           fontSize: 18,
+          //         ),
+          //         labelBackgroundColor: RED_CAR)
+          //   ],
+          // )
         ],
       ),
     );
