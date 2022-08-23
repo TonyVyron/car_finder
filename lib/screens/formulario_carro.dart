@@ -347,6 +347,8 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                             )),
                         TextFormField(
                           autofocus: false,
+                          style: TextStyle(
+                              fontFamily: 'biko', fontWeight: FontWeight.w500),
                           controller: _nombreCarroController,
                           onSaved: (value) {
                             _nombreCarroController.text = value!;
@@ -358,6 +360,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                             return null;
                           },
                           keyboardType: TextInputType.name,
+                          textCapitalization: TextCapitalization.sentences,
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.store_mall_directory),
@@ -391,6 +394,9 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                             )),
                         TextFormField(
                           autofocus: false,
+                          style: TextStyle(
+                              fontFamily: 'biko', fontWeight: FontWeight.w500),
+                          textCapitalization: TextCapitalization.sentences,
                           controller: _nombreMarcaController,
                           onSaved: (value) {
                             _nombreMarcaController.text = value!;
@@ -436,6 +442,8 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                             )),
                         TextFormField(
                           autofocus: false,
+                          style: TextStyle(
+                              fontFamily: 'biko', fontWeight: FontWeight.w500),
                           controller: _precioController,
                           onSaved: (value) {
                             _precioController.text = value!;
@@ -479,6 +487,8 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                             )),
                         TextFormField(
                           autofocus: false,
+                          style: TextStyle(
+                              fontFamily: 'biko', fontWeight: FontWeight.w500),
                           controller: _kilometrajeController,
                           onSaved: (value) {
                             _kilometrajeController.text = value!;
@@ -756,6 +766,8 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                             )),
                         TextFormField(
                           autofocus: false,
+                          style: TextStyle(
+                              fontFamily: 'biko', fontWeight: FontWeight.w500),
                           controller: _ano_modeloController,
                           onSaved: (value) {
                             _ano_modeloController.text = value!;
@@ -800,6 +812,8 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                             )),
                         TextFormField(
                           autofocus: false,
+                          style: TextStyle(
+                              fontFamily: 'biko', fontWeight: FontWeight.w500),
                           controller: _fecha_compraController,
                           onSaved: (value) {
                             _fecha_compraController.text = value!;
@@ -843,6 +857,8 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                             )),
                         TextFormField(
                           autofocus: false,
+                          style: TextStyle(
+                              fontFamily: 'biko', fontWeight: FontWeight.w500),
                           controller: _colorController,
                           onSaved: (value) {
                             _colorController.text = value!;
@@ -854,6 +870,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                             return null;
                           },
                           keyboardType: TextInputType.name,
+                          textCapitalization: TextCapitalization.sentences,
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.store_mall_directory),
@@ -962,6 +979,8 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                             )),
                         TextFormField(
                           autofocus: false,
+                          style: TextStyle(
+                              fontFamily: 'biko', fontWeight: FontWeight.w500),
                           controller: _numero_puertasController,
                           onSaved: (value) {
                             _numero_puertasController.text = value!;
@@ -1081,6 +1100,12 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                                   }
                                 : null,
                             keyboardType: TextInputType.name,
+                            maxLength: 150,
+                            maxLines: 4,
+                            style: TextStyle(
+                                fontFamily: 'biko',
+                                fontWeight: FontWeight.w500),
+                            textCapitalization: TextCapitalization.sentences,
                             textInputAction: TextInputAction.next,
                             decoration: InputDecoration(
                               prefixIcon: Icon(Icons.store_mall_directory),
@@ -1113,11 +1138,16 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                                 textAlign: TextAlign.left,
                               )),
                           TextFormField(
+                            maxLength: 50,
+                            maxLines: 2,
                             autofocus: false,
                             controller: _detalle_prinController,
                             onSaved: (value) {
                               _detalle_prinController.text = value!;
                             },
+                            style: TextStyle(
+                                fontFamily: 'biko',
+                                fontWeight: FontWeight.w500),
                             validator: Detalles_ligth == true
                                 ? (value) {
                                     if (value!.isEmpty) {
@@ -1127,6 +1157,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                                   }
                                 : null,
                             keyboardType: TextInputType.name,
+                            textCapitalization: TextCapitalization.sentences,
                             textInputAction: TextInputAction.next,
                             decoration: InputDecoration(
                               prefixIcon: Icon(Icons.store_mall_directory),
@@ -1160,6 +1191,9 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                               )),
                           TextFormField(
                             autofocus: false,
+                            style: TextStyle(
+                                fontFamily: 'biko',
+                                fontWeight: FontWeight.w500),
                             controller: _porcentaje_fallaController,
                             onSaved: (value) {
                               _porcentaje_fallaController.text = value!;
@@ -1255,6 +1289,9 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                               )),
                           TextFormField(
                             autofocus: false,
+                            style: TextStyle(
+                                fontFamily: 'biko',
+                                fontWeight: FontWeight.w500),
                             controller: _porcentaje_descuentoController,
                             onSaved: (value) {
                               _porcentaje_descuentoController.text = value!;
