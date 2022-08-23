@@ -135,61 +135,75 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                           height: 220,
                           fit: BoxFit.fill,
                         ),
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15)),
-                              onPrimary: Colors.white,
-                              shadowColor: Colors.black,
-                              elevation: 10,
-                            ),
-                            onPressed: () => setState(() {
-                                  completo = false;
-                                  currentstep = 0;
-                                  _nombreCarroController.clear();
-                                  _nombreMarcaController.clear();
-                                  _precioController.clear();
-                                  _kilometrajeController.clear();
-                                  _ano_modeloController.clear();
-                                  _colorController.clear();
-                                  _detalles_compraController.clear();
-                                  _fecha_compraController.clear();
-                                  _numero_puertasController.clear();
-                                  Guia_ligth = false;
-                                  Detalles_ligth = false;
-                                  Garantia_ligth = false;
-                                  Descuento_ligth = false;
-                                  _imageFileList = [];
-                                }),
-                            child: Container(
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Container(
-                                    child: Icon(
-                                      Icons.directions_car,
-                                      size: 30,
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 35,
-                                    child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        'Agregar Nuevo Vehículo',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500,
-                                            fontFamily: 'biko',
-                                            fontSize: 20),
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(width: .5),
+                              borderRadius: BorderRadius.circular(8),
+                              color: RED_CAR,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.6),
+                                  offset: Offset(-4, 4),
+                                  blurRadius: 15.0,
+                                ),
+                              ]),
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(7)),
+                                onPrimary: Colors.white,
+                                primary: RED_CAR,
+                                shadowColor: Colors.black,
+                                elevation: 20,
+                              ),
+                              onPressed: () => setState(() {
+                                    completo = false;
+                                    currentstep = 0;
+                                    _nombreCarroController.clear();
+                                    _nombreMarcaController.clear();
+                                    _precioController.clear();
+                                    _kilometrajeController.clear();
+                                    _ano_modeloController.clear();
+                                    _colorController.clear();
+                                    _detalles_compraController.clear();
+                                    _fecha_compraController.clear();
+                                    _numero_puertasController.clear();
+                                    Guia_ligth = false;
+                                    Detalles_ligth = false;
+                                    Garantia_ligth = false;
+                                    Descuento_ligth = false;
+                                    _imageFileList = [];
+                                  }),
+                              child: Container(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Container(
+                                      child: Icon(
+                                        Icons.directions_car,
+                                        size: 30,
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ))
+                                    Container(
+                                      height: 35,
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          'Agregar Nuevo Vehículo',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontFamily: 'biko',
+                                              fontSize: 20),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )),
+                        )
                       ],
                     ),
                   ),
