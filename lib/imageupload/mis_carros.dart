@@ -243,7 +243,8 @@ class _mis_carrosState extends State<mis_carros> {
                                                         child: TextParrafo(
                                                           text:
                                                               '${info_carro['nombre_carro']}'
-                                                                  .toString(),
+                                                                  .toString()
+                                                                  .toTitleCase(),
                                                           style: TextStyle(
                                                               fontFamily:
                                                                   'biko',
@@ -262,7 +263,8 @@ class _mis_carrosState extends State<mis_carros> {
                                                         child: TextParrafo(
                                                           text: info_carro[
                                                                   'nombre_marca']
-                                                              .toString(),
+                                                              .toString()
+                                                              .toTitleCase(),
                                                           style: TextStyle(
                                                               fontFamily:
                                                                   'biko',
@@ -757,7 +759,8 @@ class _mis_carrosState extends State<mis_carros> {
                                                           child: Container(
                                                             child: TextParrafo(
                                                               text: '${info_carro['nombre_carro']}'
-                                                                  .toString(),
+                                                                  .toString()
+                                                                  .toTitleCase(),
                                                               style: TextStyle(
                                                                   fontFamily:
                                                                       'biko',
@@ -777,7 +780,8 @@ class _mis_carrosState extends State<mis_carros> {
                                                             child: TextParrafo(
                                                               text: info_carro[
                                                                       'nombre_marca']
-                                                                  .toString(),
+                                                                  .toString()
+                                                                  .toTitleCase(),
                                                               style: TextStyle(
                                                                   fontFamily:
                                                                       'biko',
@@ -1233,7 +1237,8 @@ class _mis_carrosState extends State<mis_carros> {
                                                           child: Container(
                                                             child: TextParrafo(
                                                               text: '${info_carro['nombre_carro']}'
-                                                                  .toString(),
+                                                                  .toString()
+                                                                  .toTitleCase(),
                                                               style: TextStyle(
                                                                   fontFamily:
                                                                       'biko',
@@ -1253,7 +1258,8 @@ class _mis_carrosState extends State<mis_carros> {
                                                             child: TextParrafo(
                                                               text: info_carro[
                                                                       'nombre_marca']
-                                                                  .toString(),
+                                                                  .toString()
+                                                                  .toTitleCase(),
                                                               style: TextStyle(
                                                                   fontFamily:
                                                                       'biko',

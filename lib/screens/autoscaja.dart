@@ -232,7 +232,8 @@ class _CajaAutosState extends State<CajaAutos> {
                                                         child: TextParrafo(
                                                           text:
                                                               '${info_carro['nombre_carro']}'
-                                                                  .toString(),
+                                                                  .toString()
+                                                                  .toTitleCase(),
                                                           style: TextStyle(
                                                               fontFamily:
                                                                   'biko',
@@ -251,7 +252,8 @@ class _CajaAutosState extends State<CajaAutos> {
                                                         child: TextParrafo(
                                                           text: info_carro[
                                                                   'nombre_marca']
-                                                              .toString(),
+                                                              .toString()
+                                                              .toTitleCase(),
                                                           style: TextStyle(
                                                               fontFamily:
                                                                   'biko',
@@ -631,7 +633,8 @@ class _CajaAutosState extends State<CajaAutos> {
                                                           child: Container(
                                                             child: TextParrafo(
                                                               text: '${info_carro['nombre_carro']}'
-                                                                  .toString(),
+                                                                  .toString()
+                                                                  .toTitleCase(),
                                                               style: TextStyle(
                                                                   fontFamily:
                                                                       'biko',
@@ -651,7 +654,8 @@ class _CajaAutosState extends State<CajaAutos> {
                                                             child: TextParrafo(
                                                               text: info_carro[
                                                                       'nombre_marca']
-                                                                  .toString(),
+                                                                  .toString()
+                                                                  .toTitleCase(),
                                                               style: TextStyle(
                                                                   fontFamily:
                                                                       'biko',
@@ -1014,7 +1018,8 @@ class _CajaAutosState extends State<CajaAutos> {
                                                           child: Container(
                                                             child: TextParrafo(
                                                               text: '${info_carro['nombre_carro']}'
-                                                                  .toString(),
+                                                                  .toString()
+                                                                  .toTitleCase(),
                                                               style: TextStyle(
                                                                   fontFamily:
                                                                       'biko',
@@ -1034,7 +1039,8 @@ class _CajaAutosState extends State<CajaAutos> {
                                                             child: TextParrafo(
                                                               text: info_carro[
                                                                       'nombre_marca']
-                                                                  .toString(),
+                                                                  .toString()
+                                                                  .toTitleCase(),
                                                               style: TextStyle(
                                                                   fontFamily:
                                                                       'biko',
@@ -1307,65 +1313,31 @@ class _CajaAutosState extends State<CajaAutos> {
                                                         ),
                                                       ),
                                                     ),
-                                                    Expanded(
-                                                        flex: 2,
-                                                        child: IconButton(
-                                                          icon: Icon(
-                                                            Icons.star,
-                                                            size: 35,
-                                                            color: _estrella3 ==
-                                                                    true
-                                                                ? Colors.amber
-                                                                : Colors.black,
-                                                          ),
-                                                          onPressed: () {
-                                                            setState(() {
-                                                              _estrella3 =
-                                                                  !_estrella3;
-                                                            });
-                                                            if (_estrella3 ==
-                                                                true) {
-                                                              // Scaffold.of(context)
-                                                              //     .showSnackBar(SnackBar(
-                                                              //   backgroundColor: Colors.amber,
-                                                              //   shape: RoundedRectangleBorder(
-                                                              //       borderRadius:
-                                                              //           BorderRadius.only(
-                                                              //               topLeft: Radius
-                                                              //                   .circular(30),
-                                                              //               topRight: Radius
-                                                              //                   .circular(
-                                                              //                       30))),
-                                                              //   content: Container(
-                                                              //       width: double.infinity,
-                                                              //       child: Row(
-                                                              //         mainAxisAlignment:
-                                                              //             MainAxisAlignment
-                                                              //                 .spaceEvenly,
-                                                              //         children: [
-                                                              //           Icon(
-                                                              //             Icons.star,
-                                                              //             size: 35,
-                                                              //             color: Colors.black,
-                                                              //           ),
-                                                              //           Text(
-                                                              //               "Agregado a Favoritos",
-                                                              //               textAlign:
-                                                              //                   TextAlign
-                                                              //                       .center,
-                                                              //               style: TextStyle(
-                                                              //                 fontFamily:
-                                                              //                     'biko',
-                                                              //                 fontSize: 22,
-                                                              //                 color: Colors
-                                                              //                     .black,
-                                                              //               ))
-                                                              //         ],
-                                                              //       )),
-                                                              // ));
-                                                            } else {}
-                                                          },
-                                                        )),
+                                                    if (loggedInUser.status
+                                                            .toString() ==
+                                                        'Cliente')
+                                                      Expanded(
+                                                          flex: 2,
+                                                          child: IconButton(
+                                                            icon: Icon(
+                                                              Icons.star,
+                                                              size: 35,
+                                                              color: _estrella3 ==
+                                                                      true
+                                                                  ? Colors.amber
+                                                                  : Colors
+                                                                      .black,
+                                                            ),
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                _estrella3 =
+                                                                    !_estrella3;
+                                                              });
+                                                              if (_estrella3 ==
+                                                                  true) {
+                                                              } else {}
+                                                            },
+                                                          )),
                                                   ],
                                                 ),
                                               ],

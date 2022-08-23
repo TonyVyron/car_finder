@@ -123,6 +123,7 @@ class _RegisterPageState extends State<RegisterPage> {
         padding: const EdgeInsets.symmetric(horizontal: 25.0),
         child: TextFormField(
             autofocus: false,
+            style: TextStyle(fontFamily: 'biko', fontWeight: FontWeight.w500),
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             validator: (value) {
@@ -156,6 +157,8 @@ class _RegisterPageState extends State<RegisterPage> {
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: TextFormField(
         autofocus: false,
+        textCapitalization: TextCapitalization.sentences,
+        style: TextStyle(fontFamily: 'biko', fontWeight: FontWeight.w500),
         controller: _nameController,
         onSaved: (value) {
           _nameController.text = value!;
@@ -205,6 +208,8 @@ class _RegisterPageState extends State<RegisterPage> {
         },
         keyboardType: TextInputType.name,
         textInputAction: TextInputAction.next,
+        textCapitalization: TextCapitalization.sentences,
+        style: TextStyle(fontFamily: 'biko', fontWeight: FontWeight.w500),
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.store_mall_directory),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -222,6 +227,8 @@ class _RegisterPageState extends State<RegisterPage> {
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: TextFormField(
         autofocus: false,
+        textCapitalization: TextCapitalization.sentences,
+        style: TextStyle(fontFamily: 'biko', fontWeight: FontWeight.w500),
         controller: _lastNameController,
         onSaved: (value) {
           _lastNameController.text = value!;
@@ -251,6 +258,8 @@ class _RegisterPageState extends State<RegisterPage> {
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: TextFormField(
         autofocus: false,
+        textCapitalization: TextCapitalization.sentences,
+        style: TextStyle(fontFamily: 'biko', fontWeight: FontWeight.w500),
         controller: _ageController,
         onSaved: (value) {
           _ageController.text = value!;
@@ -313,6 +322,8 @@ class _RegisterPageState extends State<RegisterPage> {
       child: TextFormField(
         autofocus: false,
         controller: _directionController,
+        textCapitalization: TextCapitalization.sentences,
+        style: TextStyle(fontFamily: 'biko', fontWeight: FontWeight.w500),
         onSaved: (value) {
           _directionController.text = value!;
         },
