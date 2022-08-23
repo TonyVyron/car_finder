@@ -9,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 UserModel loggedInUser2 = UserModel();
 
@@ -123,6 +124,151 @@ Widget AutosInfo(
                       thickness: 2,
                       color: Colors.black.withOpacity(.3),
                     ),
+                    if (yo == 'Cliente') ...[
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 5,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: Color.fromARGB(28, 0, 0, 0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.6),
+                                      offset: Offset(-4, 4),
+                                      blurRadius: 6.0,
+                                    ),
+                                  ]),
+                              height: 50,
+                              child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(7)),
+                                    onPrimary: Colors.white,
+                                    primary: Color.fromARGB(164, 0, 0, 0),
+                                    shadowColor: Colors.black,
+                                    elevation: 15,
+                                  ),
+                                  onPressed: () async {
+                                    final Uri TelLaunchUri = Uri(
+                                      scheme: 'tel',
+                                      path: loggedInUser2.Telefono.toString(),
+                                    );
+                                    launchUrl(TelLaunchUri);
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 3,
+                                        child: Container(
+                                          width: double.infinity,
+                                          child: Icon(
+                                            Icons.phone,
+                                            size: 30,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 7,
+                                        child: Text(
+                                          'Telefono',
+                                          style: TextStyle(
+                                            fontFamily: 'biko',
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Expanded(
+                            flex: 5,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: Color.fromARGB(28, 0, 0, 0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.6),
+                                      offset: Offset(-4, 4),
+                                      blurRadius: 6.0,
+                                    ),
+                                  ]),
+                              height: 50,
+                              child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(7)),
+                                    onPrimary: Colors.white,
+                                    primary: Color.fromARGB(164, 0, 0, 0),
+                                    shadowColor: Colors.black,
+                                    elevation: 15,
+                                  ),
+                                  onPressed: () async {
+                                    String email =
+                                        loggedInUser2.email.toString();
+                                    String subject = 'Usuario Car Finder';
+                                    String body =
+                                        'Deseo Contactarle por el motivo de:\n';
+
+                                    String? encodeQueryParameters(
+                                        Map<String, String> params) {
+                                      return params.entries
+                                          .map((MapEntry<String, String> e) =>
+                                              '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+                                          .join('&');
+                                    }
+
+                                    final Uri emailLaunchUri = Uri(
+                                      scheme: 'mailto',
+                                      path: email,
+                                      query: encodeQueryParameters(<String,
+                                          String>{
+                                        'subject': subject,
+                                        'body': body,
+                                      }),
+                                    );
+
+                                    launchUrl(emailLaunchUri);
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 3,
+                                        child: Container(
+                                          width: double.infinity,
+                                          child: Icon(
+                                            Icons.email,
+                                            size: 30,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 7,
+                                        child: Text(
+                                          'Correo',
+                                          style: TextStyle(
+                                            fontFamily: 'biko',
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Divider(
+                        thickness: 2,
+                        color: Colors.black.withOpacity(.3),
+                      )
+                    ],
                     Row(children: [
                       Align(
                         alignment: Alignment.centerLeft,
