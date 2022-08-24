@@ -825,7 +825,7 @@ Widget AutosInfo(
                         Container(
                           margin: EdgeInsets.only(right: 10),
                           child: Icon(
-                            Icons.wine_bar_outlined,
+                            Icons.verified_user,
                             size: 30,
                             color: RED_CAR,
                           ),
@@ -1299,7 +1299,7 @@ Widget AutosInfo(
                         Container(
                           margin: EdgeInsets.only(right: 10),
                           child: Icon(
-                            Icons.car_repair,
+                            Icons.directions_car,
                             size: 30,
                             color: RED_CAR,
                           ),

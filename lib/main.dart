@@ -1,5 +1,6 @@
 import 'package:car_finder/SplashScreen.dart';
 import 'package:car_finder/blocs/theme.dart';
+import 'package:car_finder/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,8 +19,8 @@ class Aplication extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (BuildContext context) => ThemeChanger(ThemeData(
-            primaryColor: buildMaterialColor(Color.fromARGB(255, 192, 0, 0)),
-            primarySwatch: buildMaterialColor(Color.fromARGB(255, 192, 0, 0)),
+            primaryColor: buildMaterialColor(RED_CAR),
+            primarySwatch: buildMaterialColor(RED_CAR),
             brightness: Brightness.light,
             floatingActionButtonTheme:
                 FloatingActionButtonThemeData(backgroundColor: Colors.black))),
