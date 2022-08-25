@@ -578,32 +578,6 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                             }).toList(),
                           ),
                         ),
-                        // TextFormField(
-                        //   autofocus: false,
-                        //   controller: _tipo_usoController,
-                        //   onSaved: (value) {
-                        //     _tipo_usoController.text = value!;
-                        //   },
-                        //   validator: (value) {
-                        //     if (value!.isEmpty) {
-                        //       return ("Tipo de Uso Vacio");
-                        //     }
-                        //     return null;
-                        //   },
-                        //   keyboardType: TextInputType.name,
-                        //   textInputAction: TextInputAction.next,
-                        //   decoration: InputDecoration(
-                        //     prefixIcon: Icon(Icons.store_mall_directory),
-                        //     contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                        //     hintText: "Familiar, Trabajo..",
-                        //     hintStyle: TextStyle(
-                        //       fontFamily: 'biko',
-                        //     ),
-                        //     border: OutlineInputBorder(
-                        //       borderRadius: BorderRadius.circular(10),
-                        //     ),
-                        //   ),
-                        // ),
                       ],
                     ),
                     SizedBox(
