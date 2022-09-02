@@ -1,14 +1,10 @@
-import 'package:car_finder/imageupload/image_upload.dart';
 import 'package:car_finder/imageupload/mis_carros.dart';
-import 'package:car_finder/imageupload/show_horizontal.dart';
 import 'package:car_finder/models/user_model.dart';
 import 'package:car_finder/screens/atencionc_Screen.dart';
 import 'package:car_finder/screens/autoscaja.dart';
 import 'package:car_finder/screens/favoritos_Screen.dart';
-import 'package:car_finder/screens/filtro_Screen.dart';
 import 'package:car_finder/screens/formulario_carro.dart';
-import 'package:car_finder/screens/historial_Screen.dart';
-import 'package:car_finder/screens/inicio_Screen.dart';
+import 'package:car_finder/screens/Promo_Screen.dart';
 import 'package:car_finder/screens/perfil_Screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,10 +20,10 @@ class _homeState extends State<home> {
   int selectDrawerItem = 1;
 
   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
-  final _dropdownFormKey = GlobalKey<FormState>();
   User? user = FirebaseAuth.instance.currentUser;
 
   UserModel loggedInUser = UserModel();
+  final searchcontroller = TextEditingController();
 
   @override
   void initState() {
@@ -50,9 +46,13 @@ class _homeState extends State<home> {
       case 0:
         return Perfil();
       case 1:
-        return CajaAutos();
+        return CajaAutos(
+          QueryTexto: searchcontroller.text,
+        );
       case 2:
-        return Historial();
+        return Promociones(
+          QueryTexto: searchcontroller.text,
+        );
       case 3:
         return Favoritos();
       case 4:
@@ -84,9 +84,9 @@ class _homeState extends State<home> {
             ? "Perfil del Local"
             : "Perfil de Usuario";
       case "1":
-        return "Recomendados";
+        return "Home";
       case "2":
-        return "Historial";
+        return "Promociones";
       case "3":
         return "Favoritos";
       case "4":
@@ -263,7 +263,7 @@ class _homeState extends State<home> {
                         margin: EdgeInsets.only(bottom: 2),
                         child: ListTile(
                           title: TextParrafo(
-                            text: 'Historial',
+                            text: 'Promociones',
                             style: TextStyle(
                                 fontFamily: 'biko',
                                 fontWeight: FontWeight.w500,
@@ -271,7 +271,7 @@ class _homeState extends State<home> {
                                 color: Colors.black),
                           ),
                           leading: Icon(
-                            Icons.history,
+                            Icons.discount_rounded,
                             color: RED_CAR,
                             size: 30,
                           ),
@@ -382,19 +382,27 @@ class _homeState extends State<home> {
                     margin: EdgeInsets.only(bottom: 2),
                     child: ListTile(
                       selected: false,
-                      title: TextParrafo(
-                        text: 'Atención a Clientes',
-                        style: TextStyle(
-                            fontFamily: 'biko',
-                            fontWeight: FontWeight.w500,
-                            fontSize: 18,
-                            color: Colors.black),
-                      ),
-                      leading: Icon(
-                        Icons.face_outlined,
-                        color: RED_CAR,
-                        size: 30,
-                      ),
+                      title: Text(
+                          loggedInUser.status == 'Cliente'
+                              ? 'Atencion A Clientes'
+                              : 'Atencion A Vendedor',
+                          style: TextStyle(
+                              fontFamily: 'biko',
+                              fontWeight: FontWeight.w500,
+                              fontSize:
+                                  loggedInUser.status == 'Cliente' ? 18 : 17.5,
+                              color: Colors.black)),
+                      leading: loggedInUser.status == 'Cliente'
+                          ? Icon(
+                              Icons.person,
+                              color: RED_CAR,
+                              size: 30,
+                            )
+                          : Icon(
+                              Icons.shopping_cart,
+                              color: RED_CAR,
+                              size: 30,
+                            ),
                       onTap: () {
                         onSelectItem(4);
                       },
@@ -492,15 +500,22 @@ class _homeState extends State<home> {
   }
 
   _appBar(height) => PreferredSize(
-      preferredSize: Size(MediaQuery.of(context).size.width,
-          selectDrawerItem == 1 ? height + 55 : height + 30),
+      preferredSize: Size(
+          MediaQuery.of(context).size.width,
+          selectDrawerItem == 1 ||
+                  selectDrawerItem == 2 ||
+                  selectDrawerItem == 6
+              ? height + 55
+              : height + 30),
       child: Stack(
         clipBehavior: Clip.none,
         children: <Widget>[
           ClipPath(
             clipper: Mycustomclipper(),
             child: Container(
-              padding: selectDrawerItem == 1
+              padding: selectDrawerItem == 1 ||
+                      selectDrawerItem == 2 ||
+                      selectDrawerItem == 6
                   ? EdgeInsets.only(top: 10, bottom: 30)
                   : EdgeInsets.only(top: 35, bottom: 30),
               decoration: BoxDecoration(
@@ -562,7 +577,9 @@ class _homeState extends State<home> {
               )),
             ),
           ),
-          if (selectDrawerItem == 1)
+          if (selectDrawerItem == 1 ||
+              selectDrawerItem == 2 ||
+              selectDrawerItem == 6)
             Positioned(
               // To take AppBar Size only
               top: 85.0,
@@ -579,331 +596,316 @@ class _homeState extends State<home> {
                   backgroundColor: Colors.white,
                   leading: IconButton(
                     icon: new Icon(
-                      Icons.search,
+                      Icons.filter_alt_outlined,
                       size: 25,
-                      color: selectDrawerItem == 1
+                      color: selectDrawerItem == 1 ||
+                              selectDrawerItem == 2 ||
+                              selectDrawerItem == 6
                           ? RED_CAR
                           : Colors.black.withOpacity(.4),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(50),
+                                      topRight: Radius.circular(50))),
+                              insetPadding: EdgeInsets.all(10),
+                              child: SingleChildScrollView(
+                                child: Container(
+                                  height: 500,
+                                  child: Column(
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: Container(
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 20),
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  flex: 8,
+                                                  child: Text(
+                                                    "Buscador",
+                                                    style: TextStyle(
+                                                      fontFamily: 'biko',
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 20,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  flex: 2,
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Icon(
+                                                      Icons.close,
+                                                      size: 40,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            )),
+                                      ),
+                                      Divider(
+                                        thickness: 2,
+                                      ),
+                                      Expanded(
+                                        flex: 6,
+                                        child: SingleChildScrollView(
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                                left: 20,
+                                                right: 20,
+                                                top: 10,
+                                                bottom: 15),
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                    width: double.infinity,
+                                                    child: Text(
+                                                      'Tipo de Uso',
+                                                      style: TextStyle(
+                                                          fontFamily: 'biko',
+                                                          color: Colors.black,
+                                                          fontSize: 15),
+                                                      textAlign: TextAlign.left,
+                                                    )),
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color: Colors.black
+                                                              .withOpacity(.4)),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10)),
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 2,
+                                                      horizontal: 10),
+                                                  child:
+                                                      DropdownButtonFormField(
+                                                    value: tete,
+                                                    isExpanded: true,
+                                                    icon: const Icon(
+                                                        Icons.arrow_downward),
+                                                    elevation: 16,
+                                                    style: const TextStyle(
+                                                        fontFamily: 'biko',
+                                                        color: Colors.black,
+                                                        fontSize: 16),
+                                                    onChanged:
+                                                        (String? newValue) {
+                                                      setState(() {
+                                                        tete = newValue!;
+                                                      });
+                                                    },
+                                                    items: <String>[
+                                                      'Trabajo',
+                                                      'Familiar',
+                                                      'Ocasión',
+                                                    ].map<
+                                                            DropdownMenuItem<
+                                                                String>>(
+                                                        (String value) {
+                                                      return DropdownMenuItem<
+                                                          String>(
+                                                        value: value,
+                                                        child: Text(value),
+                                                      );
+                                                    }).toList(),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Container(
+                                                    width: double.infinity,
+                                                    child: Text(
+                                                      'Tracción',
+                                                      style: TextStyle(
+                                                          fontFamily: 'biko',
+                                                          color: Colors.black,
+                                                          fontSize: 15),
+                                                      textAlign: TextAlign.left,
+                                                    )),
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color: Colors.black
+                                                              .withOpacity(.4)),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10)),
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 2,
+                                                      horizontal: 10),
+                                                  child:
+                                                      DropdownButtonFormField(
+                                                    value: titi,
+                                                    isExpanded: true,
+                                                    icon: const Icon(
+                                                        Icons.arrow_downward),
+                                                    elevation: 16,
+                                                    style: const TextStyle(
+                                                        fontFamily: 'biko',
+                                                        color: Colors.black,
+                                                        fontSize: 16),
+                                                    onChanged:
+                                                        (String? newValue) {
+                                                      setState(() {
+                                                        titi = newValue!;
+                                                      });
+                                                    },
+                                                    items: <String>[
+                                                      'Trasera',
+                                                      'Delantera',
+                                                      'Total',
+                                                    ].map<
+                                                            DropdownMenuItem<
+                                                                String>>(
+                                                        (String value) {
+                                                      return DropdownMenuItem<
+                                                          String>(
+                                                        value: value,
+                                                        child: Text(value),
+                                                      );
+                                                    }).toList(),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Divider(
+                                        thickness: 2,
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: Container(
+                                          margin: EdgeInsets.only(
+                                              bottom: 10, right: 15),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Container(
+                                                margin:
+                                                    EdgeInsets.only(right: 10),
+                                                child: ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        50)),
+                                                    onPrimary: Colors.white,
+                                                    primary: Colors.black,
+                                                    shadowColor: Colors.black,
+                                                    elevation: 15,
+                                                  ),
+                                                  onPressed: () {},
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        vertical: 15,
+                                                        horizontal: 10),
+                                                    child: Text(
+                                                      "Borrar",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontFamily: ax,
+                                                        fontSize: 18,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Container(
+                                                  margin:
+                                                      EdgeInsets.only(right: 6),
+                                                  padding: EdgeInsets.all(6),
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    border: Border.all(
+                                                      color: Colors.black,
+                                                      width: 2,
+                                                    ),
+                                                  ),
+                                                  child: Icon(
+                                                    Icons.search,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          });
+                    },
                   ),
                   primary: false,
                   title: TextFormField(
-                      enabled: selectDrawerItem == 1 ? true : false,
+                      controller: searchcontroller,
+                      enabled: selectDrawerItem == 1 ||
+                              selectDrawerItem == 2 ||
+                              selectDrawerItem == 6
+                          ? true
+                          : false,
+                      onChanged: (value) {
+                        setState(() {});
+                      },
+                      textInputAction: TextInputAction.search,
                       style: TextStyle(
                           fontFamily: 'biko',
                           fontWeight: FontWeight.w500,
-                          color: selectDrawerItem == 1
+                          color: selectDrawerItem == 1 ||
+                                  selectDrawerItem == 2 ||
+                                  selectDrawerItem == 6
                               ? Colors.black
                               : Colors.black.withOpacity(.4)),
                       decoration: InputDecoration(
                           hintText: "Buscar",
                           border: InputBorder.none,
                           hintStyle: TextStyle(
-                              color: selectDrawerItem == 1
+                              color: selectDrawerItem == 1 ||
+                                      selectDrawerItem == 2 ||
+                                      selectDrawerItem == 6
                                   ? Colors.black
                                   : Colors.black.withOpacity(.4)))),
-                  actions: selectDrawerItem == 1
+                  actions: selectDrawerItem == 1 ||
+                          selectDrawerItem == 2 ||
+                          selectDrawerItem == 6
                       ? [
                           IconButton(
                               onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return Dialog(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.only(
-                                                bottomLeft: Radius.circular(50),
-                                                topRight: Radius.circular(50))),
-                                        insetPadding: EdgeInsets.all(10),
-                                        child: SingleChildScrollView(
-                                          child: Container(
-                                            height: 500,
-                                            child: Column(
-                                              children: [
-                                                Expanded(
-                                                  flex: 1,
-                                                  child: Container(
-                                                      margin:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 20),
-                                                      child: Row(
-                                                        children: [
-                                                          Expanded(
-                                                            flex: 8,
-                                                            child: Text(
-                                                              "Buscador",
-                                                              style: TextStyle(
-                                                                fontFamily:
-                                                                    'biko',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                fontSize: 20,
-                                                                color: Colors
-                                                                    .black,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Expanded(
-                                                            flex: 2,
-                                                            child: InkWell(
-                                                              onTap: () {
-                                                                Navigator.pop(
-                                                                    context);
-                                                              },
-                                                              child: Icon(
-                                                                Icons.close,
-                                                                size: 40,
-                                                                color: Colors
-                                                                    .black,
-                                                              ),
-                                                            ),
-                                                          )
-                                                        ],
-                                                      )),
-                                                ),
-                                                Divider(
-                                                  thickness: 2,
-                                                ),
-                                                Expanded(
-                                                  flex: 6,
-                                                  child: SingleChildScrollView(
-                                                    child: Container(
-                                                      margin: EdgeInsets.only(
-                                                          left: 20,
-                                                          right: 20,
-                                                          top: 10,
-                                                          bottom: 15),
-                                                      child: Column(
-                                                        children: [
-                                                          Container(
-                                                              width: double
-                                                                  .infinity,
-                                                              child: Text(
-                                                                'Tipo de Uso',
-                                                                style: TextStyle(
-                                                                    fontFamily:
-                                                                        'biko',
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        15),
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .left,
-                                                              )),
-                                                          Container(
-                                                            decoration: BoxDecoration(
-                                                                border: Border.all(
-                                                                    color: Colors
-                                                                        .black
-                                                                        .withOpacity(
-                                                                            .4)),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10)),
-                                                            padding: EdgeInsets
-                                                                .symmetric(
-                                                                    vertical: 2,
-                                                                    horizontal:
-                                                                        10),
-                                                            child:
-                                                                DropdownButtonFormField(
-                                                              value: tete,
-                                                              isExpanded: true,
-                                                              icon: const Icon(Icons
-                                                                  .arrow_downward),
-                                                              elevation: 16,
-                                                              style: const TextStyle(
-                                                                  fontFamily:
-                                                                      'biko',
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize: 16),
-                                                              onChanged: (String?
-                                                                  newValue) {
-                                                                setState(() {
-                                                                  tete =
-                                                                      newValue!;
-                                                                });
-                                                              },
-                                                              items: <String>[
-                                                                'Trabajo',
-                                                                'Familiar',
-                                                                'Ocasión',
-                                                              ].map<
-                                                                  DropdownMenuItem<
-                                                                      String>>((String
-                                                                  value) {
-                                                                return DropdownMenuItem<
-                                                                    String>(
-                                                                  value: value,
-                                                                  child: Text(
-                                                                      value),
-                                                                );
-                                                              }).toList(),
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 20,
-                                                          ),
-                                                          Container(
-                                                              width: double
-                                                                  .infinity,
-                                                              child: Text(
-                                                                'Tracción',
-                                                                style: TextStyle(
-                                                                    fontFamily:
-                                                                        'biko',
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        15),
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .left,
-                                                              )),
-                                                          Container(
-                                                            decoration: BoxDecoration(
-                                                                border: Border.all(
-                                                                    color: Colors
-                                                                        .black
-                                                                        .withOpacity(
-                                                                            .4)),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10)),
-                                                            padding: EdgeInsets
-                                                                .symmetric(
-                                                                    vertical: 2,
-                                                                    horizontal:
-                                                                        10),
-                                                            child:
-                                                                DropdownButtonFormField(
-                                                              value: titi,
-                                                              isExpanded: true,
-                                                              icon: const Icon(Icons
-                                                                  .arrow_downward),
-                                                              elevation: 16,
-                                                              style: const TextStyle(
-                                                                  fontFamily:
-                                                                      'biko',
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize: 16),
-                                                              onChanged: (String?
-                                                                  newValue) {
-                                                                setState(() {
-                                                                  titi =
-                                                                      newValue!;
-                                                                });
-                                                              },
-                                                              items: <String>[
-                                                                'Trasera',
-                                                                'Delantera',
-                                                                'Total',
-                                                              ].map<
-                                                                  DropdownMenuItem<
-                                                                      String>>((String
-                                                                  value) {
-                                                                return DropdownMenuItem<
-                                                                    String>(
-                                                                  value: value,
-                                                                  child: Text(
-                                                                      value),
-                                                                );
-                                                              }).toList(),
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 20,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Divider(
-                                                  thickness: 2,
-                                                ),
-                                                Expanded(
-                                                  flex: 1,
-                                                  child: Container(
-                                                    margin: EdgeInsets.only(
-                                                        bottom: 10, right: 15),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment.end,
-                                                      children: [
-                                                        Container(
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                                  right: 10),
-                                                          child: RaisedButton(
-                                                            color: RED_CAR,
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    0),
-                                                            onPressed: () {},
-                                                            child: Text(
-                                                              "Borrar",
-                                                              style: TextStyle(
-                                                                  fontFamily:
-                                                                      'biko',
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        InkWell(
-                                                          onTap: () {
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                          child: Container(
-                                                            margin:
-                                                                EdgeInsets.only(
-                                                                    right: 6),
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    6),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              shape: BoxShape
-                                                                  .circle,
-                                                              border:
-                                                                  Border.all(
-                                                                color: Colors
-                                                                    .black,
-                                                                width: 2,
-                                                              ),
-                                                            ),
-                                                            child: Icon(
-                                                              Icons.search,
-                                                              color:
-                                                                  Colors.black,
-                                                            ),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    });
+                                setState(() {});
                               },
                               icon: Icon(
-                                Icons.filter_alt_outlined,
+                                Icons.search,
                                 size: 25,
                                 color: RED_CAR,
                               ))

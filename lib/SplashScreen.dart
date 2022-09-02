@@ -1,7 +1,5 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:car_finder/auth/main_page.dart';
-import 'package:car_finder/main.dart';
-import 'package:car_finder/screens/inicio_Screen.dart';
 import 'package:car_finder/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 

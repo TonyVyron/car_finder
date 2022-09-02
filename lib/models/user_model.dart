@@ -1,5 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
-
 class UserModel {
   String? uid;
   String? foto;
@@ -7,6 +5,7 @@ class UserModel {
   String? Nombre;
   String? NombreLocal;
   String? Apellidos;
+  List? Favoritos;
   String? Telefono;
   String? Edad;
   String? status;
@@ -17,6 +16,7 @@ class UserModel {
       this.email,
       this.foto,
       this.Nombre,
+      this.Favoritos,
       this.NombreLocal,
       this.Telefono,
       this.Apellidos,
@@ -29,6 +29,7 @@ class UserModel {
         uid: map['uid'],
         email: map['email'],
         foto: map['foto'],
+        Favoritos: map['Favoritos'],
         NombreLocal: map['NombreLocal'],
         Telefono: map['Telefono'],
         Nombre: map['Nombre'],
@@ -44,6 +45,7 @@ class UserModel {
       'Nombre': Nombre,
       'Apellidos': Apellidos,
       'Edad': Edad,
+      'Favoritos': Favoritos,
       'Telefono': Telefono,
       'status': status,
       'NombreLocal': NombreLocal,

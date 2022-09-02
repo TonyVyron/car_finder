@@ -1,12 +1,8 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:car_finder/imageupload/show_horizontal.dart';
-import 'package:car_finder/models/carro_model.dart';
 import 'package:car_finder/models/user_model.dart';
-import 'package:car_finder/screens/home_screen.dart';
-import 'package:car_finder/screens/registervendedor.dart';
 import 'package:car_finder/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -30,14 +26,14 @@ Widget AutosInfo(
     String? garantia,
     String? Kilometraje,
     String? Fecha,
-    String? tipouso,
+    String? trans,
     String? potencia,
     String? carroceria,
     String? Guia,
     String? id_vendedor,
     required List<dynamic>? imagen,
     String? traccion}) {
-  final jala = FirebaseFirestore.instance
+  FirebaseFirestore.instance
       .collection('users')
       .doc(id_vendedor)
       .get()
@@ -489,7 +485,7 @@ Widget AutosInfo(
                                         Container(
                                           padding: EdgeInsets.only(bottom: 5),
                                           child: Text(
-                                            "Tipo de Auto",
+                                            "Carrocería",
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 fontFamily: 'biko',
@@ -572,7 +568,7 @@ Widget AutosInfo(
                                   child: Container(
                                     padding: EdgeInsets.all(5),
                                     child: Icon(
-                                      Icons.family_restroom,
+                                      Icons.schema,
                                       size: 35,
                                     ),
                                   ),
@@ -587,7 +583,7 @@ Widget AutosInfo(
                                         Container(
                                           padding: EdgeInsets.only(bottom: 5),
                                           child: Text(
-                                            "Tipo de Uso",
+                                            "Transmición",
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 fontFamily: 'biko',
@@ -597,7 +593,7 @@ Widget AutosInfo(
                                           ),
                                         ),
                                         Text(
-                                          '${tipouso}',
+                                          '${trans}',
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontFamily: 'biko',
@@ -1032,7 +1028,7 @@ Widget AutosInfo(
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  'Tipo de Uso'.toTitleCase(),
+                                  'Transmición'.toTitleCase(),
                                   style: TextStyle(
                                     fontFamily: 'biko',
                                     fontWeight: FontWeight.w500,
@@ -1047,7 +1043,7 @@ Widget AutosInfo(
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  '${tipouso}'.toTitleCase(),
+                                  '${trans}'.toTitleCase(),
                                   style: TextStyle(
                                     fontFamily: 'biko',
                                     fontSize: 16,

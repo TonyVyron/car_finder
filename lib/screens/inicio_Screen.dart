@@ -1,19 +1,8 @@
-import 'dart:math';
 import 'package:car_finder/Authenticator.dart';
-import 'package:car_finder/screens/home_screen.dart';
-import 'package:car_finder/screens/logintipo.dart';
-import 'package:car_finder/screens/register_page.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:car_finder/screens/registercliente.dart';
-import 'package:car_finder/screens/registervendedor.dart';
 import 'package:car_finder/widgets/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart';
 import 'package:page_indicator/page_indicator.dart';
 
 import 'forgot_pw_page.dart';
@@ -455,12 +444,9 @@ class _InicioState extends State<Inicio> {
         await _auth
             .signInWithEmailAndPassword(email: email, password: password)
             .then((uid) => {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => home())),
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        const displayTime = Duration(seconds: 2);
                         return AlertDialog(
                           title: CircleAvatar(
                             radius: 50,

@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'dart:math';
-
 import 'package:car_finder/models/user_model.dart';
 import 'package:car_finder/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -197,5 +195,44 @@ class _ImageUploadState extends State<ImageUpload> {
             ),
           ),
         ));
+  }
+
+  removerdetalles(String carro) async {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      duration: Duration(seconds: 1),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+      content: Container(
+          width: double.infinity,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Icon(
+                Icons.filter,
+                size: 25,
+                color: Colors.white,
+              ),
+              Text('Imagen Removida',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'biko',
+                    fontSize: 20,
+                    color: Colors.white,
+                  ))
+            ],
+          )),
+      backgroundColor: RED_CAR,
+    ));
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+    Navigator.pop(context);
+
+    await firebaseFirestore.collection('carros').doc(carro).update({
+      "tipo_agregado": 2,
+      "porcentaje_falla": null,
+      "detalles": null,
+      "detalle_principal": null
+    });
   }
 }

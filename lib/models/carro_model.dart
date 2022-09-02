@@ -1,7 +1,3 @@
-import 'dart:ffi';
-
-import 'package:firebase_auth/firebase_auth.dart';
-
 class CarroModel {
   String? uid;
   String? uid_vendedor;
@@ -10,7 +6,6 @@ class CarroModel {
   String? nombre_marca;
   int? precio;
   String? kilometraje;
-  String? tipo_uso;
   String? tipo_gasolina;
   String? carroceria;
   String? ano_modelo;
@@ -21,6 +16,7 @@ class CarroModel {
   String? detalles;
   String? detalle_principal;
   String? garantia;
+  String? transmicion;
   String? traccion;
   String? estado_porcentaje;
   int? porcentaje_falla;
@@ -36,7 +32,7 @@ class CarroModel {
       this.precio,
       this.porcentaje_falla,
       this.kilometraje,
-      this.tipo_uso,
+      this.transmicion,
       this.tipo_gasolina,
       this.carroceria,
       this.ano_modelo,
@@ -55,6 +51,7 @@ class CarroModel {
   factory CarroModel.fromMap(map) {
     return CarroModel(
         uid: map['uid'],
+        transmicion: map['transmicion'],
         uid_vendedor: map['uid_vendedor'],
         fotos: map['fotos'],
         nombre_carro: map['nombre_carro'],
@@ -62,7 +59,6 @@ class CarroModel {
         precio: map['precio'],
         detalle_principal: map['detalle_principal'],
         kilometraje: map['kilometraje'],
-        tipo_uso: map['tipo_uso'],
         porcentaje_falla: map['porcentaje_falla'],
         tipo_gasolina: map['tipo_gasolina'],
         carroceria: map['carroceria'],
@@ -86,8 +82,8 @@ class CarroModel {
       'nombre_carro': nombre_carro,
       'nombre_marca': nombre_marca,
       'precio': precio,
+      'transmicion': transmicion,
       'kilometraje': kilometraje,
-      'tipo_uso': tipo_uso,
       'porcentaje_falla': porcentaje_falla,
       'tipo_gasolina': tipo_gasolina,
       'carroceria': carroceria,

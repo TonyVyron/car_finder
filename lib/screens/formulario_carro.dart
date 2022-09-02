@@ -1,17 +1,11 @@
 import 'dart:io';
-
 import 'package:car_finder/models/carro_model.dart';
 import 'package:car_finder/models/user_model.dart';
-import 'package:car_finder/screens/logintipo.dart';
 import 'package:car_finder/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:form_field_validator/form_field_validator.dart';
-import 'package:im_stepper/stepper.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Agregar_Carro extends StatefulWidget {
@@ -27,6 +21,100 @@ bool Guia_ligth = false;
 bool Garantia_ligth = false;
 
 class _Agregar_CarroState extends State<Agregar_Carro> {
+  DateTime selectedDate = DateTime.now();
+  DateTime modelo = DateTime(2022);
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(1990, 1),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+  }
+
+  String ano = "2022";
+
+  void _pickYear(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        final Size size = MediaQuery.of(context).size;
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(50),
+                  topRight: Radius.circular(50))),
+          title: Container(
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: RED_CAR,
+            ),
+            child: Text('Seleccionar Año del Modelo',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'biko',
+                  fontSize: 20,
+                )),
+          ),
+          contentPadding: const EdgeInsets.all(10),
+          content: SizedBox(
+            height: size.height / 3,
+            width: size.width,
+            child: GridView.count(
+              crossAxisCount: 3,
+              children: [
+                ...List.generate(
+                  50,
+                  (index) => InkWell(
+                    onTap: () {
+                      setState(() {
+                        ano = "${2022 - index}";
+                      });
+                      Navigator.pop(context);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Chip(
+                        label: Container(
+                          padding: const EdgeInsets.all(5),
+                          child: Text((2022 - index).toString(),
+                              style: TextStyle(
+                                fontFamily: 'biko',
+                                fontSize: 15,
+                              )),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _selectYear(BuildContext context) async {
+    final DateTime? agarra = await showDatePicker(
+        context: context,
+        initialDate: modelo,
+        firstDate: DateTime(1990),
+        lastDate: DateTime(2101));
+    if (agarra != null && agarra != modelo) {
+      setState(() {
+        modelo = agarra;
+      });
+    }
+  }
+
   int currentstep = 0;
   bool completo = true;
 
@@ -53,14 +141,16 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
   List<XFile>? _imageFileList = [];
   String? UrlImage;
   String Gasolina = 'Magna';
-  String tipodeuso = 'Trabajo';
-  String carroceria = 'Coche';
+  String Trans = 'Manual';
+  String carroceria = 'SUV';
   String estado = 'Excelentes';
   String traccion = 'Trasera';
+
   final imagePicker = ImagePicker();
 
   final _nombreCarroController = TextEditingController();
   final _nombreMarcaController = TextEditingController();
+  final _tiempogarantia = TextEditingController();
   final _precioController = TextEditingController();
   final _kilometrajeController = TextEditingController();
   final _ano_modeloController = TextEditingController();
@@ -69,7 +159,6 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
   final _fecha_compraController = TextEditingController();
   final _detalles_compraController = TextEditingController();
   final _porcentaje_descuentoController = TextEditingController();
-  final _porcentaje_fallaController = TextEditingController();
   final _detalle_prinController = TextEditingController();
 
   Future imagepickerMethod() async {
@@ -309,6 +398,13 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                       children: [
                         Expanded(
                             child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15)),
+                            onPrimary: Colors.white,
+                            shadowColor: Colors.black,
+                            elevation: 5,
+                          ),
                           child: Text(
                             islastStep2 ? "Confirmar" : "Siguiente",
                             style: TextStyle(fontFamily: 'biko', fontSize: 20),
@@ -319,6 +415,13 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                         if (currentstep != 0)
                           Expanded(
                               child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15)),
+                              onPrimary: Colors.white,
+                              shadowColor: Colors.black,
+                              elevation: 5,
+                            ),
                             child: Text(
                               "Atras",
                               style:
@@ -377,7 +480,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                           textCapitalization: TextCapitalization.sentences,
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.store_mall_directory),
+                            prefixIcon: Icon(Icons.directions_car),
                             contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                             hintText: "Aveo..",
                             hintStyle: TextStyle(
@@ -424,7 +527,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                           keyboardType: TextInputType.name,
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.store_mall_directory),
+                            prefixIcon: Icon(Icons.discount_rounded),
                             contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                             hintText: "Chevrolet..",
                             hintStyle: TextStyle(
@@ -471,7 +574,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                           keyboardType: TextInputType.number,
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.store_mall_directory),
+                            prefixIcon: Icon(Icons.payment),
                             contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                             hintText: "68000..",
                             hintStyle: TextStyle(
@@ -516,7 +619,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                           keyboardType: TextInputType.number,
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.store_mall_directory),
+                            prefixIcon: Icon(Icons.av_timer_sharp),
                             contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                             hintText: "80,000..",
                             hintStyle: TextStyle(
@@ -538,7 +641,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                         Container(
                             width: double.infinity,
                             child: Text(
-                              'Tipo de Uso',
+                              'Transmición',
                               style: TextStyle(
                                   fontFamily: 'biko',
                                   color: Colors.black,
@@ -553,7 +656,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                           padding:
                               EdgeInsets.symmetric(vertical: 2, horizontal: 10),
                           child: DropdownButton<String>(
-                            value: tipodeuso,
+                            value: Trans,
                             isExpanded: true,
                             icon: const Icon(Icons.arrow_downward),
                             elevation: 16,
@@ -563,13 +666,13 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                                 fontSize: 16),
                             onChanged: (String? newValue) {
                               setState(() {
-                                tipodeuso = newValue!;
+                                Trans = newValue!;
                               });
                             },
                             items: <String>[
-                              'Trabajo',
-                              'Familiar',
-                              'Ocasión',
+                              'Manual',
+                              'Automatico',
+                              'CVT',
                             ].map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
@@ -620,7 +723,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                             items: <String>[
                               'Magna',
                               'Premium',
-                              'Magna y Premium',
+                              'Magna o Premium',
                               'Diesel'
                             ].map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
@@ -630,32 +733,6 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                             }).toList(),
                           ),
                         ),
-                        // TextFormField(
-                        //   autofocus: false,
-                        //   controller: _tipo_gasolinaController,
-                        //   onSaved: (value) {
-                        //     _tipo_gasolinaController.text = value!;
-                        //   },
-                        //   validator: (value) {
-                        //     if (value!.isEmpty) {
-                        //       return ("Tipo de Gasolina Vacia");
-                        //     }
-                        //     return null;
-                        //   },
-                        //   keyboardType: TextInputType.name,
-                        //   textInputAction: TextInputAction.next,
-                        //   decoration: InputDecoration(
-                        //     prefixIcon: Icon(Icons.store_mall_directory),
-                        //     contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                        //     hintText: "Magna, Premium..",
-                        //     hintStyle: TextStyle(
-                        //       fontFamily: 'biko',
-                        //     ),
-                        //     border: OutlineInputBorder(
-                        //       borderRadius: BorderRadius.circular(10),
-                        //     ),
-                        //   ),
-                        // ),
                       ],
                     ),
                     SizedBox(
@@ -696,10 +773,16 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                               });
                             },
                             items: <String>[
-                              'Coche',
-                              'Camioneta',
-                              'Camion',
-                              'Deportivo'
+                              'SUV',
+                              'Hatchback',
+                              'Crossover',
+                              'Convertible',
+                              'Sedan',
+                              'Deportivo',
+                              'Coupe',
+                              'Minivan',
+                              'Station Wagon',
+                              'Camionetas Pickup'
                             ].map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
@@ -708,128 +791,118 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                             }).toList(),
                           ),
                         ),
-                        // TextFormField(
-                        //   autofocus: false,
-                        //   controller: _carroceriaController,
-                        //   onSaved: (value) {
-                        //     _carroceriaController.text = value!;
-                        //   },
-                        //   validator: (value) {
-                        //     if (value!.isEmpty) {
-                        //       return ("Carrocería Vacia");
-                        //     }
-                        //     return null;
-                        //   },
-                        //   keyboardType: TextInputType.name,
-                        //   textInputAction: TextInputAction.next,
-                        //   decoration: InputDecoration(
-                        //     prefixIcon: Icon(Icons.store_mall_directory),
-                        //     contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                        //     hintText: "Coche, Camioneta.",
-                        //     hintStyle: TextStyle(
-                        //       fontFamily: 'biko',
-                        //     ),
-                        //     border: OutlineInputBorder(
-                        //       borderRadius: BorderRadius.circular(10),
-                        //     ),
-                        //   ),
-                        // ),
                       ],
                     ),
                     SizedBox(
                       height: 10,
                     ),
-                    //TIPO GASOLINA
-                    Column(
-                      children: [
-                        Container(
-                            width: double.infinity,
-                            child: Text(
-                              'Año del Modelo',
-                              style: TextStyle(
-                                  fontFamily: 'biko',
-                                  color: Colors.black,
-                                  fontSize: 15),
-                              textAlign: TextAlign.left,
-                            )),
-                        TextFormField(
-                          autofocus: false,
+
+                    Container(
+                        width: double.infinity,
+                        child: Text(
+                          "Año del Modelo",
                           style: TextStyle(
-                              fontFamily: 'biko', fontWeight: FontWeight.w500),
-                          controller: _ano_modeloController,
-                          onSaved: (value) {
-                            _ano_modeloController.text = value!;
-                          },
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return ("Año del Modelo Vacio");
-                            }
-                            return null;
-                          },
-                          keyboardType: TextInputType.datetime,
-                          textInputAction: TextInputAction.next,
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.store_mall_directory),
-                            contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                            hintText: "2019..",
-                            hintStyle: TextStyle(
                               fontFamily: 'biko',
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                              color: Colors.black,
+                              fontSize: 15),
+                          textAlign: TextAlign.left,
+                        )),
                     SizedBox(
-                      height: 10,
+                      height: 5,
                     ),
-                    //TIPO GASOLINA  //TIPO GASOLINA
-                    Column(
+                    Row(
                       children: [
-                        Container(
-                            width: double.infinity,
-                            child: Text(
-                              "Fecha de Adquisición del Vehículo",
-                              style: TextStyle(
-                                  fontFamily: 'biko',
-                                  color: Colors.black,
-                                  fontSize: 15),
-                              textAlign: TextAlign.left,
-                            )),
-                        TextFormField(
-                          autofocus: false,
-                          style: TextStyle(
-                              fontFamily: 'biko', fontWeight: FontWeight.w500),
-                          controller: _fecha_compraController,
-                          onSaved: (value) {
-                            _fecha_compraController.text = value!;
-                          },
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return ("Fecha de Compra Vacia");
-                            }
-                            return null;
-                          },
-                          keyboardType: TextInputType.datetime,
-                          textInputAction: TextInputAction.next,
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.store_mall_directory),
-                            contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                            hintText: "16/02/2019..",
-                            hintStyle: TextStyle(
-                              fontFamily: 'biko',
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
+                        Expanded(
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15)),
+                                onPrimary: Colors.white,
+                                shadowColor: Colors.black,
+                                elevation: 5,
+                              ),
+                              onPressed: () {
+                                _pickYear(context);
+                              },
+                              child: Container(
+                                height: 50,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  'Seleccionar Año',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontFamily: 'biko', fontSize: 16),
+                                ),
+                              )),
                         ),
+                        Expanded(
+                            child: Text(
+                          "${ano}",
+                          style: TextStyle(
+                              fontFamily: 'biko',
+                              color: Colors.black,
+                              fontSize: 18),
+                          textAlign: TextAlign.center,
+                        ))
                       ],
                     ),
+
                     SizedBox(
-                      height: 10,
+                      height: 15,
+                    ),
+
+                    Container(
+                        width: double.infinity,
+                        child: Text(
+                          "Fecha de Adquisición del Vehículo",
+                          style: TextStyle(
+                              fontFamily: 'biko',
+                              color: Colors.black,
+                              fontSize: 15),
+                          textAlign: TextAlign.left,
+                        )),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15)),
+                                onPrimary: Colors.white,
+                                shadowColor: Colors.black,
+                                elevation: 5,
+                              ),
+                              onPressed: () {
+                                _selectDate(context);
+                              },
+                              child: Container(
+                                height: 50,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  'Seleccionar Fecha',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontFamily: 'biko', fontSize: 16),
+                                ),
+                              )),
+                        ),
+                        Expanded(
+                            child: Text(
+                          "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
+                          style: TextStyle(
+                              fontFamily: 'biko',
+                              color: Colors.black,
+                              fontSize: 18),
+                          textAlign: TextAlign.center,
+                        ))
+                      ],
+                    ),
+
+                    SizedBox(
+                      height: 15,
                     ),
                     Column(
                       children: [
@@ -861,7 +934,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                           textCapitalization: TextCapitalization.sentences,
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.store_mall_directory),
+                            prefixIcon: Icon(Icons.color_lens),
                             contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                             hintText: "Rojo..",
                             hintStyle: TextStyle(
@@ -922,32 +995,6 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                             }).toList(),
                           ),
                         ),
-                        // TextFormField(
-                        //   autofocus: false,
-                        //   controller: _traccion_compraController,
-                        //   onSaved: (value) {
-                        //     _traccion_compraController.text = value!;
-                        //   },
-                        //   validator: (value) {
-                        //     if (value!.isEmpty) {
-                        //       return ("Tracción del Vehículo Vacia");
-                        //     }
-                        //     return null;
-                        //   },
-                        //   keyboardType: TextInputType.name,
-                        //   textInputAction: TextInputAction.next,
-                        //   decoration: InputDecoration(
-                        //     prefixIcon: Icon(Icons.store_mall_directory),
-                        //     contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                        //     hintText: "Trasera..",
-                        //     hintStyle: TextStyle(
-                        //       fontFamily: 'biko',
-                        //     ),
-                        //     border: OutlineInputBorder(
-                        //       borderRadius: BorderRadius.circular(10),
-                        //     ),
-                        //   ),
-                        // ),
                       ],
                     ),
                     SizedBox(
@@ -982,7 +1029,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                           keyboardType: TextInputType.number,
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.store_mall_directory),
+                            prefixIcon: Icon(Icons.car_repair),
                             contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                             hintText: "4..",
                             hintStyle: TextStyle(
@@ -1096,7 +1143,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                             textCapitalization: TextCapitalization.sentences,
                             textInputAction: TextInputAction.next,
                             decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.store_mall_directory),
+                              prefixIcon: Icon(Icons.details),
                               contentPadding:
                                   EdgeInsets.fromLTRB(20, 15, 20, 15),
                               hintText: "Fallo en la Apetura de puerta..",
@@ -1109,9 +1156,6 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                             ),
                           ),
                         ],
-                      ),
-                      SizedBox(
-                        height: 10,
                       ),
                       Column(
                         children: [
@@ -1148,59 +1192,10 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                             textCapitalization: TextCapitalization.sentences,
                             textInputAction: TextInputAction.next,
                             decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.store_mall_directory),
+                              prefixIcon: Icon(Icons.drive_eta),
                               contentPadding:
                                   EdgeInsets.fromLTRB(20, 15, 20, 15),
                               hintText: "Aire Acondicionado..",
-                              hintStyle: TextStyle(
-                                fontFamily: 'biko',
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Column(
-                        children: [
-                          Container(
-                              width: double.infinity,
-                              child: Text(
-                                'Descuento de Porcentaje del Detalle',
-                                style: TextStyle(
-                                    fontFamily: 'biko',
-                                    color: Colors.black,
-                                    fontSize: 15),
-                                textAlign: TextAlign.left,
-                              )),
-                          TextFormField(
-                            autofocus: false,
-                            style: TextStyle(
-                                fontFamily: 'biko',
-                                fontWeight: FontWeight.w500),
-                            controller: _porcentaje_fallaController,
-                            onSaved: (value) {
-                              _porcentaje_fallaController.text = value!;
-                            },
-                            validator: Detalles_ligth == true
-                                ? (value) {
-                                    if (value!.isEmpty) {
-                                      return ("Descuento de Porcentaje Vacio");
-                                    }
-                                    return null;
-                                  }
-                                : null,
-                            keyboardType: TextInputType.number,
-                            textInputAction: TextInputAction.next,
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.store_mall_directory),
-                              contentPadding:
-                                  EdgeInsets.fromLTRB(20, 15, 20, 15),
-                              hintText: "5, 10, 20..",
                               hintStyle: TextStyle(
                                 fontFamily: 'biko',
                               ),
@@ -1296,7 +1291,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                             keyboardType: TextInputType.number,
                             textInputAction: TextInputAction.done,
                             decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.store_mall_directory),
+                              prefixIcon: Icon(Icons.discount),
                               contentPadding:
                                   EdgeInsets.fromLTRB(20, 15, 20, 15),
                               hintText: "5, 10, 20..",
@@ -1403,32 +1398,6 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                             }).toList(),
                           ),
                         ),
-                        // TextFormField(
-                        //   autofocus: false,
-                        //   controller: _estado_porcentaje_compraController,
-                        //   onSaved: (value) {
-                        //     _estado_porcentaje_compraController.text = value!;
-                        //   },
-                        //   validator: (value) {
-                        //     if (value!.isEmpty) {
-                        //       return ("Estado del Vehículo Vacio");
-                        //     }
-                        //     return null;
-                        //   },
-                        //   keyboardType: TextInputType.name,
-                        //   textInputAction: TextInputAction.done,
-                        //   decoration: InputDecoration(
-                        //     prefixIcon: Icon(Icons.store_mall_directory),
-                        //     contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                        //     hintText: "Optimas, Correctas..",
-                        //     hintStyle: TextStyle(
-                        //       fontFamily: 'biko',
-                        //     ),
-                        //     border: OutlineInputBorder(
-                        //       borderRadius: BorderRadius.circular(10),
-                        //     ),
-                        //   ),
-                        // ),
                       ],
                     ),
                     SizedBox(
@@ -1448,7 +1417,6 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                             child: Container(
                               child: Text(
                                 "¿El Vehículo Cuenta con Garantía?",
-                                //(theme.isLighted() ? "Modo " : "Modo Normal"),
                                 style: TextStyle(
                                   fontFamily: 'biko',
                                   fontSize: 17,
@@ -1475,46 +1443,62 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                         ],
                       ),
                     ),
+                    if (Garantia_ligth == true)
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Container(
+                              width: double.infinity,
+                              child: Text(
+                                'Tiempo de Garantia',
+                                style: TextStyle(
+                                    fontFamily: 'biko',
+                                    color: Colors.black,
+                                    fontSize: 15),
+                                textAlign: TextAlign.left,
+                              )),
+                          TextFormField(
+                            autofocus: false,
+                            style: TextStyle(
+                                fontFamily: 'biko',
+                                fontWeight: FontWeight.w500),
+                            controller: _tiempogarantia,
+                            onSaved: (value) {
+                              _tiempogarantia.text = value!;
+                            },
+                            validator: Garantia_ligth == true
+                                ? (value) {
+                                    if (value!.isEmpty) {
+                                      return ("Tiempo de Garantia Vacia");
+                                    }
+                                    return null;
+                                  }
+                                : null,
+                            keyboardType: TextInputType.text,
+                            textInputAction: TextInputAction.done,
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.garage),
+                              contentPadding:
+                                  EdgeInsets.fromLTRB(20, 15, 20, 15),
+                              hintText: "6 Meses, 4 Meses..",
+                              hintStyle: TextStyle(
+                                fontFamily: 'biko',
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     Image.asset(
                       'assets/carros.png',
                       width: 220,
                       height: 220,
                       fit: BoxFit.fill,
                     ),
-                    // Container(
-                    //   width: double.infinity,
-                    //   margin: EdgeInsets.symmetric(vertical: 15),
-                    //   child: Text(
-                    //     "Subir Papeles",
-                    //     style: TextStyle(
-                    //       fontFamily: 'biko',
-                    //       fontSize: 20,
-                    //     ),
-                    //   ),
-                    // ),
-                    // Image.network(
-                    //   'https://cdn-icons-png.flaticon.com/512/84/84459.png',
-                    //   width: 120,
-                    //   height: 100,
-                    //   fit: BoxFit.fill,
-                    // ),
-                    // Container(
-                    //   width: double.infinity,
-                    //   margin: EdgeInsets.symmetric(vertical: 15),
-                    //   child: Text(
-                    //     "Subir Papeles",
-                    //     style: TextStyle(
-                    //       fontFamily: 'biko',
-                    //       fontSize: 20,
-                    //     ),
-                    //   ),
-                    // ),
-                    // Image.network(
-                    //   'https://cdn-icons-png.flaticon.com/512/70/70557.png',
-                    //   width: 120,
-                    //   height: 100,
-                    //   fit: BoxFit.fill,
-                    // ),
                   ],
                 ),
               ),
@@ -1657,7 +1641,6 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
 
     final List imagenes = [];
     for (var i = 0; i < _imageFileList!.length; i++) {
-      final PostId = DateTime.now().millisecondsSinceEpoch.toString();
       Reference ref = FirebaseStorage.instance
           .ref()
           .child("${user.uid}/images")
@@ -1676,17 +1659,21 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
     carroModel.nombre_marca = _nombreMarcaController.text;
     carroModel.precio = int.parse(_precioController.text);
     carroModel.kilometraje = _kilometrajeController.text;
-    carroModel.tipo_uso = tipodeuso;
     carroModel.tipo_gasolina = Gasolina;
     carroModel.carroceria = carroceria;
-    carroModel.ano_modelo = _ano_modeloController.text;
+    carroModel.transmicion = Trans;
+    carroModel.ano_modelo = ano;
     carroModel.color = _colorController.text;
     carroModel.numero_puertas = _numero_puertasController.text;
     carroModel.traccion = traccion;
-    carroModel.fecha_compra = _fecha_compraController.text;
-    carroModel.garantia = Garantia_ligth == true ? "Si" : "No";
+    carroModel.fecha_compra =
+        "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}";
     carroModel.guia_mantenimiento = Guia_ligth == true ? "Si" : "No";
     carroModel.estado_porcentaje = estado;
+
+    if (Garantia_ligth == true) {
+      carroModel.garantia = _tiempogarantia.text;
+    }
 
     if (Descuento_ligth == true && Detalles_ligth == false) {
       carroModel.porcentaje_descuento =
@@ -1696,8 +1683,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
       if (Detalles_ligth == true && Descuento_ligth == false) {
         carroModel.detalles = _detalles_compraController.text;
         carroModel.detalle_principal = _detalle_prinController.text;
-        carroModel.porcentaje_falla =
-            int.parse(_porcentaje_fallaController.text);
+        carroModel.porcentaje_falla = 4;
         carroModel.tipo_agregado = 3;
       } else {
         carroModel.tipo_agregado = 2;
@@ -1720,6 +1706,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
     });
     Navigator.pop(context);
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      duration: Duration(seconds: 1),
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(30), topRight: Radius.circular(30))),

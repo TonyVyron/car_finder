@@ -1,6 +1,4 @@
 import 'package:car_finder/models/user_model.dart';
-import 'package:car_finder/screens/home_screen.dart';
-import 'package:car_finder/screens/infoAutos.dart';
 import 'package:car_finder/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,10 +16,6 @@ class _autosHorizontalState extends State<autosHorizontal> {
 
   UserModel loggedInUser = UserModel();
   UserModel loggedInUser2 = UserModel();
-
-  bool _estrella = false;
-  bool _estrella2 = false;
-  bool _estrella3 = false;
 
   final maxheight = 0.9;
   final minheight = 0.4;
@@ -109,10 +103,7 @@ class _autosHorizontalState extends State<autosHorizontal> {
               children: [
                 for (var i = 0; i < snapshot.data!.docs.length; i++)
                   InkWell(
-                    onTap: () {
-                      Navigator.pushReplacement((context),
-                          MaterialPageRoute(builder: (context) => home()));
-                    },
+                    onTap: () {},
                     child: Container(
                       margin: EdgeInsets.only(right: 20),
                       decoration: BoxDecoration(
@@ -169,7 +160,7 @@ class _autosHorizontalState extends State<autosHorizontal> {
                                     ),
                                   ),
                                   Text(
-                                    '${snapshot.data!.docs[i]['kilometraje']}, ${snapshot.data!.docs[i]['tipo_gasolina']}, ${snapshot.data!.docs[i]['fecha_compra']}, ${snapshot.data!.docs[i]['tipo_uso']}, Puertas ${snapshot.data!.docs[i]['numero_puertas']}, ${snapshot.data!.docs[i]['carroceria']}',
+                                    '${snapshot.data!.docs[i]['kilometraje']}, ${snapshot.data!.docs[i]['tipo_gasolina']}, ${snapshot.data!.docs[i]['fecha_compra']}, ${snapshot.data!.docs[i]['transmicion']}, Puertas ${snapshot.data!.docs[i]['numero_puertas']}, ${snapshot.data!.docs[i]['carroceria']}',
                                     style: TextStyle(
                                       fontFamily: 'biko',
                                       fontSize: 14,
