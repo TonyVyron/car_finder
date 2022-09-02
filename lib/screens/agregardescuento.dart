@@ -76,7 +76,7 @@ class _agregdescState extends State<agregdesc> {
               Container(
                   width: double.infinity,
                   child: Text(
-                    'Descuento del Vehículo',
+                    'Descuento del vehículo',
                     style: TextStyle(
                         fontFamily: 'biko', color: Colors.black, fontSize: 15),
                     textAlign: TextAlign.left,
@@ -130,7 +130,7 @@ class _agregdescState extends State<agregdesc> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                   child: Text(
-                    "Agregar Descuento",
+                    "Agregar un descuento",
                     style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'biko',
@@ -162,7 +162,7 @@ class _agregdescState extends State<agregdesc> {
                 size: 25,
                 color: Colors.white,
               ),
-              Text('Descuento Agregado',
+              Text('Descuento aplicado',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'biko',

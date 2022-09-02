@@ -81,7 +81,7 @@ class _agregarDetallesState extends State<agregarDetalles> {
                   Container(
                       width: double.infinity,
                       child: Text(
-                        'Explicación del Detalle',
+                        'Explicación de detalles',
                         style: TextStyle(
                             fontFamily: 'biko',
                             color: Colors.black,
@@ -110,7 +110,7 @@ class _agregarDetallesState extends State<agregarDetalles> {
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.details),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                      hintText: "Fallo en la Apetura de puerta..",
+                      hintText: "Fallo en la apetura de puerta..",
                       hintStyle: TextStyle(
                         fontFamily: 'biko',
                       ),
@@ -129,7 +129,7 @@ class _agregarDetallesState extends State<agregarDetalles> {
                   Container(
                       width: double.infinity,
                       child: Text(
-                        'Detalle Principal',
+                        'Detalle principal',
                         style: TextStyle(
                             fontFamily: 'biko',
                             color: Colors.black,
@@ -158,7 +158,7 @@ class _agregarDetallesState extends State<agregarDetalles> {
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.dangerous),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                      hintText: "Aire Acondicionado..",
+                      hintText: "Aire acondicionado..",
                       hintStyle: TextStyle(
                         fontFamily: 'biko',
                       ),
@@ -189,7 +189,7 @@ class _agregarDetallesState extends State<agregarDetalles> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                   child: Text(
-                    "Agregar Descuento",
+                    "Agregar un descuento",
                     style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'biko',

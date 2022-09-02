@@ -151,7 +151,7 @@ class _ActuCarroState extends State<ActuCarro> {
               UpdateCarrosDetails();
             },
             child: Text(
-              "Actualizar Datos",
+              "Actualizar datos",
               style: TextStyle(fontFamily: 'biko', fontSize: 20),
             )),
       ),
@@ -201,7 +201,7 @@ class _ActuCarroState extends State<ActuCarro> {
                     Container(
                         width: double.infinity,
                         child: Text(
-                          'Nombre del Vehículo',
+                          'Nombre del vehículo',
                           style: TextStyle(
                               fontFamily: 'biko',
                               color: Colors.black,
@@ -245,7 +245,7 @@ class _ActuCarroState extends State<ActuCarro> {
                       Container(
                           width: double.infinity,
                           child: Text(
-                            'Explicación del Detalle',
+                            'Explicación del o sus detalles',
                             style: TextStyle(
                                 fontFamily: 'biko',
                                 color: Colors.black,
@@ -284,7 +284,7 @@ class _ActuCarroState extends State<ActuCarro> {
                       Container(
                           width: double.infinity,
                           child: Text(
-                            'Detalle Principal',
+                            'Detalle principal',
                             style: TextStyle(
                                 fontFamily: 'biko',
                                 color: Colors.black,
@@ -326,7 +326,7 @@ class _ActuCarroState extends State<ActuCarro> {
                       Container(
                           width: double.infinity,
                           child: Text(
-                            'Porcentaje de Descuento',
+                            'Porcentaje de descuento',
                             style: TextStyle(
                                 fontFamily: 'biko',
                                 color: Colors.black,
@@ -372,7 +372,7 @@ class _ActuCarroState extends State<ActuCarro> {
                     Container(
                         width: double.infinity,
                         child: Text(
-                          'Nombre de la Marca',
+                          'Marca',
                           style: TextStyle(
                               fontFamily: 'biko',
                               color: Colors.black,
@@ -417,7 +417,7 @@ class _ActuCarroState extends State<ActuCarro> {
                     Container(
                         width: double.infinity,
                         child: Text(
-                          'Precio del Vehículo',
+                          'Precio',
                           style: TextStyle(
                               fontFamily: 'biko',
                               color: Colors.black,
@@ -462,7 +462,7 @@ class _ActuCarroState extends State<ActuCarro> {
                     Container(
                         width: double.infinity,
                         child: Text(
-                          'Kilometraje del Vehículo',
+                          'Kilometraje',
                           style: TextStyle(
                               fontFamily: 'biko',
                               color: Colors.black,
@@ -514,7 +514,7 @@ class _ActuCarroState extends State<ActuCarro> {
                         flex: 6,
                         child: Container(
                           child: Text(
-                            "Cambiar Transmición",
+                            "Cambiar transmisión",
                             style: TextStyle(
                               fontFamily: 'biko',
                               fontSize: 17,
@@ -550,7 +550,7 @@ class _ActuCarroState extends State<ActuCarro> {
                       Container(
                           width: double.infinity,
                           child: Text(
-                            'Transmición',
+                            'Transmisión',
                             style: TextStyle(
                                 fontFamily: 'biko',
                                 color: Colors.black,
@@ -580,7 +580,7 @@ class _ActuCarroState extends State<ActuCarro> {
                           },
                           items: <String>[
                             'Manual',
-                            'Automatico',
+                            'Automático',
                             'CVT',
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
@@ -607,7 +607,7 @@ class _ActuCarroState extends State<ActuCarro> {
                         flex: 6,
                         child: Container(
                           child: Text(
-                            "Cambiar Gasolina",
+                            "Cambiar el tipo de combustible",
                             style: TextStyle(
                               fontFamily: 'biko',
                               fontSize: 17,
@@ -643,7 +643,7 @@ class _ActuCarroState extends State<ActuCarro> {
                       Container(
                           width: double.infinity,
                           child: Text(
-                            'Tipo de Gasolina',
+                            'Tipo de combustible',
                             style: TextStyle(
                                 fontFamily: 'biko',
                                 color: Colors.black,
@@ -701,7 +701,7 @@ class _ActuCarroState extends State<ActuCarro> {
                         flex: 6,
                         child: Container(
                           child: Text(
-                            "Cambiar Carrocería",
+                            "Cambiar la carrocería",
                             style: TextStyle(
                               fontFamily: 'biko',
                               fontSize: 17,
@@ -770,7 +770,7 @@ class _ActuCarroState extends State<ActuCarro> {
                             'Hatchback',
                             'Crossover',
                             'Convertible',
-                            'Sedan',
+                            'Sedán',
                             'Deportivo',
                             'Coupe',
                             'Minivan',
@@ -791,7 +791,7 @@ class _ActuCarroState extends State<ActuCarro> {
                 Container(
                     width: double.infinity,
                     child: Text(
-                      "Año del Modelo",
+                      "Año",
                       style: TextStyle(
                           fontFamily: 'biko',
                           color: Colors.black,
@@ -819,7 +819,7 @@ class _ActuCarroState extends State<ActuCarro> {
                             height: 50,
                             alignment: Alignment.center,
                             child: Text(
-                              'Seleccionar Año',
+                              'Seleccionar el año',
                               textAlign: TextAlign.center,
                               style:
                                   TextStyle(fontFamily: 'biko', fontSize: 16),
@@ -851,7 +851,7 @@ class _ActuCarroState extends State<ActuCarro> {
                         flex: 6,
                         child: Container(
                           child: Text(
-                            "Cambiar Estado",
+                            "Cambiar las condiciones",
                             style: TextStyle(
                               fontFamily: 'biko',
                               fontSize: 17,
@@ -887,7 +887,7 @@ class _ActuCarroState extends State<ActuCarro> {
                       Container(
                           width: double.infinity,
                           child: Text(
-                            'Estado del Vehículo',
+                            'Condiciones',
                             style: TextStyle(
                                 fontFamily: 'biko',
                                 color: Colors.black,
@@ -917,9 +917,9 @@ class _ActuCarroState extends State<ActuCarro> {
                           },
                           items: <String>[
                             'Excelentes',
-                            'Optimas',
+                            'Óptimas',
                             'Correctas',
-                            'Con Detalles',
+                            'Con detalles',
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -945,7 +945,7 @@ class _ActuCarroState extends State<ActuCarro> {
                         flex: 6,
                         child: Container(
                           child: Text(
-                            "Cambiar Tracción",
+                            "Cambiar la tracción",
                             style: TextStyle(
                               fontFamily: 'biko',
                               fontSize: 17,
@@ -981,7 +981,7 @@ class _ActuCarroState extends State<ActuCarro> {
                       Container(
                           width: double.infinity,
                           child: Text(
-                            'Tracción del Vehículo',
+                            'Tracción',
                             style: TextStyle(
                                 fontFamily: 'biko',
                                 color: Colors.black,
@@ -1030,7 +1030,7 @@ class _ActuCarroState extends State<ActuCarro> {
                     Container(
                         width: double.infinity,
                         child: Text(
-                          'Número de Puertas del Vehículo',
+                          'Número de puertas',
                           style: TextStyle(
                               fontFamily: 'biko',
                               color: Colors.black,
@@ -1073,7 +1073,7 @@ class _ActuCarroState extends State<ActuCarro> {
                     Container(
                         width: double.infinity,
                         child: Text(
-                          'Color del Vehículo',
+                          'Color',
                           style: TextStyle(
                               fontFamily: 'biko',
                               color: Colors.black,
@@ -1115,7 +1115,7 @@ class _ActuCarroState extends State<ActuCarro> {
                 Container(
                     width: double.infinity,
                     child: Text(
-                      "Fecha de Adquisición del Vehículo",
+                      "Fecha de adquisición",
                       style: TextStyle(
                           fontFamily: 'biko',
                           color: Colors.black,
@@ -1140,7 +1140,7 @@ class _ActuCarroState extends State<ActuCarro> {
                             height: 50,
                             alignment: Alignment.center,
                             child: Text(
-                              'Seleccionar Fecha',
+                              'Seleccionar la fecha',
                               textAlign: TextAlign.center,
                               style:
                                   TextStyle(fontFamily: 'biko', fontSize: 16),
@@ -1169,7 +1169,7 @@ class _ActuCarroState extends State<ActuCarro> {
                       Container(
                           width: double.infinity,
                           child: Text(
-                            "Tiempo Garantía",
+                            "Tiempo de garantía",
                             style: TextStyle(
                                 fontFamily: 'biko',
                                 color: Colors.black,
@@ -1233,7 +1233,7 @@ class _ActuCarroState extends State<ActuCarro> {
                 size: 25,
                 color: Colors.white,
               ),
-              Text('Vehículo Actualizado',
+              Text('La información ha sido actualizada',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'biko',

@@ -82,7 +82,7 @@ class filtroautos extends StatelessWidget {
                                 border: OutlineInputBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(20))),
-                                hintText: "Buscar Carro",
+                                hintText: "Buscar un vehículo",
                                 hintStyle: TextStyle(
                                     fontFamily: 'biko',
                                     fontWeight: FontWeight.w300,
@@ -145,7 +145,7 @@ class filtroautos extends StatelessWidget {
                                                 borderRadius:
                                                     BorderRadius.circular(50)),
                                             child: Text(
-                                              "BMW",
+                                              "Peugeot",
                                               style: TextStyle(
                                                 fontFamily: 'biko',
                                                 fontWeight: FontWeight.w500,
@@ -233,7 +233,7 @@ class filtroautos extends StatelessWidget {
                                                 borderRadius:
                                                     BorderRadius.circular(50)),
                                             child: Text(
-                                              "Audi",
+                                              "Volkswagen",
                                               style: TextStyle(
                                                 fontFamily: 'biko',
                                                 fontWeight: FontWeight.w500,
