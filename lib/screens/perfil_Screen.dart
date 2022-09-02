@@ -76,8 +76,8 @@ class _PerfilState extends State<Perfil> {
                   ),
                   Text(
                     loggedInUser.status.toString() == 'Vendedor'
-                        ? 'Datos de mi Local'.toTitleCase()
-                        : 'Mis Datos Personales',
+                        ? 'Datos de la tienda'.toTitleCase()
+                        : 'Mis datos personales',
                     style: TextStyle(
                       fontFamily: 'biko',
                       fontSize: LABEL_SIZE,
@@ -93,8 +93,8 @@ class _PerfilState extends State<Perfil> {
                       alignment: Alignment.centerLeft,
                       child: TextParrafo(
                           text: loggedInUser.status.toString() == 'Vendedor'
-                              ? " IDENTIFICADOR del Local:".toTitleCase()
-                              : " IDENTIFICADOR:".toTitleCase(),
+                              ? " ID de tienda:".toTitleCase()
+                              : " ID:".toTitleCase(),
                           icon: Icons.code,
                           style: TextStyle(
                               fontFamily: 'biko',
@@ -115,7 +115,7 @@ class _PerfilState extends State<Perfil> {
                     Align(
                         alignment: Alignment.centerLeft,
                         child: TextParrafo(
-                            text: " Nombre del Local:".toTitleCase(),
+                            text: " Nombre de la tienda:".toTitleCase(),
                             icon: Icons.code,
                             style: TextStyle(
                                 fontFamily: 'biko',
@@ -136,8 +136,8 @@ class _PerfilState extends State<Perfil> {
                     alignment: Alignment.centerLeft,
                     child: TextParrafo(
                       text: loggedInUser.status.toString() == 'Vendedor'
-                          ? " NOMBRE Del Encargado:".toTitleCase()
-                          : " NOMBRE COMPLETO:".toTitleCase(),
+                          ? "Encargado:".toTitleCase()
+                          : "Nombre completo:".toTitleCase(),
                       style: TextStyle(
                           fontFamily: 'biko',
                           color: Colors.black,
@@ -160,13 +160,13 @@ class _PerfilState extends State<Perfil> {
                     alignment: Alignment.centerLeft,
                     child: TextParrafo(
                       text: loggedInUser.status.toString() == 'Vendedor'
-                          ? " Edad Del Encargado:".toTitleCase()
+                          ? " Edad del encargado:".toTitleCase()
                           : " Edad:".toTitleCase(),
                       style: TextStyle(
                           fontFamily: 'biko',
                           color: Colors.black,
                           fontSize: 18),
-                      icon: Icons.view_agenda,
+                      icon: Icons.numbers,
                     ),
                   ),
                   Align(
@@ -189,7 +189,7 @@ class _PerfilState extends State<Perfil> {
                           fontFamily: 'biko',
                           color: Colors.black,
                           fontSize: 18),
-                      icon: Icons.view_agenda,
+                      icon: Icons.phone,
                     ),
                   ),
                   Align(
@@ -208,8 +208,8 @@ class _PerfilState extends State<Perfil> {
                     alignment: Alignment.centerLeft,
                     child: TextParrafo(
                         text: loggedInUser.status.toString() == 'Vendedor'
-                            ? " Correo de Contacto:".toTitleCase()
-                            : " Correo Electrónico:".toTitleCase(),
+                            ? " Correo de contacto:".toTitleCase()
+                            : " Correo electrónico:".toTitleCase(),
                         style: TextStyle(
                             fontFamily: 'biko',
                             color: Colors.black,
@@ -229,12 +229,12 @@ class _PerfilState extends State<Perfil> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: TextParrafo(
-                      text: " Status:".toTitleCase(),
+                      text: "Estatus:".toTitleCase(),
                       style: TextStyle(
                           fontFamily: 'biko',
                           color: Colors.black,
                           fontSize: 18),
-                      icon: Icons.person_add,
+                      icon: Icons.verified_user,
                     ),
                   ),
                   Align(
@@ -251,7 +251,7 @@ class _PerfilState extends State<Perfil> {
                     alignment: Alignment.centerLeft,
                     child: TextParrafo(
                       text: loggedInUser.status.toString() == 'Vendedor'
-                          ? " Domicilio del Lugar:".toTitleCase()
+                          ? " Domicilio de la tienda:".toTitleCase()
                           : " Domicilio:".toTitleCase(),
                       style: TextStyle(
                           fontFamily: 'biko',

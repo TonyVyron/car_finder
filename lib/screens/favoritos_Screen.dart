@@ -64,7 +64,7 @@ class _FavoritosState extends State<Favoritos> {
               width: double.infinity,
               alignment: Alignment.center,
               child: Text(
-                'No se Encuentran Vehículos en Favoritos',
+                'No ha marcado vehículos que le gusten',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontFamily: 'biko', fontSize: 22, color: Colors.black),
@@ -223,7 +223,7 @@ class _FavoritosState extends State<Favoritos> {
                                                       child: Container(
                                                         child: TextParrafo(
                                                           text:
-                                                              '${info_carro['nombre_carro']}'
+                                                              '${info_carro['nombre_marca']} ${info_carro['nombre_carro']}'
                                                                   .toString()
                                                                   .toTitleCase(),
                                                           style: TextStyle(
@@ -240,20 +240,6 @@ class _FavoritosState extends State<Favoritos> {
                                                     Align(
                                                       alignment:
                                                           Alignment.centerLeft,
-                                                      child: Container(
-                                                        child: TextParrafo(
-                                                          text: info_carro[
-                                                                  'nombre_marca']
-                                                              .toString()
-                                                              .toTitleCase(),
-                                                          style: TextStyle(
-                                                              fontFamily:
-                                                                  'biko',
-                                                              fontSize: 18,
-                                                              color:
-                                                                  Colors.black),
-                                                        ),
-                                                      ),
                                                     ),
                                                     Align(
                                                       alignment:
@@ -505,7 +491,7 @@ class _FavoritosState extends State<Favoritos> {
                                                   child: Container(
                                                     child: TextParrafo(
                                                       text:
-                                                          '${info_carro['nombre_carro']} ${info_carro['nombre_marca']}...'
+                                                          '${info_carro['nombre_marca']}'
                                                               .toTitleCase(),
                                                       style: TextStyle(
                                                           fontFamily: 'biko',
@@ -703,7 +689,7 @@ class _FavoritosState extends State<Favoritos> {
                                                               .centerLeft,
                                                           child: Container(
                                                             child: TextParrafo(
-                                                              text: '${info_carro['nombre_carro']}'
+                                                              text: '${info_carro['nombre_marca']} ${info_carro['nombre_carro']}'
                                                                   .toString()
                                                                   .toTitleCase(),
                                                               style: TextStyle(
@@ -721,20 +707,6 @@ class _FavoritosState extends State<Favoritos> {
                                                         Align(
                                                           alignment: Alignment
                                                               .centerLeft,
-                                                          child: Container(
-                                                            child: TextParrafo(
-                                                              text: info_carro[
-                                                                      'nombre_marca']
-                                                                  .toString()
-                                                                  .toTitleCase(),
-                                                              style: TextStyle(
-                                                                  fontFamily:
-                                                                      'biko',
-                                                                  fontSize: 18,
-                                                                  color: Colors
-                                                                      .black),
-                                                            ),
-                                                          ),
                                                         ),
                                                         Row(
                                                           children: [
@@ -989,7 +961,7 @@ class _FavoritosState extends State<Favoritos> {
                                                       child: Container(
                                                         child: TextParrafo(
                                                           text:
-                                                              '${info_carro['nombre_carro']} ${info_carro['nombre_marca']}...'
+                                                              '${info_carro['nombre_marca']}'
                                                                   .toTitleCase(),
                                                           style: TextStyle(
                                                               fontFamily:
@@ -1050,22 +1022,6 @@ class _FavoritosState extends State<Favoritos> {
                                             )
                                           ],
                                         ),
-                                        // Positioned(
-                                        //   top: 10,
-                                        //   left: -15,
-                                        //   child: Container(
-                                        //       padding: EdgeInsets.all(3),
-                                        //       decoration: BoxDecoration(
-                                        //         color: Colors.amber,
-                                        //       ),
-                                        //       child: Text(
-                                        //         "Recomendación",
-                                        //         style: TextStyle(
-                                        //             fontFamily: 'biko',
-                                        //             fontSize: 15,
-                                        //             color: Colors.black),
-                                        //       )),
-                                        // ),
                                       ],
                                     )))
                             : InkWell(
@@ -1180,7 +1136,7 @@ class _FavoritosState extends State<Favoritos> {
                                                               .centerLeft,
                                                           child: Container(
                                                             child: TextParrafo(
-                                                              text: '${info_carro['nombre_carro']}'
+                                                              text: '${info_carro['nombre_marca']} ${info_carro['nombre_carro']}'
                                                                   .toString()
                                                                   .toTitleCase(),
                                                               style: TextStyle(
@@ -1198,20 +1154,6 @@ class _FavoritosState extends State<Favoritos> {
                                                         Align(
                                                           alignment: Alignment
                                                               .centerLeft,
-                                                          child: Container(
-                                                            child: TextParrafo(
-                                                              text: info_carro[
-                                                                      'nombre_marca']
-                                                                  .toString()
-                                                                  .toTitleCase(),
-                                                              style: TextStyle(
-                                                                  fontFamily:
-                                                                      'biko',
-                                                                  fontSize: 18,
-                                                                  color: Colors
-                                                                      .black),
-                                                            ),
-                                                          ),
                                                         ),
                                                         Row(
                                                           children: [
@@ -1533,7 +1475,7 @@ class _FavoritosState extends State<Favoritos> {
                                                       child: Container(
                                                         child: TextParrafo(
                                                           text:
-                                                              '${info_carro['nombre_carro']} ${info_carro['nombre_marca']}...'
+                                                              '${info_carro['nombre_marca']}'
                                                                   .toTitleCase(),
                                                           style: TextStyle(
                                                               fontFamily:
@@ -1642,7 +1584,7 @@ class _FavoritosState extends State<Favoritos> {
                   size: 25,
                   color: Colors.white,
                 ),
-                Text('Agregado a Favoritos',
+                Text('Marcado como favorito',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'biko',
@@ -1678,7 +1620,7 @@ class _FavoritosState extends State<Favoritos> {
                   size: 25,
                   color: Colors.white,
                 ),
-                Text('Eliminado de Favoritos',
+                Text('Eliminado de tus favoritos',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'biko',

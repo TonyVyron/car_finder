@@ -336,50 +336,6 @@ class _InicioState extends State<Inicio> {
               ),
             ),
           ),
-          // SpeedDial(
-          //   label: Text(
-          //     "Registro",
-          //     style: TextStyle(
-          //       color: Colors.white,
-          //       fontFamily: ax,
-          //       fontSize: 15,
-          //     ),
-          //   ),
-          //   visible: true,
-          //   curve: Curves.bounceIn,
-          //   children: [
-          //     // FAB 1
-          //     SpeedDialChild(
-          //         child: Icon(
-          //           Icons.person,
-          //           color: Colors.white,
-          //         ),
-          //         backgroundColor: RED_CAR,
-          //         onTap: widget.showRegisterPage,
-          //         label: 'Cliente',
-          //         labelStyle: TextStyle(
-          //           color: Colors.white,
-          //           fontFamily: ax,
-          //           fontSize: 18,
-          //         ),
-          //         labelBackgroundColor: RED_CAR),
-          //     // FAB 2
-          //     SpeedDialChild(
-          //         child: Icon(
-          //           Icons.shopping_cart,
-          //           color: Colors.white,
-          //         ),
-          //         backgroundColor: RED_CAR,
-          //         onTap: () {},
-          //         label: 'Vendedor',
-          //         labelStyle: TextStyle(
-          //           color: Colors.white,
-          //           fontFamily: ax,
-          //           fontSize: 18,
-          //         ),
-          //         labelBackgroundColor: RED_CAR)
-          //   ],
-          // )
         ],
       ),
     );
@@ -458,7 +414,7 @@ class _InicioState extends State<Inicio> {
                             ),
                           ),
                           content: Text(
-                            'Inicio de Sesión Completado',
+                            'Inicio de sesión exitoso',
                             textAlign: TextAlign.center,
                             style: TextStyle(fontFamily: 'biko', fontSize: 22),
                           ),
@@ -468,20 +424,20 @@ class _InicioState extends State<Inicio> {
       } on FirebaseAuthException catch (error) {
         switch (error.code) {
           case "invalid-email":
-            errorMessage = "Email Invalidado";
+            errorMessage = "Correo no válido";
 
             break;
           case "wrong-password":
-            errorMessage = "Contraseña Incorrecta";
+            errorMessage = "Contraseña incorrecta";
             break;
           case "user-not-found":
-            errorMessage = "Usuario Sin Registrar";
+            errorMessage = "Este usuario no ha sido registrado";
             break;
           case "user-disabled":
             errorMessage = "Usuario desabilitado";
             break;
           case "too-many-requests":
-            errorMessage = "Muchas Solicitudes";
+            errorMessage = "Por favor intente más tarde";
             break;
           case "operation-not-allowed":
             errorMessage = "Inicio de Sesión no Habilitado.";

@@ -49,7 +49,7 @@ class _RegisterPageState extends State<RegisterPage> {
         _image = File(pick.path);
       } else {
         showsnackbar(
-            'Sin Imagen Detectada',
+            'No hay imagen',
             Duration(milliseconds: 600),
             Icon(
               Icons.close,
@@ -68,7 +68,7 @@ class _RegisterPageState extends State<RegisterPage> {
         _image = File(pick.path);
       } else {
         showsnackbar(
-            'Sin Imagen Detectada',
+            'No hay imagen',
             Duration(milliseconds: 600),
             Icon(
               Icons.close,
@@ -117,12 +117,12 @@ class _RegisterPageState extends State<RegisterPage> {
             keyboardType: TextInputType.emailAddress,
             validator: (value) {
               if (value!.isEmpty) {
-                return ("Porfavor Ingresa Tu Email");
+                return ("Por favor, ingresa tu correo");
               }
               // reg expression for email validation
               if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
                   .hasMatch(value)) {
-                return ("Porfavor Verifica Tu Email");
+                return ("Por favor, verifica tu correo");
               }
               return null;
             },
@@ -133,7 +133,7 @@ class _RegisterPageState extends State<RegisterPage> {
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.mail),
               contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-              hintText: islighted == true ? "Email" : "Email de Contacto",
+              hintText: islighted == true ? "Correo" : "Correo de contacto",
               hintStyle: TextStyle(
                 fontFamily: ax,
               ),
@@ -167,7 +167,7 @@ class _RegisterPageState extends State<RegisterPage> {
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.person),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: islighted == true ? "Nombre(s)" : "Nombre(s) del Encargado",
+          hintText: islighted == true ? "Nombre(s)" : "Nombre(s) del encargado",
           hintStyle: TextStyle(
             fontFamily: ax,
           ),
@@ -188,7 +188,7 @@ class _RegisterPageState extends State<RegisterPage> {
         validator: (value) {
           RegExp regex = new RegExp(r'^.{3,}$');
           if (value!.isEmpty) {
-            return ("Nombre del Local Vacio");
+            return ("Nombre de la tienda");
           }
           if (!regex.hasMatch(value)) {
             return ("Ingrese un Minimo de 3 Caracteres)");
@@ -202,7 +202,7 @@ class _RegisterPageState extends State<RegisterPage> {
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.store_mall_directory),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "Nombre del Local",
+          hintText: "Nombre de la tienda",
           hintStyle: TextStyle(
             fontFamily: ax,
           ),
@@ -233,7 +233,7 @@ class _RegisterPageState extends State<RegisterPage> {
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.man),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: islighted == true ? "Apellidos" : "Apellidos del Encargado",
+          hintText: islighted == true ? "Apellidos" : "Apellidos del encargado",
           hintStyle: TextStyle(
             fontFamily: ax,
           ),
@@ -265,7 +265,7 @@ class _RegisterPageState extends State<RegisterPage> {
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.numbers),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: islighted == true ? "Edad" : "Edad del Encargado",
+          hintText: islighted == true ? "Edad" : "Edad del encargado",
           hintStyle: TextStyle(
             fontFamily: ax,
           ),
@@ -293,10 +293,10 @@ class _RegisterPageState extends State<RegisterPage> {
         keyboardType: TextInputType.number,
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
-          prefixIcon: Icon(Icons.numbers),
+          prefixIcon: Icon(Icons.phone),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText:
-              islighted == true ? "Número Telefónico" : "Número de Contacto",
+              islighted == true ? "Número telefónico" : "Número de contacto",
           hintStyle: TextStyle(
             fontFamily: ax,
           ),
@@ -327,7 +327,7 @@ class _RegisterPageState extends State<RegisterPage> {
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.place),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: islighted == true ? "Dirección" : "Dirección del Lugar",
+          hintText: islighted == true ? "Dirección" : "Dirección de la tienda",
           hintStyle: TextStyle(
             fontFamily: ax,
           ),
@@ -400,7 +400,7 @@ class _RegisterPageState extends State<RegisterPage> {
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.lock),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "Confirmar",
+          hintText: "Confirmar su contraseña",
           hintStyle: TextStyle(
             fontFamily: ax,
           ),
@@ -428,7 +428,7 @@ class _RegisterPageState extends State<RegisterPage> {
             SignUp2(_emailController.text, _passwordController.text);
           } else {
             showsnackbar(
-                'Imagen no Selecccionada',
+                'Imagen no seleccionada',
                 Duration(milliseconds: 600),
                 Icon(
                   Icons.close,
@@ -521,7 +521,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: Container(
                       alignment: Alignment.center,
                       child: Text(
-                        'Registrarse como Cliente',
+                        'Registrarse como cliente',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 18,
@@ -554,7 +554,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 color: Colors.white),
             margin: EdgeInsets.symmetric(horizontal: 25),
             child: Text(
-              'Ingresa Foto de Perfil',
+              'Escoga su foto de perfil',
               style: TextStyle(
                 fontSize: 21,
                 fontFamily: ax,
@@ -589,7 +589,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Text(
-                                      "Tomar Foto",
+                                      "Tomar una foto",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 25,
@@ -597,7 +597,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       ),
                                     ),
                                     Icon(
-                                      Icons.search,
+                                      Icons.camera_alt_outlined,
                                       size: 35,
                                     ),
                                   ],
@@ -618,7 +618,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Text(
-                                      "Elegir Galería",
+                                      "Elegir una desde galería",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 25,
@@ -703,7 +703,7 @@ class _RegisterPageState extends State<RegisterPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '¿Ya estás registrado? ',
+                  '¿Ya estás registrado?',
                   style: TextStyle(
                     fontFamily: ax,
                     fontSize: 18,
@@ -781,7 +781,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: Container(
                       alignment: Alignment.center,
                       child: Text(
-                        'Registrarse como Vendedor',
+                        'Registrarse como vendedor',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 18,
@@ -814,7 +814,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 color: Colors.white),
             margin: EdgeInsets.symmetric(horizontal: 25),
             child: Text(
-              'Ingresa Foto del Local',
+              'Suba el logo de tienda',
               style: TextStyle(
                 fontSize: 21,
                 fontFamily: ax,
@@ -849,7 +849,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Text(
-                                      "Tomar Foto",
+                                      "Tomar una foto",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 25,
@@ -857,7 +857,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       ),
                                     ),
                                     Icon(
-                                      Icons.search,
+                                      Icons.camera_alt_outlined,
                                       size: 35,
                                     ),
                                   ],
@@ -878,7 +878,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Text(
-                                      "Elegir Galería",
+                                      "Elegirlo desde galería",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 25,
@@ -967,7 +967,7 @@ class _RegisterPageState extends State<RegisterPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '¿Ya estás registrado? ',
+                  '¿Ya estás registrado?',
                   style: TextStyle(
                     fontFamily: ax,
                     fontSize: 18,

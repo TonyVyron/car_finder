@@ -36,17 +36,6 @@ class _CajaAutosState extends State<CajaAutos> {
     });
   }
 
-  // Future<List> getAll() async {
-  //   List carro = [];
-
-  //   var snapshot = await FirebaseFirestore.instance
-  //       .collection('users')
-  //       .doc(loggedInUser.uid)
-  //       .get();
-
-  //   return carro;
-  // }
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -91,8 +80,8 @@ class _CajaAutosState extends State<CajaAutos> {
             alignment: Alignment.center,
             child: Text(
               widget.QueryTexto.isEmpty
-                  ? 'No se Encuentran Vehículos Registrados'
-                  : "No se Ecuentran Dicho Vehículo",
+                  ? 'No se han detectado vehículos registrados'
+                  : "El vehículo que busca no está disponible",
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontFamily: 'biko', fontSize: 22, color: Colors.black),
@@ -250,7 +239,7 @@ class _CajaAutosState extends State<CajaAutos> {
                                                     child: Container(
                                                       child: TextParrafo(
                                                         text:
-                                                            '${info_carro['nombre_carro']}'
+                                                            '${info_carro['nombre_marca']} ${info_carro['nombre_carro']}'
                                                                 .toString()
                                                                 .toTitleCase(),
                                                         style: TextStyle(
@@ -259,23 +248,6 @@ class _CajaAutosState extends State<CajaAutos> {
                                                                 FontWeight.w500,
                                                             fontSize: 25,
                                                             color: RED_CAR),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    child: Container(
-                                                      child: TextParrafo(
-                                                        text: info_carro[
-                                                                'nombre_marca']
-                                                            .toString()
-                                                            .toTitleCase(),
-                                                        style: TextStyle(
-                                                            fontFamily: 'biko',
-                                                            fontSize: 18,
-                                                            color:
-                                                                Colors.black),
                                                       ),
                                                     ),
                                                   ),
@@ -514,7 +486,7 @@ class _CajaAutosState extends State<CajaAutos> {
                                                 child: Container(
                                                   child: TextParrafo(
                                                     text:
-                                                        '${info_carro['nombre_carro']} ${info_carro['nombre_marca']}...'
+                                                        '${info_carro['nombre_marca']}'
                                                             .toTitleCase(),
                                                     style: TextStyle(
                                                         fontFamily: 'biko',
@@ -582,7 +554,7 @@ class _CajaAutosState extends State<CajaAutos> {
                                               Color.fromARGB(255, 21, 110, 183),
                                         ),
                                         child: Text(
-                                          "Promoción",
+                                          "¡Promoción!",
                                           style: TextStyle(
                                               fontFamily: 'biko',
                                               fontSize: 15,
@@ -710,7 +682,7 @@ class _CajaAutosState extends State<CajaAutos> {
                                                             .centerLeft,
                                                         child: Container(
                                                           child: TextParrafo(
-                                                            text: '${info_carro['nombre_carro']}'
+                                                            text: '${info_carro['nombre_marca']} ${info_carro['nombre_carro']}'
                                                                 .toString()
                                                                 .toTitleCase(),
                                                             style: TextStyle(
@@ -727,20 +699,6 @@ class _CajaAutosState extends State<CajaAutos> {
                                                       Align(
                                                         alignment: Alignment
                                                             .centerLeft,
-                                                        child: Container(
-                                                          child: TextParrafo(
-                                                            text: info_carro[
-                                                                    'nombre_marca']
-                                                                .toString()
-                                                                .toTitleCase(),
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'biko',
-                                                                fontSize: 18,
-                                                                color: Colors
-                                                                    .black),
-                                                          ),
-                                                        ),
                                                       ),
                                                       Row(
                                                         children: [
@@ -989,7 +947,7 @@ class _CajaAutosState extends State<CajaAutos> {
                                                     child: Container(
                                                       child: TextParrafo(
                                                         text:
-                                                            '${info_carro['nombre_carro']} ${info_carro['nombre_marca']}...'
+                                                            '${info_carro['nombre_marca']}'
                                                                 .toTitleCase(),
                                                         style: TextStyle(
                                                             fontFamily: 'biko',
@@ -1044,22 +1002,6 @@ class _CajaAutosState extends State<CajaAutos> {
                                           )
                                         ],
                                       ),
-                                      // Positioned(
-                                      //   top: 10,
-                                      //   left: -15,
-                                      //   child: Container(
-                                      //       padding: EdgeInsets.all(3),
-                                      //       decoration: BoxDecoration(
-                                      //         color: Colors.amber,
-                                      //       ),
-                                      //       child: Text(
-                                      //         "Vehículo",
-                                      //         style: TextStyle(
-                                      //             fontFamily: 'biko',
-                                      //             fontSize: 15,
-                                      //             color: Colors.black),
-                                      //       )),
-                                      // ),
                                     ],
                                   )))
                           : InkWell(
@@ -1174,7 +1116,7 @@ class _CajaAutosState extends State<CajaAutos> {
                                                             .centerLeft,
                                                         child: Container(
                                                           child: TextParrafo(
-                                                            text: '${info_carro['nombre_carro']}'
+                                                            text: '${info_carro['nombre_marca']} ${info_carro['nombre_carro']}'
                                                                 .toString()
                                                                 .toTitleCase(),
                                                             style: TextStyle(
@@ -1191,20 +1133,6 @@ class _CajaAutosState extends State<CajaAutos> {
                                                       Align(
                                                         alignment: Alignment
                                                             .centerLeft,
-                                                        child: Container(
-                                                          child: TextParrafo(
-                                                            text: info_carro[
-                                                                    'nombre_marca']
-                                                                .toString()
-                                                                .toTitleCase(),
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'biko',
-                                                                fontSize: 18,
-                                                                color: Colors
-                                                                    .black),
-                                                          ),
-                                                        ),
                                                       ),
                                                       Row(
                                                         children: [
@@ -1349,7 +1277,7 @@ class _CajaAutosState extends State<CajaAutos> {
                                                                 .calendar_month_outlined,
                                                             color: RED_CAR,
                                                             size: LABEL_SIZE *
-                                                                1.5,
+                                                                1.1,
                                                           ),
                                                         ),
                                                         Expanded(
@@ -1518,7 +1446,7 @@ class _CajaAutosState extends State<CajaAutos> {
                                                     child: Container(
                                                       child: TextParrafo(
                                                         text:
-                                                            '${info_carro['nombre_carro']} ${info_carro['nombre_marca']}...'
+                                                            '${info_carro['nombre_marca']}'
                                                                 .toTitleCase(),
                                                         style: TextStyle(
                                                             fontFamily: 'biko',
@@ -1588,7 +1516,7 @@ class _CajaAutosState extends State<CajaAutos> {
                                               "Detalles",
                                               style: TextStyle(
                                                   fontFamily: 'biko',
-                                                  fontSize: 17,
+                                                  fontSize: 15,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.white),
                                             )),
@@ -1624,7 +1552,7 @@ class _CajaAutosState extends State<CajaAutos> {
                   size: 25,
                   color: Colors.white,
                 ),
-                Text('Agregado a Favoritos',
+                Text('Agregado a sus favoritos',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'biko',
@@ -1660,7 +1588,7 @@ class _CajaAutosState extends State<CajaAutos> {
                   size: 25,
                   color: Colors.white,
                 ),
-                Text('Eliminado de Favoritos',
+                Text('Eliminado de sus favoritos',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'biko',

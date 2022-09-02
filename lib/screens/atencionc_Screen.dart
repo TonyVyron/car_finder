@@ -8,7 +8,7 @@ class Atencion_Clientes extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: TextParrafo(
-        text: 'Atención a Clientes',
+        text: 'Atención a clientes',
         style: TextStyle(
             fontFamily: 'biko',
             fontWeight: FontWeight.bold,

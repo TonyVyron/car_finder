@@ -56,7 +56,7 @@ class _ElimImageState extends State<ElimImage> {
                 width: double.infinity,
                 alignment: Alignment.center,
                 child: Text(
-                  'No Tienes Vehículos Registrados',
+                  'No has registrado vehículos',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontFamily: 'biko', fontSize: 22, color: Colors.black),
@@ -116,10 +116,10 @@ class _ElimImageState extends State<ElimImage> {
                             padding: EdgeInsets.all(8),
                             margin: EdgeInsets.symmetric(vertical: 15),
                             child: Text(
-                              "Eliminar Imagenes",
+                              "Eliminar imágenes",
                               style: TextStyle(
                                 fontFamily: 'biko',
-                                fontSize: 20,
+                                fontSize: 17,
                               ),
                             ),
                           ),
@@ -175,17 +175,17 @@ class _ElimImageState extends State<ElimImage> {
                                                             backgroundColor:
                                                                 Colors.white,
                                                             title: Text(
-                                                                "Desea Eliminar Esta Imagen",
+                                                                "¿Desea eliminar esta imagen?",
                                                                 style:
                                                                     TextStyle(
                                                                   fontFamily:
                                                                       'biko',
                                                                   color: Colors
                                                                       .black,
-                                                                  fontSize: 25,
+                                                                  fontSize: 17,
                                                                 )),
                                                             content: Text(
-                                                                "Se Eliminara Permanentemente",
+                                                                "Se eliminará para siempre",
                                                                 style:
                                                                     TextStyle(
                                                                   fontSize: 20,
@@ -248,7 +248,7 @@ class _ElimImageState extends State<ElimImage> {
                                                                   color:
                                                                       RED_CAR,
                                                                   child: Text(
-                                                                    "Si",
+                                                                    "Sí",
                                                                     style: TextStyle(
                                                                         fontFamily:
                                                                             'biko',
@@ -319,7 +319,7 @@ class _ElimImageState extends State<ElimImage> {
               ],
             ),
             content: Text(
-              'Las Fotos Estan Siendo Eliminadas..',
+              'Espere, las fotos están siendo eliminadas',
               textAlign: TextAlign.center,
               style: TextStyle(fontFamily: 'biko', fontSize: 20),
             ),
@@ -353,7 +353,7 @@ class _ElimImageState extends State<ElimImage> {
                   size: 25,
                   color: Colors.white,
                 ),
-                Text('Imagen Eliminada',
+                Text('Imagen eliminada',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'biko',

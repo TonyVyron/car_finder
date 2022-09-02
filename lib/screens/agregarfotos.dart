@@ -41,7 +41,7 @@ class _AgregaFotosState extends State<AgregaFotos> {
         print('Tamaño del Arreglo:' + _imageFileList!.length.toString());
       } else {
         showsnackbar(
-            'Sin Imagen Detectada',
+            'No hay imagen para mostrar',
             Duration(milliseconds: 600),
             Icon(
               Icons.close,
@@ -129,7 +129,7 @@ class _AgregaFotosState extends State<AgregaFotos> {
               padding: EdgeInsets.all(8),
               margin: EdgeInsets.symmetric(vertical: 15),
               child: Text(
-                "Subir Imagen del Vehículo",
+                "Subir una imagen del vehículo",
                 style: TextStyle(
                   fontFamily: 'biko',
                   fontSize: 20,
@@ -220,7 +220,7 @@ class _AgregaFotosState extends State<AgregaFotos> {
                               size: 25,
                               color: Colors.white,
                             ),
-                            Text('No se Encuentran Fotos',
+                            Text('No se encuentran fotos',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontFamily: 'biko',
@@ -234,7 +234,7 @@ class _AgregaFotosState extends State<AgregaFotos> {
                 }
               },
               child: Text(
-                "Ingresar Fotos",
+                "Subir fotos",
                 style: TextStyle(fontFamily: 'biko', fontSize: 25),
               ),
             ),
@@ -279,7 +279,7 @@ class _AgregaFotosState extends State<AgregaFotos> {
               ],
             ),
             content: Text(
-              'Las Fotos Estan Siendo Agregadas..',
+              'Subiendo las fotos...',
               textAlign: TextAlign.center,
               style: TextStyle(fontFamily: 'biko', fontSize: 20),
             ),
@@ -318,7 +318,7 @@ class _AgregaFotosState extends State<AgregaFotos> {
                 size: 25,
                 color: Colors.white,
               ),
-              Text('Fotos Agregadas',
+              Text('Subidas con éxito',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'biko',

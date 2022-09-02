@@ -55,7 +55,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
               borderRadius: BorderRadius.circular(20),
               color: RED_CAR,
             ),
-            child: Text('Seleccionar Año del Modelo',
+            child: Text('Seleccionar el año del modelo',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
@@ -106,7 +106,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
     final DateTime? agarra = await showDatePicker(
         context: context,
         initialDate: modelo,
-        firstDate: DateTime(1990),
+        firstDate: DateTime(1950),
         lastDate: DateTime(2101));
     if (agarra != null && agarra != modelo) {
       setState(() {
@@ -169,7 +169,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
         print('Tamaño del Arreglo:' + _imageFileList!.length.toString());
       } else {
         showsnackbar(
-            'Sin Imagen Detectada',
+            'No se detectó imagen',
             Duration(milliseconds: 600),
             Icon(
               Icons.close,
@@ -280,7 +280,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                                       child: Align(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
-                                          'Agregar Nuevo Vehículo',
+                                          'Agregar un nuevo vehículo',
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500,
@@ -338,7 +338,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                                         size: 25,
                                         color: Colors.white,
                                       ),
-                                      Text('Datos sin Rellenar',
+                                      Text('Tiene datos sin rellenar',
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             fontFamily: 'biko',
@@ -367,7 +367,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                                       size: 25,
                                       color: Colors.white,
                                     ),
-                                    Text('Ingresa una Imagen',
+                                    Text('Suba una foto',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontFamily: 'biko',
@@ -385,7 +385,6 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                     }
                   }
                 },
-                // onStepTapped: (step) => setState(() => currentstep = step),
                 onStepCancel: () {
                   currentstep == 0 ? null : setState(() => currentstep -= 1);
                 },
@@ -423,7 +422,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                               elevation: 5,
                             ),
                             child: Text(
-                              "Atras",
+                              "Atrás",
                               style:
                                   TextStyle(fontFamily: 'biko', fontSize: 20),
                             ),
@@ -439,7 +438,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
   List<Step> getSteps() => [
         Step(
             title: Text(
-              "Basico",
+              "Básico",
               style: TextStyle(fontFamily: 'biko', fontSize: 16),
             ),
             state: currentstep > 0 ? StepState.complete : StepState.indexed,
@@ -455,7 +454,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                         Container(
                             width: double.infinity,
                             child: Text(
-                              'Nombre del Vehículo',
+                              'Modelo del vehículo',
                               style: TextStyle(
                                   fontFamily: 'biko',
                                   color: Colors.black,
@@ -472,7 +471,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                           },
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return ("Nombre del Vehículo Vacio");
+                              return ("No ha puesto el modelo");
                             }
                             return null;
                           },
@@ -482,7 +481,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.directions_car),
                             contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                            hintText: "Aveo..",
+                            hintText: "Por ejemplo Aveo o Sentra..",
                             hintStyle: TextStyle(
                               fontFamily: 'biko',
                             ),
@@ -496,13 +495,12 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                     SizedBox(
                       height: 10,
                     ),
-                    //NOMBRE MARCA
                     Column(
                       children: [
                         Container(
                             width: double.infinity,
                             child: Text(
-                              'Nombre de la Marca',
+                              'Marca',
                               style: TextStyle(
                                   fontFamily: 'biko',
                                   color: Colors.black,
@@ -520,7 +518,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                           },
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return ("Nombre de la Marca Vacia");
+                              return ("No ha escrito la marca");
                             }
                             return null;
                           },
@@ -529,7 +527,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.discount_rounded),
                             contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                            hintText: "Chevrolet..",
+                            hintText: "Un ejemplo es Chevrolet...",
                             hintStyle: TextStyle(
                               fontFamily: 'biko',
                             ),
@@ -567,7 +565,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                           },
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return ("Precio Vacio");
+                              return ("el precio está vacío");
                             }
                             return null;
                           },
@@ -621,7 +619,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.av_timer_sharp),
                             contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                            hintText: "80,000..",
+                            hintText: "80,000, 90,000...",
                             hintStyle: TextStyle(
                               fontFamily: 'biko',
                             ),
@@ -671,7 +669,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                             },
                             items: <String>[
                               'Manual',
-                              'Automatico',
+                              'Automático',
                               'CVT',
                             ].map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
@@ -692,7 +690,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                         Container(
                             width: double.infinity,
                             child: Text(
-                              'Tipo de Gasolina',
+                              'Tipo de combustible',
                               style: TextStyle(
                                   fontFamily: 'biko',
                                   color: Colors.black,
@@ -800,7 +798,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                     Container(
                         width: double.infinity,
                         child: Text(
-                          "Año del Modelo",
+                          "Año",
                           style: TextStyle(
                               fontFamily: 'biko',
                               color: Colors.black,
@@ -828,7 +826,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                                 height: 50,
                                 alignment: Alignment.center,
                                 child: Text(
-                                  'Seleccionar Año',
+                                  'Elige el año',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontFamily: 'biko', fontSize: 16),
@@ -854,7 +852,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                     Container(
                         width: double.infinity,
                         child: Text(
-                          "Fecha de Adquisición del Vehículo",
+                          "Fecha de adquisición del vehículo",
                           style: TextStyle(
                               fontFamily: 'biko',
                               color: Colors.black,
@@ -882,7 +880,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                                 height: 50,
                                 alignment: Alignment.center,
                                 child: Text(
-                                  'Seleccionar Fecha',
+                                  'Seleccione la fecha',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontFamily: 'biko', fontSize: 16),
@@ -909,7 +907,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                         Container(
                             width: double.infinity,
                             child: Text(
-                              'Color del Vehículo',
+                              'Color',
                               style: TextStyle(
                                   fontFamily: 'biko',
                                   color: Colors.black,
@@ -936,7 +934,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.color_lens),
                             contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                            hintText: "Rojo..",
+                            hintText: "Negro, Azul, Rojo..",
                             hintStyle: TextStyle(
                               fontFamily: 'biko',
                             ),
@@ -955,7 +953,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                         Container(
                             width: double.infinity,
                             child: Text(
-                              'Tracción del Vehículo',
+                              'Tracción',
                               style: TextStyle(
                                   fontFamily: 'biko',
                                   color: Colors.black,
@@ -1005,7 +1003,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                         Container(
                             width: double.infinity,
                             child: Text(
-                              'Número de Puertas del Vehículo',
+                              'Número de puertas',
                               style: TextStyle(
                                   fontFamily: 'biko',
                                   color: Colors.black,
@@ -1075,8 +1073,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                               flex: 6,
                               child: Container(
                                 child: Text(
-                                  "¿El Vehículo Cuenta con Detalles?",
-                                  //(theme.isLighted() ? "Modo " : "Modo Normal"),
+                                  "¿Cuenta con algún detalle?",
                                   style: TextStyle(
                                     fontFamily: 'biko',
                                     fontSize: 17,
@@ -1113,7 +1110,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                           Container(
                               width: double.infinity,
                               child: Text(
-                                'Explicación del Detalle',
+                                '¿Cuál es este detalle?',
                                 style: TextStyle(
                                     fontFamily: 'biko',
                                     color: Colors.black,
@@ -1146,7 +1143,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                               prefixIcon: Icon(Icons.details),
                               contentPadding:
                                   EdgeInsets.fromLTRB(20, 15, 20, 15),
-                              hintText: "Fallo en la Apetura de puerta..",
+                              hintText: "Problemas al abrir alguna puerta..",
                               hintStyle: TextStyle(
                                 fontFamily: 'biko',
                               ),
@@ -1162,7 +1159,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                           Container(
                               width: double.infinity,
                               child: Text(
-                                'Detalle Principal',
+                                'Detalle principal',
                                 style: TextStyle(
                                     fontFamily: 'biko',
                                     color: Colors.black,
@@ -1195,7 +1192,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                               prefixIcon: Icon(Icons.drive_eta),
                               contentPadding:
                                   EdgeInsets.fromLTRB(20, 15, 20, 15),
-                              hintText: "Aire Acondicionado..",
+                              hintText: "Aire acondicionado..",
                               hintStyle: TextStyle(
                                 fontFamily: 'biko',
                               ),
@@ -1224,7 +1221,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                               flex: 6,
                               child: Container(
                                 child: Text(
-                                  "¿Se Desea Relizar algun Descuento?",
+                                  "¿Va a realizar algún descuento?",
                                   //(theme.isLighted() ? "Modo " : "Modo Normal"),
                                   style: TextStyle(
                                     fontFamily: 'biko',
@@ -1263,7 +1260,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                           Container(
                               width: double.infinity,
                               child: Text(
-                                'Porcentaje de Descuento',
+                                'Porcentaje de descuento',
                                 style: TextStyle(
                                     fontFamily: 'biko',
                                     color: Colors.black,
@@ -1294,7 +1291,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                               prefixIcon: Icon(Icons.discount),
                               contentPadding:
                                   EdgeInsets.fromLTRB(20, 15, 20, 15),
-                              hintText: "5, 10, 20..",
+                              hintText: "5%, 10%, 20%..",
                               hintStyle: TextStyle(
                                 fontFamily: 'biko',
                               ),
@@ -1321,7 +1318,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                             flex: 6,
                             child: Container(
                               child: Text(
-                                "¿Cuenta con Guia de Mantenimeinto?",
+                                "¿Cuenta con la guía de mantenimiento?",
                                 //(theme.isLighted() ? "Modo " : "Modo Normal"),
                                 style: TextStyle(
                                   fontFamily: 'biko',
@@ -1357,7 +1354,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                         Container(
                             width: double.infinity,
                             child: Text(
-                              'Estado del Vehículo',
+                              'Condiciones del vehículo',
                               style: TextStyle(
                                   fontFamily: 'biko',
                                   color: Colors.black,
@@ -1387,9 +1384,9 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                             },
                             items: <String>[
                               'Excelentes',
-                              'Optimas',
+                              'Óptimas',
                               'Correctas',
-                              'Con Detalles',
+                              'Con detalles',
                             ].map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
@@ -1416,7 +1413,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                             flex: 6,
                             child: Container(
                               child: Text(
-                                "¿El Vehículo Cuenta con Garantía?",
+                                "¿Cuenta con garantía?",
                                 style: TextStyle(
                                   fontFamily: 'biko',
                                   fontSize: 17,
@@ -1452,7 +1449,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                           Container(
                               width: double.infinity,
                               child: Text(
-                                'Tiempo de Garantia',
+                                'Tiempo de garantia',
                                 style: TextStyle(
                                     fontFamily: 'biko',
                                     color: Colors.black,
@@ -1524,7 +1521,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                       padding: EdgeInsets.all(8),
                       margin: EdgeInsets.symmetric(vertical: 15),
                       child: Text(
-                        "Subir Imagen del Vehículo",
+                        "Subir imagen del vehículo",
                         style: TextStyle(
                           fontFamily: 'biko',
                           fontSize: 20,
@@ -1628,7 +1625,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
               ],
             ),
             content: Text(
-              'El Vehículo Esta Siendo Registrado..',
+              'Estamos registrando la información...',
               textAlign: TextAlign.center,
               style: TextStyle(fontFamily: 'biko', fontSize: 20),
             ),
@@ -1645,7 +1642,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
           .ref()
           .child("${user.uid}/images")
           .child('Vehículo_${documentReference.id}')
-          .child('Subido_${i + 1}');
+          .child('subido_${i + 1}');
       await ref.putFile(File(_imageFileList![i].path));
       UrlImage = await ref.getDownloadURL();
       imagenes.add(UrlImage);
@@ -1720,7 +1717,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                 size: 25,
                 color: Colors.white,
               ),
-              Text('Subida Registrada',
+              Text('Registrado con éxito',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'biko',

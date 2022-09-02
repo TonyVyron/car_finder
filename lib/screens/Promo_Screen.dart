@@ -83,8 +83,8 @@ class _PromocionesState extends State<Promociones> {
             alignment: Alignment.center,
             child: Text(
               widget.QueryTexto.isEmpty
-                  ? 'No se Encuentran Vehículos Registrados'
-                  : "No se Ecuentran Dicho Vehículo",
+                  ? 'No se han encontrado vehículos registrados'
+                  : "El vehículo que busca no ha sido encontrado",
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontFamily: 'biko', fontSize: 22, color: Colors.black),
@@ -226,7 +226,7 @@ class _PromocionesState extends State<Promociones> {
                                                 child: Container(
                                                   child: TextParrafo(
                                                     text:
-                                                        '${info_carro['nombre_carro']}'
+                                                        '${info_carro['nombre_marca']} ${info_carro['nombre_carro']}'
                                                             .toString()
                                                             .toTitleCase(),
                                                     style: TextStyle(
@@ -240,18 +240,6 @@ class _PromocionesState extends State<Promociones> {
                                               ),
                                               Align(
                                                 alignment: Alignment.centerLeft,
-                                                child: Container(
-                                                  child: TextParrafo(
-                                                    text: info_carro[
-                                                            'nombre_marca']
-                                                        .toString()
-                                                        .toTitleCase(),
-                                                    style: TextStyle(
-                                                        fontFamily: 'biko',
-                                                        fontSize: 18,
-                                                        color: Colors.black),
-                                                  ),
-                                                ),
                                               ),
                                               Align(
                                                 alignment: Alignment.centerLeft,
@@ -480,7 +468,7 @@ class _PromocionesState extends State<Promociones> {
                                             child: Container(
                                               child: TextParrafo(
                                                 text:
-                                                    '${info_carro['nombre_carro']} ${info_carro['nombre_marca']}...'
+                                                    '${info_carro['nombre_marca']}'
                                                         .toTitleCase(),
                                                 style: TextStyle(
                                                     fontFamily: 'biko',

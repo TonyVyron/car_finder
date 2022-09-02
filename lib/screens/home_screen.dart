@@ -81,8 +81,8 @@ class _homeState extends State<home> {
     switch (selectDrawerItem) {
       case "0":
         return loggedInUser.status.toString() == 'Vendedor'
-            ? "Perfil del Local"
-            : "Perfil de Usuario";
+            ? "Perfil de la tienda"
+            : "Perfil de usuario";
       case "1":
         return "Home";
       case "2":
@@ -91,12 +91,12 @@ class _homeState extends State<home> {
         return "Favoritos";
       case "4":
         return loggedInUser.status.toString() == 'Vendedor'
-            ? "Atención a Vendedores"
-            : "Atención a Clientes";
+            ? "Atención a vendedores"
+            : "Atención a clientes";
       case "5":
-        return "Agregar Vehículo";
+        return "Agregar un nuevo vehículo";
       case "6":
-        return "Mis Vehículos";
+        return "Mis vehículos";
     }
   }
 
@@ -177,7 +177,7 @@ class _homeState extends State<home> {
                             child: Container(
                               alignment: Alignment.topLeft,
                               child: Text(
-                                '${loggedInUser.Nombre}${loggedInUser.Apellidos}',
+                                '${loggedInUser.Nombre} ${loggedInUser.Apellidos}',
                                 style: TextStyle(
                                     fontFamily: 'biko',
                                     fontSize: 25,
@@ -192,7 +192,7 @@ class _homeState extends State<home> {
                                 Container(
                                   margin: EdgeInsets.only(right: 15),
                                   child: Text(
-                                    'Ver Perfil',
+                                    'Ver mi perfil',
                                     style: TextStyle(
                                         fontFamily: 'biko',
                                         fontSize: 20,
@@ -319,7 +319,7 @@ class _homeState extends State<home> {
                         margin: EdgeInsets.only(bottom: 2),
                         child: ListTile(
                           title: TextParrafo(
-                            text: 'Agregar Vehículo',
+                            text: 'Agregar nuevo vehículo',
                             style: TextStyle(
                                 fontFamily: 'biko',
                                 fontWeight: FontWeight.w500,
@@ -347,7 +347,7 @@ class _homeState extends State<home> {
                         margin: EdgeInsets.only(bottom: 2),
                         child: ListTile(
                           title: TextParrafo(
-                            text: 'Mis Vehículos',
+                            text: 'Mis vehículos',
                             style: TextStyle(
                                 fontFamily: 'biko',
                                 fontWeight: FontWeight.w500,
@@ -384,8 +384,8 @@ class _homeState extends State<home> {
                       selected: false,
                       title: Text(
                           loggedInUser.status == 'Cliente'
-                              ? 'Atencion A Clientes'
-                              : 'Atencion A Vendedor',
+                              ? 'Atención a clientes'
+                              : 'Atención a vendedor',
                           style: TextStyle(
                               fontFamily: 'biko',
                               fontWeight: FontWeight.w500,
@@ -434,7 +434,7 @@ class _homeState extends State<home> {
                                       borderRadius: BorderRadius.only(
                                           topRight: Radius.circular(50))),
                                   backgroundColor: Colors.white,
-                                  title: Text("Cerrar Sesión",
+                                  title: Text("Cerrar sesión",
                                       style: TextStyle(
                                         fontFamily: 'biko',
                                         color: Colors.black,
@@ -478,7 +478,7 @@ class _homeState extends State<home> {
                                             left: 13),
                                         color: RED_CAR,
                                         child: Text(
-                                          "Si",
+                                          "Sí",
                                           style: TextStyle(
                                               fontFamily: 'biko',
                                               color: Colors.white,
@@ -672,7 +672,7 @@ class _homeState extends State<home> {
                                                 Container(
                                                     width: double.infinity,
                                                     child: Text(
-                                                      'Tipo de Uso',
+                                                      'Tipo de uso',
                                                       style: TextStyle(
                                                           fontFamily: 'biko',
                                                           color: Colors.black,
