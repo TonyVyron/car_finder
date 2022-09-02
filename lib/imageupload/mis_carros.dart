@@ -1,16 +1,15 @@
-import 'dart:ffi';
-import 'dart:io';
+import 'package:car_finder/screens/actualizarauto.dart';
+import 'package:car_finder/screens/agregarfotos.dart';
+import 'package:car_finder/screens/eliminarimagen.dart';
+import 'package:car_finder/screens/agregardescuento.dart';
+import 'package:car_finder/screens/agregardetalles.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:intl/intl.dart';
-import 'package:car_finder/models/carro_model.dart';
 import 'package:car_finder/models/user_model.dart';
 import 'package:car_finder/screens/infoAutos.dart';
 import 'package:car_finder/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:page_indicator/page_indicator.dart';
 
 class mis_carros extends StatefulWidget {
   mis_carros({Key? key}) : super(key: key);
@@ -23,10 +22,7 @@ class _mis_carrosState extends State<mis_carros> {
   final user = FirebaseAuth.instance.currentUser!;
 
   UserModel loggedInUser = UserModel();
-
-  bool _estrella = false;
-  bool _estrella2 = false;
-  bool _estrella3 = false;
+  DateTime selectedDate = DateTime.now();
 
   final maxheight = 0.9;
   final minheight = 0.4;
@@ -177,7 +173,7 @@ class _mis_carrosState extends State<mis_carros> {
                                               modelo: info_carro['ano_modelo'],
                                               Gasolina:
                                                   info_carro['tipo_gasolina'],
-                                              tipouso: info_carro['tipo_uso'],
+                                              trans: info_carro['transmicion'],
                                               Fecha: info_carro['fecha_compra'],
                                               potencia: '6.21/100 km',
                                               Guia: info_carro[
@@ -328,128 +324,190 @@ class _mis_carrosState extends State<mis_carros> {
                                         ),
                                         Column(
                                           children: [
-                                            Row(
-                                              children: [
-                                                Expanded(
-                                                  flex: 5,
-                                                  child: Container(
-                                                    child: TextParrafo(
-                                                        text:
-                                                            '${info_carro['kilometraje'].toString()} km',
-                                                        style: TextStyle(
-                                                            fontFamily: 'biko',
-                                                            fontSize:
-                                                                LABEL_CAJA,
-                                                            color:
-                                                                Colors.black),
-                                                        icon: Icons
-                                                            .av_timer_sharp),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  flex: 5,
-                                                  child: Container(
-                                                    child: TextParrafo(
-                                                        text:
-                                                            '${info_carro['fecha_compra'].toString()}',
-                                                        style: TextStyle(
-                                                            fontFamily: 'biko',
-                                                            fontSize:
-                                                                LABEL_CAJA,
-                                                            color:
-                                                                Colors.black),
-                                                        icon: Icons.date_range),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Container(
-                                                      child: Row(children: [
-                                                    Container(
-                                                      margin: EdgeInsets.only(
-                                                          right: 3),
-                                                      child: Icon(
-                                                        Icons.local_gas_station,
-                                                        color: RED_CAR,
-                                                        size: LABEL_SIZE * 1.5,
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Text(
-                                                        info_carro[
-                                                            'tipo_gasolina'],
-                                                        style: TextStyle(
-                                                          fontFamily: 'biko',
-                                                          fontSize: LABEL_CAJA,
-                                                          color: Colors.black,
+                                            Container(
+                                              margin: EdgeInsets.symmetric(
+                                                  vertical: 2),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Container(
+                                                        child: Row(children: [
+                                                      Container(
+                                                        margin: EdgeInsets.only(
+                                                            right: 3),
+                                                        child: Icon(
+                                                          Icons.av_timer_sharp,
+                                                          color: RED_CAR,
+                                                          size:
+                                                              LABEL_SIZE * 1.5,
                                                         ),
                                                       ),
-                                                    )
-                                                  ])),
-                                                ),
-                                                Expanded(
-                                                  child: Container(
-                                                      child: Row(children: [
-                                                    Container(
-                                                      margin: EdgeInsets.only(
-                                                          right: 3),
-                                                      child: Icon(
-                                                        Icons.family_restroom,
-                                                        color: RED_CAR,
-                                                        size: LABEL_SIZE * 1.5,
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Text(
-                                                        info_carro['tipo_uso'],
-                                                        style: TextStyle(
-                                                          fontFamily: 'biko',
-                                                          fontSize: LABEL_CAJA,
-                                                          color: Colors.black,
+                                                      Expanded(
+                                                        child: Text(
+                                                          '${info_carro['kilometraje']} km',
+                                                          style: TextStyle(
+                                                            fontFamily: 'biko',
+                                                            fontSize:
+                                                                LABEL_CAJA,
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ])),
+                                                  ),
+                                                  Expanded(
+                                                    child: Container(
+                                                        child: Row(children: [
+                                                      Container(
+                                                        margin: EdgeInsets.only(
+                                                            right: 3),
+                                                        child: Icon(
+                                                          Icons
+                                                              .calendar_month_outlined,
+                                                          color: RED_CAR,
+                                                          size:
+                                                              LABEL_SIZE * 1.5,
                                                         ),
                                                       ),
-                                                    )
-                                                  ])),
-                                                ),
-                                              ],
+                                                      Expanded(
+                                                        child: Text(
+                                                          '${info_carro['fecha_compra']}',
+                                                          style: TextStyle(
+                                                            fontFamily: 'biko',
+                                                            fontSize:
+                                                                LABEL_CAJA,
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ])),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                            Row(
-                                              children: [
-                                                Expanded(
-                                                  flex: 5,
-                                                  child: Container(
-                                                    child: TextParrafo(
-                                                        text: '4,21/100 km',
-                                                        style: TextStyle(
+                                            Container(
+                                              margin: EdgeInsets.symmetric(
+                                                  vertical: 2),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Container(
+                                                        child: Row(children: [
+                                                      Container(
+                                                        margin: EdgeInsets.only(
+                                                            right: 3),
+                                                        child: Icon(
+                                                          Icons
+                                                              .local_gas_station,
+                                                          color: RED_CAR,
+                                                          size:
+                                                              LABEL_SIZE * 1.5,
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Text(
+                                                          info_carro[
+                                                              'tipo_gasolina'],
+                                                          style: TextStyle(
                                                             fontFamily: 'biko',
                                                             fontSize:
                                                                 LABEL_CAJA,
-                                                            color:
-                                                                Colors.black),
-                                                        icon: Icons.bolt),
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ])),
                                                   ),
-                                                ),
-                                                Expanded(
-                                                  flex: 5,
-                                                  child: Container(
-                                                    child: TextParrafo(
-                                                        text: info_carro[
-                                                                'carroceria']
-                                                            .toString(),
-                                                        style: TextStyle(
+                                                  Expanded(
+                                                    child: Container(
+                                                        child: Row(children: [
+                                                      Container(
+                                                        margin: EdgeInsets.only(
+                                                            right: 3),
+                                                        child: Icon(
+                                                          Icons.schema,
+                                                          color: RED_CAR,
+                                                          size:
+                                                              LABEL_SIZE * 1.5,
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Text(
+                                                          info_carro[
+                                                              'transmicion'],
+                                                          style: TextStyle(
                                                             fontFamily: 'biko',
                                                             fontSize:
                                                                 LABEL_CAJA,
-                                                            color:
-                                                                Colors.black),
-                                                        icon: Icons
-                                                            .directions_car),
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ])),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.symmetric(
+                                                  vertical: 2),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Container(
+                                                        child: Row(children: [
+                                                      Container(
+                                                        margin: EdgeInsets.only(
+                                                            right: 3),
+                                                        child: Icon(
+                                                          Icons.date_range,
+                                                          color: RED_CAR,
+                                                          size:
+                                                              LABEL_SIZE * 1.5,
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Text(
+                                                          info_carro[
+                                                              'ano_modelo'],
+                                                          style: TextStyle(
+                                                            fontFamily: 'biko',
+                                                            fontSize:
+                                                                LABEL_CAJA,
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ])),
+                                                  ),
+                                                  Expanded(
+                                                    child: Container(
+                                                        child: Row(children: [
+                                                      Container(
+                                                        margin: EdgeInsets.only(
+                                                            right: 3),
+                                                        child: Icon(
+                                                          Icons.directions_car,
+                                                          color: RED_CAR,
+                                                          size:
+                                                              LABEL_SIZE * 1.5,
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Text(
+                                                          '${info_carro['carroceria']}',
+                                                          style: TextStyle(
+                                                            fontFamily: 'biko',
+                                                            fontSize:
+                                                                LABEL_CAJA,
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ])),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                             Divider(
                                               thickness: 1,
@@ -458,7 +516,7 @@ class _mis_carrosState extends State<mis_carros> {
                                             Row(
                                               children: [
                                                 Expanded(
-                                                  flex: 8,
+                                                  flex: 6,
                                                   child: Container(
                                                     child: TextParrafo(
                                                       text:
@@ -474,6 +532,207 @@ class _mis_carrosState extends State<mis_carros> {
                                                 Expanded(
                                                     flex: 2,
                                                     child: Container(
+                                                      margin: EdgeInsets.only(
+                                                          right: 5),
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5),
+                                                          border: Border.all()),
+                                                      child: IconButton(
+                                                        icon: Icon(Icons.build,
+                                                            size: 35,
+                                                            color: Colors.blue),
+                                                        onPressed: () {
+                                                          showDialog(
+                                                              context: context,
+                                                              builder:
+                                                                  (BuildContext
+                                                                      context) {
+                                                                return AlertDialog(
+                                                                  shape: RoundedRectangleBorder(
+                                                                      borderRadius: BorderRadius.only(
+                                                                          bottomLeft: Radius.circular(
+                                                                              50),
+                                                                          topRight:
+                                                                              Radius.circular(50))),
+                                                                  contentPadding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              0),
+                                                                  content:
+                                                                      SingleChildScrollView(
+                                                                          child:
+                                                                              Column(
+                                                                    children: [
+                                                                      InkWell(
+                                                                        onTap:
+                                                                            () {
+                                                                          showDialog(
+                                                                              context: context,
+                                                                              builder: (BuildContext context) {
+                                                                                return Dialog(
+                                                                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), topRight: Radius.circular(50))),
+                                                                                    insetPadding: EdgeInsets.all(10),
+                                                                                    child: ActuCarro(
+                                                                                      id_carro: info_carro['uid'],
+                                                                                    ));
+                                                                              });
+                                                                        },
+                                                                        child: Container(
+                                                                            padding: EdgeInsets.all(15),
+                                                                            child: Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                                              children: [
+                                                                                Expanded(
+                                                                                  flex: 8,
+                                                                                  child: Text(
+                                                                                    "Actualizar Información",
+                                                                                    textAlign: TextAlign.center,
+                                                                                    style: TextStyle(
+                                                                                      fontSize: 20,
+                                                                                      fontFamily: 'biko',
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Expanded(
+                                                                                  flex: 2,
+                                                                                  child: Icon(
+                                                                                    Icons.update,
+                                                                                    size: 35,
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            )),
+                                                                      ),
+                                                                      Divider(
+                                                                        thickness:
+                                                                            2,
+                                                                      ),
+                                                                      InkWell(
+                                                                        onTap:
+                                                                            () {
+                                                                          removerdescuento(
+                                                                              info_carro['uid']);
+                                                                        },
+                                                                        child: Container(
+                                                                            padding: EdgeInsets.all(15),
+                                                                            child: Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                                              children: [
+                                                                                Expanded(
+                                                                                  flex: 8,
+                                                                                  child: Text(
+                                                                                    "Remover Descuento",
+                                                                                    textAlign: TextAlign.center,
+                                                                                    style: TextStyle(
+                                                                                      fontSize: 21,
+                                                                                      fontFamily: 'biko',
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Expanded(
+                                                                                  flex: 2,
+                                                                                  child: Icon(
+                                                                                    Icons.discount_rounded,
+                                                                                    size: 35,
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            )),
+                                                                      ),
+                                                                      Divider(
+                                                                        thickness:
+                                                                            2,
+                                                                      ),
+                                                                      InkWell(
+                                                                        onTap:
+                                                                            () {
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                        },
+                                                                        child: Container(
+                                                                            padding: EdgeInsets.all(15),
+                                                                            child: Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                                              children: [
+                                                                                Expanded(
+                                                                                  flex: 8,
+                                                                                  child: Text(
+                                                                                    "Actualizar Imagenes",
+                                                                                    textAlign: TextAlign.center,
+                                                                                    style: TextStyle(
+                                                                                      fontSize: 20,
+                                                                                      fontFamily: 'biko',
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Expanded(
+                                                                                  flex: 2,
+                                                                                  child: Icon(
+                                                                                    Icons.filter,
+                                                                                    size: 35,
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            )),
+                                                                      ),
+                                                                      Divider(
+                                                                        thickness:
+                                                                            2,
+                                                                      ),
+                                                                      ElevatedButton(
+                                                                        style: ElevatedButton
+                                                                            .styleFrom(
+                                                                          shape:
+                                                                              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                                                                          onPrimary:
+                                                                              Colors.white,
+                                                                          primary:
+                                                                              RED_CAR,
+                                                                          shadowColor:
+                                                                              Colors.white,
+                                                                          elevation:
+                                                                              15,
+                                                                        ),
+                                                                        onPressed:
+                                                                            () {
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                        },
+                                                                        child:
+                                                                            Padding(
+                                                                          padding: const EdgeInsets.symmetric(
+                                                                              vertical: 15,
+                                                                              horizontal: 10),
+                                                                          child:
+                                                                              Text(
+                                                                            "Cancelar",
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Colors.white,
+                                                                              fontFamily: 'biko',
+                                                                              fontSize: 18,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(
+                                                                        height:
+                                                                            10,
+                                                                      )
+                                                                    ],
+                                                                  )),
+                                                                );
+                                                              });
+                                                        },
+                                                      ),
+                                                    )),
+                                                Expanded(
+                                                    flex: 2,
+                                                    child: Container(
+                                                      margin: EdgeInsets.only(
+                                                          left: 5),
                                                       decoration: BoxDecoration(
                                                           borderRadius:
                                                               BorderRadius
@@ -562,6 +821,7 @@ class _mis_carrosState extends State<mis_carros> {
                                                                                 cant_fotos);
 
                                                                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                              duration: Duration(seconds: 1),
                                                                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
                                                                               content: Container(
                                                                                   width: double.infinity,
@@ -695,8 +955,8 @@ class _mis_carrosState extends State<mis_carros> {
                                                           '${info_carro['kilometraje']} km',
                                                       Gasolina: info_carro[
                                                           'tipo_gasolina'],
-                                                      tipouso: info_carro[
-                                                          'tipo_uso'],
+                                                      trans: info_carro[
+                                                          'transmicion'],
                                                       modelo: info_carro[
                                                           'ano_modelo'],
                                                       Fecha: info_carro[
@@ -822,147 +1082,216 @@ class _mis_carrosState extends State<mis_carros> {
                                             ),
                                             Column(
                                               children: [
-                                                Row(
-                                                  children: [
-                                                    Expanded(
-                                                      flex: 5,
-                                                      child: Container(
-                                                        child: TextParrafo(
-                                                            text:
-                                                                '${info_carro['kilometraje']} km',
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'biko',
-                                                                fontSize:
-                                                                    LABEL_CAJA,
-                                                                color: Colors
-                                                                    .black),
-                                                            icon: Icons
-                                                                .av_timer_sharp),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      flex: 5,
-                                                      child: Container(
-                                                        child: TextParrafo(
-                                                            text:
-                                                                '${info_carro['fecha_compra']}',
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'biko',
-                                                                fontSize:
-                                                                    LABEL_CAJA,
-                                                                color: Colors
-                                                                    .black),
-                                                            icon: Icons
-                                                                .date_range),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Expanded(
-                                                      child: Container(
-                                                          child: Row(children: [
-                                                        Container(
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                                  right: 3),
-                                                          child: Icon(
-                                                            Icons
-                                                                .local_gas_station,
-                                                            color: RED_CAR,
-                                                            size: LABEL_SIZE *
-                                                                1.5,
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                          child: Text(
-                                                            info_carro[
-                                                                'tipo_gasolina'],
-                                                            style: TextStyle(
-                                                              fontFamily:
-                                                                  'biko',
-                                                              fontSize:
-                                                                  LABEL_CAJA,
-                                                              color:
-                                                                  Colors.black,
+                                                Container(
+                                                  margin: EdgeInsets.symmetric(
+                                                      vertical: 2),
+                                                  child: Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:
+                                                                Row(children: [
+                                                          Container(
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                                    right: 3),
+                                                            child: Icon(
+                                                              Icons
+                                                                  .av_timer_sharp,
+                                                              color: RED_CAR,
+                                                              size: LABEL_SIZE *
+                                                                  1.5,
                                                             ),
                                                           ),
-                                                        )
-                                                      ])),
-                                                    ),
-                                                    Expanded(
-                                                      child: Container(
-                                                          child: Row(children: [
-                                                        Container(
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                                  right: 3),
-                                                          child: Icon(
-                                                            Icons
-                                                                .family_restroom,
-                                                            color: RED_CAR,
-                                                            size: LABEL_SIZE *
-                                                                1.5,
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                          child: Text(
-                                                            info_carro[
-                                                                'tipo_uso'],
-                                                            style: TextStyle(
-                                                              fontFamily:
-                                                                  'biko',
-                                                              fontSize:
-                                                                  LABEL_CAJA,
-                                                              color:
-                                                                  Colors.black,
+                                                          Expanded(
+                                                            child: Text(
+                                                              '${info_carro['kilometraje']} km',
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    'biko',
+                                                                fontSize:
+                                                                    LABEL_CAJA,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ])),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:
+                                                                Row(children: [
+                                                          Container(
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                                    right: 3),
+                                                            child: Icon(
+                                                              Icons
+                                                                  .calendar_month_outlined,
+                                                              color: RED_CAR,
+                                                              size: LABEL_SIZE *
+                                                                  1.5,
                                                             ),
                                                           ),
-                                                        )
-                                                      ])),
-                                                    ),
-                                                  ],
+                                                          Expanded(
+                                                            child: Text(
+                                                              '${info_carro['fecha_compra']}',
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    'biko',
+                                                                fontSize:
+                                                                    LABEL_CAJA,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ])),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                                Row(
-                                                  children: [
-                                                    Expanded(
-                                                      flex: 5,
-                                                      child: Container(
-                                                        child: TextParrafo(
-                                                            text: info_carro[
-                                                                'ano_modelo'],
-                                                            style: TextStyle(
+                                                Container(
+                                                  margin: EdgeInsets.symmetric(
+                                                      vertical: 2),
+                                                  child: Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:
+                                                                Row(children: [
+                                                          Container(
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                                    right: 3),
+                                                            child: Icon(
+                                                              Icons
+                                                                  .local_gas_station,
+                                                              color: RED_CAR,
+                                                              size: LABEL_SIZE *
+                                                                  1.5,
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(
+                                                              info_carro[
+                                                                  'tipo_gasolina'],
+                                                              style: TextStyle(
                                                                 fontFamily:
                                                                     'biko',
                                                                 fontSize:
                                                                     LABEL_CAJA,
                                                                 color: Colors
-                                                                    .black),
-                                                            icon: Icons
-                                                                .calendar_today_rounded),
+                                                                    .black,
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ])),
                                                       ),
-                                                    ),
-                                                    Expanded(
-                                                      flex: 5,
-                                                      child: Container(
-                                                        child: TextParrafo(
-                                                            text:
-                                                                '${info_carro['carroceria']}',
-                                                            style: TextStyle(
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:
+                                                                Row(children: [
+                                                          Container(
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                                    right: 3),
+                                                            child: Icon(
+                                                              Icons.schema,
+                                                              color: RED_CAR,
+                                                              size: LABEL_SIZE *
+                                                                  1.5,
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(
+                                                              info_carro[
+                                                                  'transmicion'],
+                                                              style: TextStyle(
                                                                 fontFamily:
                                                                     'biko',
                                                                 fontSize:
                                                                     LABEL_CAJA,
                                                                 color: Colors
-                                                                    .black),
-                                                            icon: Icons
-                                                                .directions_car),
+                                                                    .black,
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ])),
                                                       ),
-                                                    ),
-                                                  ],
+                                                    ],
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.symmetric(
+                                                      vertical: 2),
+                                                  child: Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:
+                                                                Row(children: [
+                                                          Container(
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                                    right: 3),
+                                                            child: Icon(
+                                                              Icons.date_range,
+                                                              color: RED_CAR,
+                                                              size: LABEL_SIZE *
+                                                                  1.5,
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(
+                                                              info_carro[
+                                                                  'ano_modelo'],
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    'biko',
+                                                                fontSize:
+                                                                    LABEL_CAJA,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ])),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:
+                                                                Row(children: [
+                                                          Container(
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                                    right: 3),
+                                                            child: Icon(
+                                                              Icons
+                                                                  .directions_car,
+                                                              color: RED_CAR,
+                                                              size: LABEL_SIZE *
+                                                                  1.5,
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(
+                                                              '${info_carro['carroceria']}',
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    'biko',
+                                                                fontSize:
+                                                                    LABEL_CAJA,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ])),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                                 Divider(
                                                   thickness: 1,
@@ -971,7 +1300,7 @@ class _mis_carrosState extends State<mis_carros> {
                                                 Row(
                                                   children: [
                                                     Expanded(
-                                                      flex: 8,
+                                                      flex: 6,
                                                       child: Container(
                                                         child: TextParrafo(
                                                           text:
@@ -989,6 +1318,364 @@ class _mis_carrosState extends State<mis_carros> {
                                                     Expanded(
                                                         flex: 2,
                                                         child: Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  right: 5),
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          5),
+                                                              border:
+                                                                  Border.all()),
+                                                          child: IconButton(
+                                                            icon: Icon(
+                                                                Icons.build,
+                                                                size: 35,
+                                                                color: Colors
+                                                                    .blue),
+                                                            onPressed: () {
+                                                              showDialog(
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      (BuildContext
+                                                                          context) {
+                                                                    return AlertDialog(
+                                                                      shape: RoundedRectangleBorder(
+                                                                          borderRadius: BorderRadius.only(
+                                                                              bottomLeft: Radius.circular(50),
+                                                                              topRight: Radius.circular(50))),
+                                                                      contentPadding:
+                                                                          EdgeInsets.all(
+                                                                              0),
+                                                                      content:
+                                                                          SingleChildScrollView(
+                                                                              child: Column(
+                                                                        children: [
+                                                                          InkWell(
+                                                                            onTap:
+                                                                                () {
+                                                                              showDialog(
+                                                                                  context: context,
+                                                                                  builder: (BuildContext context) {
+                                                                                    return Dialog(
+                                                                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), topRight: Radius.circular(50))),
+                                                                                        insetPadding: EdgeInsets.all(10),
+                                                                                        child: ActuCarro(
+                                                                                          id_carro: info_carro['uid'],
+                                                                                        ));
+                                                                                  });
+                                                                            },
+                                                                            child: Container(
+                                                                                padding: EdgeInsets.all(15),
+                                                                                child: Row(
+                                                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                                                  children: [
+                                                                                    Expanded(
+                                                                                      flex: 8,
+                                                                                      child: Text(
+                                                                                        "Actualizar Información",
+                                                                                        textAlign: TextAlign.center,
+                                                                                        style: TextStyle(
+                                                                                          fontSize: 20,
+                                                                                          fontFamily: 'biko',
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                    Expanded(
+                                                                                      flex: 2,
+                                                                                      child: Icon(
+                                                                                        Icons.update,
+                                                                                        size: 35,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                )),
+                                                                          ),
+                                                                          Divider(
+                                                                            thickness:
+                                                                                2,
+                                                                          ),
+                                                                          InkWell(
+                                                                            onTap:
+                                                                                () {
+                                                                              showDialog(
+                                                                                  context: context,
+                                                                                  builder: (BuildContext context) {
+                                                                                    return Dialog(
+                                                                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), topRight: Radius.circular(50))),
+                                                                                        insetPadding: EdgeInsets.all(10),
+                                                                                        child: agregdesc(
+                                                                                          id_carro: info_carro['uid'],
+                                                                                        ));
+                                                                                  });
+                                                                            },
+                                                                            child: Container(
+                                                                                padding: EdgeInsets.all(15),
+                                                                                child: Row(
+                                                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                                                  children: [
+                                                                                    Expanded(
+                                                                                      flex: 8,
+                                                                                      child: Text(
+                                                                                        "Agregar Descuento",
+                                                                                        textAlign: TextAlign.center,
+                                                                                        style: TextStyle(
+                                                                                          fontSize: 21,
+                                                                                          fontFamily: 'biko',
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                    Expanded(
+                                                                                      flex: 2,
+                                                                                      child: Icon(
+                                                                                        Icons.discount_rounded,
+                                                                                        size: 35,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                )),
+                                                                          ),
+                                                                          Divider(
+                                                                            thickness:
+                                                                                2,
+                                                                          ),
+                                                                          InkWell(
+                                                                            onTap:
+                                                                                () {
+                                                                              showDialog(
+                                                                                  context: context,
+                                                                                  builder: (BuildContext context) {
+                                                                                    return Dialog(shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), topRight: Radius.circular(50))), insetPadding: EdgeInsets.all(10), child: agregarDetalles(id_carro: info_carro['uid']));
+                                                                                  });
+                                                                            },
+                                                                            child: Container(
+                                                                                padding: EdgeInsets.all(15),
+                                                                                child: Row(
+                                                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                                                  children: [
+                                                                                    Expanded(
+                                                                                      flex: 8,
+                                                                                      child: Text(
+                                                                                        "Agregar Detalles",
+                                                                                        textAlign: TextAlign.center,
+                                                                                        style: TextStyle(
+                                                                                          fontSize: 21,
+                                                                                          fontFamily: 'biko',
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                    Expanded(
+                                                                                      flex: 2,
+                                                                                      child: Icon(
+                                                                                        Icons.details,
+                                                                                        size: 35,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                )),
+                                                                          ),
+                                                                          Divider(
+                                                                            thickness:
+                                                                                2,
+                                                                          ),
+                                                                          InkWell(
+                                                                            onTap:
+                                                                                () {
+                                                                              showDialog(
+                                                                                  context: context,
+                                                                                  builder: (BuildContext context) {
+                                                                                    return AlertDialog(
+                                                                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), topRight: Radius.circular(50))),
+                                                                                      contentPadding: EdgeInsets.all(0),
+                                                                                      content: SingleChildScrollView(
+                                                                                          child: Column(
+                                                                                        children: [
+                                                                                          InkWell(
+                                                                                            onTap: () {
+                                                                                              showDialog(
+                                                                                                  context: context,
+                                                                                                  builder: (BuildContext context) {
+                                                                                                    return Dialog(
+                                                                                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), topRight: Radius.circular(50))),
+                                                                                                      insetPadding: EdgeInsets.all(10),
+                                                                                                      child: Container(
+                                                                                                        child: AgregaFotos(id_carro: info_carro['uid']),
+                                                                                                      ),
+                                                                                                    );
+                                                                                                  });
+                                                                                            },
+                                                                                            child: Container(
+                                                                                                padding: EdgeInsets.all(15),
+                                                                                                child: Row(
+                                                                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                                                                  children: [
+                                                                                                    Expanded(
+                                                                                                      flex: 8,
+                                                                                                      child: Text(
+                                                                                                        "Agregar Fotos",
+                                                                                                        textAlign: TextAlign.center,
+                                                                                                        style: TextStyle(
+                                                                                                          fontSize: 22,
+                                                                                                          fontFamily: 'biko',
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    Expanded(
+                                                                                                      flex: 2,
+                                                                                                      child: Icon(
+                                                                                                        Icons.filter,
+                                                                                                        size: 35,
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ],
+                                                                                                )),
+                                                                                          ),
+                                                                                          Divider(
+                                                                                            thickness: 2,
+                                                                                          ),
+                                                                                          InkWell(
+                                                                                            onTap: () {
+                                                                                              showDialog(
+                                                                                                  context: context,
+                                                                                                  builder: (BuildContext context) {
+                                                                                                    return Dialog(shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), topRight: Radius.circular(50))), insetPadding: EdgeInsets.all(10), child: ElimImage(id_carro: info_carro['uid']));
+                                                                                                  });
+                                                                                            },
+                                                                                            child: Container(
+                                                                                                padding: EdgeInsets.all(15),
+                                                                                                child: Row(
+                                                                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                                                                  children: [
+                                                                                                    Expanded(
+                                                                                                      flex: 8,
+                                                                                                      child: Text(
+                                                                                                        "Eliminar Fotos",
+                                                                                                        textAlign: TextAlign.center,
+                                                                                                        style: TextStyle(
+                                                                                                          fontSize: 22,
+                                                                                                          fontFamily: 'biko',
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    Expanded(
+                                                                                                      flex: 2,
+                                                                                                      child: Icon(
+                                                                                                        Icons.close,
+                                                                                                        size: 35,
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ],
+                                                                                                )),
+                                                                                          ),
+                                                                                          Divider(
+                                                                                            thickness: 2,
+                                                                                          ),
+                                                                                          ElevatedButton(
+                                                                                            style: ElevatedButton.styleFrom(
+                                                                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                                                                                              onPrimary: Colors.white,
+                                                                                              primary: RED_CAR,
+                                                                                              shadowColor: Colors.white,
+                                                                                              elevation: 15,
+                                                                                            ),
+                                                                                            onPressed: () {
+                                                                                              Navigator.pop(context);
+                                                                                            },
+                                                                                            child: Padding(
+                                                                                              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                                                                                              child: Text(
+                                                                                                "Cancelar",
+                                                                                                style: TextStyle(
+                                                                                                  color: Colors.white,
+                                                                                                  fontFamily: 'biko',
+                                                                                                  fontSize: 18,
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                          SizedBox(
+                                                                                            height: 10,
+                                                                                          )
+                                                                                        ],
+                                                                                      )),
+                                                                                    );
+                                                                                  });
+                                                                            },
+                                                                            child: Container(
+                                                                                padding: EdgeInsets.all(15),
+                                                                                child: Row(
+                                                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                                                  children: [
+                                                                                    Expanded(
+                                                                                      flex: 8,
+                                                                                      child: Text(
+                                                                                        "Actualizar Imagenes",
+                                                                                        textAlign: TextAlign.center,
+                                                                                        style: TextStyle(
+                                                                                          fontSize: 20,
+                                                                                          fontFamily: 'biko',
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                    Expanded(
+                                                                                      flex: 2,
+                                                                                      child: Icon(
+                                                                                        Icons.filter,
+                                                                                        size: 35,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                )),
+                                                                          ),
+                                                                          Divider(
+                                                                            thickness:
+                                                                                2,
+                                                                          ),
+                                                                          ElevatedButton(
+                                                                            style:
+                                                                                ElevatedButton.styleFrom(
+                                                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                                                                              onPrimary: Colors.white,
+                                                                              primary: RED_CAR,
+                                                                              shadowColor: Colors.white,
+                                                                              elevation: 15,
+                                                                            ),
+                                                                            onPressed:
+                                                                                () {
+                                                                              Navigator.pop(context);
+                                                                            },
+                                                                            child:
+                                                                                Padding(
+                                                                              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                                                                              child: Text(
+                                                                                "Cancelar",
+                                                                                style: TextStyle(
+                                                                                  color: Colors.white,
+                                                                                  fontFamily: 'biko',
+                                                                                  fontSize: 18,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          SizedBox(
+                                                                            height:
+                                                                                10,
+                                                                          )
+                                                                        ],
+                                                                      )),
+                                                                    );
+                                                                  });
+                                                            },
+                                                          ),
+                                                        )),
+                                                    Expanded(
+                                                        flex: 2,
+                                                        child: Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  left: 5),
                                                           decoration: BoxDecoration(
                                                               borderRadius:
                                                                   BorderRadius
@@ -1063,6 +1750,7 @@ class _mis_carrosState extends State<mis_carros> {
                                                                                 firedelete(loggedInUser.uid.toString(), id_car, cant_fotos);
 
                                                                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                                  duration: Duration(seconds: 1),
                                                                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
                                                                                   content: Container(
                                                                                       width: double.infinity,
@@ -1109,22 +1797,22 @@ class _mis_carrosState extends State<mis_carros> {
                                             )
                                           ],
                                         ),
-                                        Positioned(
-                                          top: 10,
-                                          left: -15,
-                                          child: Container(
-                                              padding: EdgeInsets.all(3),
-                                              decoration: BoxDecoration(
-                                                color: Colors.amber,
-                                              ),
-                                              child: Text(
-                                                "Recomendación",
-                                                style: TextStyle(
-                                                    fontFamily: 'biko',
-                                                    fontSize: 15,
-                                                    color: Colors.black),
-                                              )),
-                                        ),
+                                        // Positioned(
+                                        //   top: 10,
+                                        //   left: -15,
+                                        //   child: Container(
+                                        //       padding: EdgeInsets.all(3),
+                                        //       decoration: BoxDecoration(
+                                        //         color: Colors.amber,
+                                        //       ),
+                                        //       child: Text(
+                                        //         "Recomendación",
+                                        //         style: TextStyle(
+                                        //             fontFamily: 'biko',
+                                        //             fontSize: 15,
+                                        //             color: Colors.black),
+                                        //       )),
+                                        // ),
                                       ],
                                     )))
                             : InkWell(
@@ -1171,8 +1859,8 @@ class _mis_carrosState extends State<mis_carros> {
                                                       porcentaje: info_carro[
                                                               'porcentaje_falla']
                                                           .toString(),
-                                                      tipouso: info_carro[
-                                                          'tipo_uso'],
+                                                      trans: info_carro[
+                                                          'transmicion'],
                                                       detalleprin: info_carro[
                                                           'detalle_principal'],
                                                       modelo: info_carro[
@@ -1181,8 +1869,8 @@ class _mis_carrosState extends State<mis_carros> {
                                                           'garantia'],
                                                       detalles: info_carro[
                                                           'detalles'],
-                                                      Guia:
-                                                          info_carro['guia_mantenimiento'],
+                                                      Guia: info_carro[
+                                                          'guia_mantenimiento'],
                                                       Fecha: info_carro['fecha_compra'],
                                                       potencia: '6.21/100 km',
                                                       traccion: info_carro['traccion'],
@@ -1367,146 +2055,216 @@ class _mis_carrosState extends State<mis_carros> {
                                             ),
                                             Column(
                                               children: [
-                                                Row(
-                                                  children: [
-                                                    Expanded(
-                                                      flex: 5,
-                                                      child: Container(
-                                                        child: TextParrafo(
-                                                            text:
-                                                                '${info_carro['kilometraje']} km',
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'biko',
-                                                                fontSize:
-                                                                    LABEL_CAJA,
-                                                                color: Colors
-                                                                    .black),
-                                                            icon: Icons
-                                                                .av_timer_sharp),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      flex: 5,
-                                                      child: Container(
-                                                        child: TextParrafo(
-                                                            text:
-                                                                '${info_carro['fecha_compra']}',
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'biko',
-                                                                fontSize:
-                                                                    LABEL_CAJA,
-                                                                color: Colors
-                                                                    .black),
-                                                            icon: Icons
-                                                                .date_range),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Expanded(
-                                                      child: Container(
-                                                          child: Row(children: [
-                                                        Container(
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                                  right: 3),
-                                                          child: Icon(
-                                                            Icons
-                                                                .local_gas_station,
-                                                            color: RED_CAR,
-                                                            size: LABEL_SIZE *
-                                                                1.5,
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                          child: Text(
-                                                            info_carro[
-                                                                'tipo_gasolina'],
-                                                            style: TextStyle(
-                                                              fontFamily:
-                                                                  'biko',
-                                                              fontSize:
-                                                                  LABEL_CAJA,
-                                                              color:
-                                                                  Colors.black,
+                                                Container(
+                                                  margin: EdgeInsets.symmetric(
+                                                      vertical: 2),
+                                                  child: Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:
+                                                                Row(children: [
+                                                          Container(
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                                    right: 3),
+                                                            child: Icon(
+                                                              Icons
+                                                                  .av_timer_sharp,
+                                                              color: RED_CAR,
+                                                              size: LABEL_SIZE *
+                                                                  1.5,
                                                             ),
                                                           ),
-                                                        )
-                                                      ])),
-                                                    ),
-                                                    Expanded(
-                                                      child: Container(
-                                                          child: Row(children: [
-                                                        Container(
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                                  right: 3),
-                                                          child: Icon(
-                                                            Icons
-                                                                .family_restroom,
-                                                            color: RED_CAR,
-                                                            size: LABEL_SIZE *
-                                                                1.5,
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                          child: Text(
-                                                            info_carro[
-                                                                'tipo_uso'],
-                                                            style: TextStyle(
-                                                              fontFamily:
-                                                                  'biko',
-                                                              fontSize:
-                                                                  LABEL_CAJA,
-                                                              color:
-                                                                  Colors.black,
+                                                          Expanded(
+                                                            child: Text(
+                                                              '${info_carro['kilometraje']} km',
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    'biko',
+                                                                fontSize:
+                                                                    LABEL_CAJA,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ])),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:
+                                                                Row(children: [
+                                                          Container(
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                                    right: 3),
+                                                            child: Icon(
+                                                              Icons
+                                                                  .calendar_month_outlined,
+                                                              color: RED_CAR,
+                                                              size: LABEL_SIZE *
+                                                                  1.5,
                                                             ),
                                                           ),
-                                                        )
-                                                      ])),
-                                                    ),
-                                                  ],
+                                                          Expanded(
+                                                            child: Text(
+                                                              '${info_carro['fecha_compra']}',
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    'biko',
+                                                                fontSize:
+                                                                    LABEL_CAJA,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ])),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                                Row(
-                                                  children: [
-                                                    Expanded(
-                                                      flex: 5,
-                                                      child: Container(
-                                                        child: TextParrafo(
-                                                            text: '7,21/100 km',
-                                                            style: TextStyle(
+                                                Container(
+                                                  margin: EdgeInsets.symmetric(
+                                                      vertical: 2),
+                                                  child: Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:
+                                                                Row(children: [
+                                                          Container(
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                                    right: 3),
+                                                            child: Icon(
+                                                              Icons
+                                                                  .local_gas_station,
+                                                              color: RED_CAR,
+                                                              size: LABEL_SIZE *
+                                                                  1.5,
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(
+                                                              info_carro[
+                                                                  'tipo_gasolina'],
+                                                              style: TextStyle(
                                                                 fontFamily:
                                                                     'biko',
                                                                 fontSize:
                                                                     LABEL_CAJA,
                                                                 color: Colors
-                                                                    .black),
-                                                            icon: Icons.bolt),
+                                                                    .black,
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ])),
                                                       ),
-                                                    ),
-                                                    Expanded(
-                                                      flex: 5,
-                                                      child: Container(
-                                                        child: TextParrafo(
-                                                            text: info_carro[
-                                                                    'carroceria']
-                                                                .toString(),
-                                                            style: TextStyle(
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:
+                                                                Row(children: [
+                                                          Container(
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                                    right: 3),
+                                                            child: Icon(
+                                                              Icons.schema,
+                                                              color: RED_CAR,
+                                                              size: LABEL_SIZE *
+                                                                  1.5,
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(
+                                                              info_carro[
+                                                                  'transmicion'],
+                                                              style: TextStyle(
                                                                 fontFamily:
                                                                     'biko',
                                                                 fontSize:
                                                                     LABEL_CAJA,
                                                                 color: Colors
-                                                                    .black),
-                                                            icon: Icons
-                                                                .directions_car),
+                                                                    .black,
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ])),
                                                       ),
-                                                    ),
-                                                  ],
+                                                    ],
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.symmetric(
+                                                      vertical: 2),
+                                                  child: Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:
+                                                                Row(children: [
+                                                          Container(
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                                    right: 3),
+                                                            child: Icon(
+                                                              Icons.date_range,
+                                                              color: RED_CAR,
+                                                              size: LABEL_SIZE *
+                                                                  1.5,
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(
+                                                              info_carro[
+                                                                  'ano_modelo'],
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    'biko',
+                                                                fontSize:
+                                                                    LABEL_CAJA,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ])),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                            child:
+                                                                Row(children: [
+                                                          Container(
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                                    right: 3),
+                                                            child: Icon(
+                                                              Icons
+                                                                  .directions_car,
+                                                              color: RED_CAR,
+                                                              size: LABEL_SIZE *
+                                                                  1.5,
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(
+                                                              '${info_carro['carroceria']}',
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    'biko',
+                                                                fontSize:
+                                                                    LABEL_CAJA,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ])),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                                 Divider(
                                                   thickness: 1,
@@ -1515,7 +2273,7 @@ class _mis_carrosState extends State<mis_carros> {
                                                 Row(
                                                   children: [
                                                     Expanded(
-                                                      flex: 8,
+                                                      flex: 6,
                                                       child: Container(
                                                         child: TextParrafo(
                                                           text:
@@ -1533,6 +2291,198 @@ class _mis_carrosState extends State<mis_carros> {
                                                     Expanded(
                                                         flex: 2,
                                                         child: Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  right: 5),
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          5),
+                                                              border:
+                                                                  Border.all()),
+                                                          child: IconButton(
+                                                            icon: Icon(
+                                                                Icons.build,
+                                                                size: 35,
+                                                                color: Colors
+                                                                    .blue),
+                                                            onPressed: () {
+                                                              showDialog(
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      (BuildContext
+                                                                          context) {
+                                                                    return AlertDialog(
+                                                                      shape: RoundedRectangleBorder(
+                                                                          borderRadius: BorderRadius.only(
+                                                                              bottomLeft: Radius.circular(50),
+                                                                              topRight: Radius.circular(50))),
+                                                                      contentPadding:
+                                                                          EdgeInsets.all(
+                                                                              0),
+                                                                      content:
+                                                                          SingleChildScrollView(
+                                                                              child: Column(
+                                                                        children: [
+                                                                          InkWell(
+                                                                            onTap:
+                                                                                () {
+                                                                              showDialog(
+                                                                                  context: context,
+                                                                                  builder: (BuildContext context) {
+                                                                                    return Dialog(
+                                                                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), topRight: Radius.circular(50))),
+                                                                                        insetPadding: EdgeInsets.all(10),
+                                                                                        child: ActuCarro(
+                                                                                          id_carro: info_carro['uid'],
+                                                                                        ));
+                                                                                  });
+                                                                            },
+                                                                            child: Container(
+                                                                                padding: EdgeInsets.all(15),
+                                                                                child: Row(
+                                                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                                                  children: [
+                                                                                    Expanded(
+                                                                                      flex: 8,
+                                                                                      child: Text(
+                                                                                        "Actualizar Información",
+                                                                                        textAlign: TextAlign.center,
+                                                                                        style: TextStyle(
+                                                                                          fontSize: 22,
+                                                                                          fontFamily: 'biko',
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                    Expanded(
+                                                                                      flex: 2,
+                                                                                      child: Icon(
+                                                                                        Icons.update,
+                                                                                        size: 35,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                )),
+                                                                          ),
+                                                                          Divider(
+                                                                            thickness:
+                                                                                2,
+                                                                          ),
+                                                                          InkWell(
+                                                                            onTap:
+                                                                                () {
+                                                                              removerdetalles(info_carro['uid']);
+                                                                            },
+                                                                            child: Container(
+                                                                                padding: EdgeInsets.all(15),
+                                                                                child: Row(
+                                                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                                                  children: [
+                                                                                    Expanded(
+                                                                                      flex: 8,
+                                                                                      child: Text(
+                                                                                        "Remover Detalles",
+                                                                                        textAlign: TextAlign.center,
+                                                                                        style: TextStyle(
+                                                                                          fontSize: 22,
+                                                                                          fontFamily: 'biko',
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                    Expanded(
+                                                                                      flex: 2,
+                                                                                      child: Icon(
+                                                                                        Icons.discount_rounded,
+                                                                                        size: 35,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                )),
+                                                                          ),
+                                                                          Divider(
+                                                                            thickness:
+                                                                                2,
+                                                                          ),
+                                                                          InkWell(
+                                                                            onTap:
+                                                                                () {
+                                                                              Navigator.pop(context);
+                                                                            },
+                                                                            child: Container(
+                                                                                padding: EdgeInsets.all(15),
+                                                                                child: Row(
+                                                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                                                  children: [
+                                                                                    Expanded(
+                                                                                      flex: 8,
+                                                                                      child: Text(
+                                                                                        "Actualizar Imagenes",
+                                                                                        textAlign: TextAlign.center,
+                                                                                        style: TextStyle(
+                                                                                          fontSize: 22,
+                                                                                          fontFamily: 'biko',
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                    Expanded(
+                                                                                      flex: 2,
+                                                                                      child: Icon(
+                                                                                        Icons.filter,
+                                                                                        size: 35,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                )),
+                                                                          ),
+                                                                          Divider(
+                                                                            thickness:
+                                                                                2,
+                                                                          ),
+                                                                          ElevatedButton(
+                                                                            style:
+                                                                                ElevatedButton.styleFrom(
+                                                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                                                                              onPrimary: Colors.white,
+                                                                              primary: RED_CAR,
+                                                                              shadowColor: Colors.white,
+                                                                              elevation: 15,
+                                                                            ),
+                                                                            onPressed:
+                                                                                () {
+                                                                              Navigator.pop(context);
+                                                                            },
+                                                                            child:
+                                                                                Padding(
+                                                                              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                                                                              child: Text(
+                                                                                "Cancelar",
+                                                                                style: TextStyle(
+                                                                                  color: Colors.white,
+                                                                                  fontFamily: 'biko',
+                                                                                  fontSize: 18,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          SizedBox(
+                                                                            height:
+                                                                                10,
+                                                                          )
+                                                                        ],
+                                                                      )),
+                                                                    );
+                                                                  });
+                                                            },
+                                                          ),
+                                                        )),
+                                                    Expanded(
+                                                        flex: 2,
+                                                        child: Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  left: 5),
                                                           decoration: BoxDecoration(
                                                               borderRadius:
                                                                   BorderRadius
@@ -1607,6 +2557,7 @@ class _mis_carrosState extends State<mis_carros> {
                                                                                 firedelete(loggedInUser.uid.toString(), id_car, cant_fotos);
 
                                                                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                                  duration: Duration(seconds: 1),
                                                                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
                                                                                   content: Container(
                                                                                       width: double.infinity,
@@ -1677,5 +2628,80 @@ class _mis_carrosState extends State<mis_carros> {
         }
       },
     );
+  }
+
+  removerdescuento(String carro) async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      duration: Duration(seconds: 1),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+      content: Container(
+          width: double.infinity,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Icon(
+                Icons.discount_sharp,
+                size: 25,
+                color: Colors.white,
+              ),
+              Text('Descuento Removido',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'biko',
+                    fontSize: 20,
+                    color: Colors.white,
+                  ))
+            ],
+          )),
+      backgroundColor: RED_CAR,
+    ));
+    Navigator.pop(context);
+
+    await firebaseFirestore
+        .collection('carros')
+        .doc(carro)
+        .update({"tipo_agregado": 2, "porcentaje_descuento": null});
+  }
+
+  removerdetalles(String carro) async {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      duration: Duration(seconds: 1),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+      content: Container(
+          width: double.infinity,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Icon(
+                Icons.details,
+                size: 25,
+                color: Colors.white,
+              ),
+              Text('Detalles Removidos',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'biko',
+                    fontSize: 20,
+                    color: Colors.white,
+                  ))
+            ],
+          )),
+      backgroundColor: RED_CAR,
+    ));
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+    Navigator.pop(context);
+
+    await firebaseFirestore.collection('carros').doc(carro).update({
+      "tipo_agregado": 2,
+      "porcentaje_falla": null,
+      "detalles": null,
+      "detalle_principal": null
+    });
   }
 }

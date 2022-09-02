@@ -1,7 +1,5 @@
-import 'package:car_finder/screens/inicio_Screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../widgets/widgets.dart';
 
 var ax = 'biko';
 

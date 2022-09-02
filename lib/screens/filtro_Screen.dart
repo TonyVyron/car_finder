@@ -8,7 +8,6 @@ class filtroautos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _passwordController = TextEditingController();
-    bool _passwordVisible = true;
 
     return IconButton(
         onPressed: () {
@@ -333,16 +332,28 @@ class filtroautos extends StatelessWidget {
                               children: [
                                 Container(
                                   margin: EdgeInsets.only(right: 10),
-                                  child: RaisedButton(
-                                    color: RED_CAR,
-                                    padding: EdgeInsets.all(0),
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(50)),
+                                      onPrimary: Colors.white,
+                                      primary: Colors.black,
+                                      shadowColor: Colors.black,
+                                      elevation: 15,
+                                    ),
                                     onPressed: () {},
-                                    child: Text(
-                                      "Borrar",
-                                      style: TextStyle(
-                                          fontFamily: 'biko',
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 15, horizontal: 10),
+                                      child: Text(
+                                        "Borrar",
+                                        style: TextStyle(
                                           color: Colors.white,
-                                          fontWeight: FontWeight.bold),
+                                          fontFamily: 'biko',
+                                          fontSize: 18,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),

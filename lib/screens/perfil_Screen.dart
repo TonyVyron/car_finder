@@ -1,11 +1,7 @@
 import 'package:car_finder/models/user_model.dart';
-import 'package:car_finder/readData/get_user_name.dart';
-import 'package:car_finder/screens/logintipo.dart';
 import 'package:car_finder/widgets/widgets.dart';
-//import 'package:car_finder/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 var ax = "biko";
@@ -34,6 +30,8 @@ class _PerfilState extends State<Perfil> {
       setState(() {});
     });
   }
+
+  var consulta;
 
   @override
   Widget build(BuildContext context) {
@@ -274,21 +272,6 @@ class _PerfilState extends State<Perfil> {
                 ],
               ),
             ),
-            // Text(
-            //   'Nombre: ${loggedInUser.Nombre}${loggedInUser.Apellidos}  ' +
-            //       '\nApellidos: ${loggedInUser.Apellidos}' +
-            //       ' \nEdad: ${loggedInUser.Edad}' +
-            //       ' \nEmail: ${loggedInUser.email}' +
-            //       ' \nStatus: ${loggedInUser.status}' +
-            //       ' \nID: ${loggedInUser.uid}' +
-            //       ' \nDomicilio: ${loggedInUser.Direcc}',
-            //   style: TextStyle(
-            //     fontFamily: 'biko',
-            //     color: Colors.black,
-            //     fontWeight: FontWeight.w500,
-            //     fontSize: 15.5,
-            //   ),
-            // ),
           ],
         ),
       ),

@@ -1,26 +1,15 @@
-//import 'package:car_finder/Authenticator.dart';
 import 'dart:io';
-
-import 'package:car_finder/SplashScreen.dart';
-import 'package:car_finder/auth/main_page.dart';
-import 'package:car_finder/main.dart';
 import 'package:car_finder/models/user_model.dart';
-import 'package:car_finder/screens/home_screen.dart';
-import 'package:car_finder/screens/inicio_Screen.dart';
-import 'package:car_finder/screens/registercliente.dart';
 import 'package:car_finder/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 var ax = 'biko';
 bool _passwordVisible = true;
-bool _passwordVisible2 = true;
 
 class RegisterPage extends StatefulWidget {
   final VoidCallback showInicio;
@@ -176,7 +165,7 @@ class _RegisterPageState extends State<RegisterPage> {
         keyboardType: TextInputType.name,
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
-          prefixIcon: Icon(Icons.near_me),
+          prefixIcon: Icon(Icons.person),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: islighted == true ? "Nombre(s)" : "Nombre(s) del Encargado",
           hintStyle: TextStyle(
@@ -242,7 +231,7 @@ class _RegisterPageState extends State<RegisterPage> {
         keyboardType: TextInputType.name,
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
-          prefixIcon: Icon(Icons.person),
+          prefixIcon: Icon(Icons.man),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: islighted == true ? "Apellidos" : "Apellidos del Encargado",
           hintStyle: TextStyle(
@@ -1055,6 +1044,10 @@ class _RegisterPageState extends State<RegisterPage> {
     userModel.status = islighted == true ? "Cliente" : "Vendedor";
     userModel.Telefono = _numeroController.text;
     userModel.Direcc = _directionController.text;
+    if (islighted == true) {
+      userModel.Favoritos = ["Carro"];
+    } else {}
+
     userModel.foto = UrlImage;
     if (islighted == false) {
       userModel.NombreLocal = _NombreLocal.text;
@@ -1065,39 +1058,10 @@ class _RegisterPageState extends State<RegisterPage> {
         .doc(user.uid)
         .set(userModel.toMap());
 
-    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    //   shape: RoundedRectangleBorder(
-    //       borderRadius: BorderRadius.only(
-    //           topLeft: Radius.circular(30), topRight: Radius.circular(30))),
-    //   content: Container(
-    //       width: double.infinity,
-    //       child: Row(
-    //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    //         children: [
-    //           Icon(
-    //             Icons.message,
-    //             size: 25,
-    //             color: Colors.white,
-    //           ),
-    //           Text('Cuenta Registrada',
-    //               textAlign: TextAlign.center,
-    //               style: TextStyle(
-    //                 fontFamily: 'biko',
-    //                 fontSize: 20,
-    //                 color: Colors.white,
-    //               ))
-    //         ],
-    //       )),
-    //   backgroundColor: RED_CAR,
-    // ));
-
     Fluttertoast.showToast(
         msg: "Cuenta Registrada",
         backgroundColor: RED_CAR,
         textColor: Colors.white,
         fontSize: 16);
-
-    Navigator.pushAndRemoveUntil((context),
-        MaterialPageRoute(builder: (context) => home()), (route) => false);
   }
 }
