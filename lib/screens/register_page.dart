@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:car_finder/models/user_model.dart';
 import 'package:car_finder/widgets/widgets.dart';
@@ -7,6 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:google_place/google_place.dart';
 
 var ax = 'biko';
 bool _passwordVisible = true;
@@ -23,6 +25,39 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  DetailsResult? startPosition;
+  late FocusNode startFocusNode;
+
+  late GooglePlace googlePlace;
+  List<AutocompletePrediction> predictions = [];
+  Timer? _debounce;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    String apiKey = 'AIzaSyClliH9K6SFwgJHjaRdZyURL2BiAWJtB_Y';
+    googlePlace = GooglePlace(apiKey);
+
+    startFocusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    startFocusNode.dispose();
+  }
+
+  void autoCompleteSearch(String value) async {
+    var result = await googlePlace.autocomplete.get(value);
+    if (result != null && result.predictions != null && mounted) {
+      print(result.predictions!.first.description);
+      setState(() {
+        predictions = result.predictions!;
+      });
+    }
+  }
+
   final _formkey = GlobalKey<FormState>();
 
   final _emailController = TextEditingController();
@@ -287,7 +322,6 @@ class _RegisterPageState extends State<RegisterPage> {
           if (value!.isEmpty) {
             return ("Telefono Vacio");
           }
-
           return null;
         },
         keyboardType: TextInputType.number,
@@ -308,33 +342,91 @@ class _RegisterPageState extends State<RegisterPage> {
     );
     final direccionfield = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
-      child: TextFormField(
-        autofocus: false,
-        controller: _directionController,
-        textCapitalization: TextCapitalization.sentences,
-        style: TextStyle(fontFamily: 'biko', fontWeight: FontWeight.w500),
-        onSaved: (value) {
-          _directionController.text = value!;
-        },
-        validator: (value) {
-          if (value!.isEmpty) {
-            return ("Dirección Vacia");
-          }
-          return null;
-        },
-        keyboardType: TextInputType.streetAddress,
-        textInputAction: TextInputAction.next,
-        decoration: InputDecoration(
-          prefixIcon: Icon(Icons.place),
-          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: islighted == true ? "Dirección" : "Dirección de la tienda",
-          hintStyle: TextStyle(
-            fontFamily: ax,
+      child: Column(
+        children: [
+          TextFormField(
+            autofocus: false,
+            controller: _directionController,
+            focusNode: startFocusNode,
+            textCapitalization: TextCapitalization.sentences,
+            style: TextStyle(fontFamily: 'biko', fontWeight: FontWeight.w500),
+            onSaved: (value) {
+              _directionController.text = value!;
+            },
+            validator: (value) {
+              if (value!.isEmpty) {
+                return ("Dirección Vacia");
+              }
+              return null;
+            },
+            keyboardType: TextInputType.streetAddress,
+            textInputAction: TextInputAction.next,
+            decoration: InputDecoration(
+              suffixIcon: _directionController.text.isNotEmpty
+                  ? IconButton(
+                      onPressed: () {
+                        setState(() {
+                          predictions = [];
+                          _directionController.clear();
+                        });
+                      },
+                      icon: Icon(Icons.clear_outlined),
+                    )
+                  : null,
+              prefixIcon: Icon(Icons.place),
+              contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+              hintText:
+                  islighted == true ? "Dirección" : "Dirección de la tienda",
+              hintStyle: TextStyle(
+                fontFamily: ax,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            onChanged: (value) {
+              if (_debounce?.isActive ?? false) _debounce!.cancel();
+              _debounce = Timer(const Duration(milliseconds: 1000), () {
+                if (value.isNotEmpty) {
+                  //places api
+                  autoCompleteSearch(value);
+                } else {
+                  //clear out the results
+                  setState(() {
+                    predictions = [];
+                    startPosition = null;
+                  });
+                }
+              });
+            },
           ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
+          ListView.builder(
+              shrinkWrap: true,
+              itemCount: predictions.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  leading: CircleAvatar(
+                    child: Icon(Icons.pin_drop, color: Colors.white),
+                  ),
+                  title: Text(
+                    predictions[index].description.toString(),
+                  ),
+                  onTap: () async {
+                    final placeId = predictions[index].placeId!;
+                    final details = await googlePlace.details.get(placeId);
+                    if (details != null && details.result != null && mounted) {
+                      if (startFocusNode.hasFocus) {
+                        setState(() {
+                          startPosition = details.result;
+                          _directionController.text = details.result!.name!;
+                          predictions = [];
+                        });
+                      }
+                    }
+                  },
+                );
+              }),
+        ],
       ),
     );
     final passfield = Padding(
