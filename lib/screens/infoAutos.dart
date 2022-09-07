@@ -1,6 +1,8 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:car_finder/imageupload/show_horizontal.dart';
 import 'package:car_finder/models/user_model.dart';
+import 'package:car_finder/screens/carrosgeneral.dart';
+import 'package:car_finder/screens/mapa.dart';
 import 'package:car_finder/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +32,7 @@ Widget AutosInfo(
     String? potencia,
     String? carroceria,
     String? Guia,
-    String? id_vendedor,
+    required id_vendedor,
     required List<dynamic>? imagen,
     String? traccion}) {
   FirebaseFirestore.instance
@@ -109,7 +111,7 @@ Widget AutosInfo(
                                 "Tabasco, en ${loggedInUser2.Direcc.toString()}",
                                 style: TextStyle(
                                   fontFamily: 'biko',
-                                  fontSize: LABEL_CAJA * 1.3,
+                                  fontSize: 18,
                                   color: Color.fromARGB(255, 5, 97, 173),
                                 ),
                               ),
@@ -325,6 +327,7 @@ Widget AutosInfo(
                                 Expanded(
                                   flex: 4,
                                   child: Container(
+                                    width: double.infinity,
                                     padding: EdgeInsets.all(5),
                                     child: Icon(
                                       Icons.av_timer_sharp,
@@ -335,29 +338,32 @@ Widget AutosInfo(
                                 Expanded(
                                   flex: 6,
                                   child: Container(
+                                    width: double.infinity,
+                                    alignment: Alignment.centerLeft,
                                     child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
                                       children: [
                                         Container(
+                                          width: double.infinity,
                                           padding: EdgeInsets.only(bottom: 5),
                                           child: Text(
                                             "Kilometraje",
-                                            textAlign: TextAlign.left,
                                             style: TextStyle(
                                                 fontFamily: 'biko',
-                                                fontSize: 16,
+                                                fontSize: LABEL_CAJA,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.black),
                                           ),
                                         ),
-                                        Text(
-                                          '${Kilometraje}',
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              fontFamily: 'biko',
-                                              fontSize: 16,
-                                              color: Colors.black),
+                                        Container(
+                                          width: double.infinity,
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            '${Kilometraje}',
+                                            style: TextStyle(
+                                                fontFamily: 'biko',
+                                                fontSize: LABEL_CAJA,
+                                                color: Colors.black),
+                                          ),
                                         )
                                       ],
                                     ),
@@ -372,6 +378,7 @@ Widget AutosInfo(
                                 Expanded(
                                   flex: 4,
                                   child: Container(
+                                    width: double.infinity,
                                     padding: EdgeInsets.all(5),
                                     child: Icon(
                                       Icons.local_gas_station,
@@ -382,29 +389,33 @@ Widget AutosInfo(
                                 Expanded(
                                   flex: 6,
                                   child: Container(
+                                    width: double.infinity,
+                                    alignment: Alignment.centerLeft,
                                     child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
                                       children: [
                                         Container(
+                                          width: double.infinity,
+                                          alignment: Alignment.centerLeft,
                                           padding: EdgeInsets.only(bottom: 5),
                                           child: Text(
                                             "Gasolina",
-                                            textAlign: TextAlign.left,
                                             style: TextStyle(
                                                 fontFamily: 'biko',
-                                                fontSize: 16,
+                                                fontSize: LABEL_CAJA,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.black),
                                           ),
                                         ),
-                                        Text(
-                                          '${Gasolina}',
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              fontFamily: 'biko',
-                                              fontSize: 16,
-                                              color: Colors.black),
+                                        Container(
+                                          width: double.infinity,
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            '${Gasolina}',
+                                            style: TextStyle(
+                                                fontFamily: 'biko',
+                                                fontSize: LABEL_CAJA,
+                                                color: Colors.black),
+                                          ),
                                         )
                                       ],
                                     ),
@@ -423,6 +434,7 @@ Widget AutosInfo(
                                 Expanded(
                                   flex: 4,
                                   child: Container(
+                                    width: double.infinity,
                                     padding: EdgeInsets.all(5),
                                     child: Icon(
                                       Icons.calendar_month_outlined,
@@ -433,27 +445,28 @@ Widget AutosInfo(
                                 Expanded(
                                   flex: 6,
                                   child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Container(
+                                        width: double.infinity,
+                                        alignment: Alignment.centerLeft,
                                         padding: EdgeInsets.only(bottom: 5),
                                         child: Text(
-                                          "Fecha de adquisición",
-                                          textAlign: TextAlign.left,
+                                          "Fecha de Adquisición",
                                           style: TextStyle(
                                               fontFamily: 'biko',
-                                              fontSize: 16,
+                                              fontSize: LABEL_CAJA,
                                               fontWeight: FontWeight.bold,
                                               color: Colors.black),
                                         ),
                                       ),
                                       Container(
+                                        width: double.infinity,
+                                        alignment: Alignment.centerLeft,
                                         child: Text(
                                           "${Fecha}",
-                                          textAlign: TextAlign.left,
                                           style: TextStyle(
                                               fontFamily: 'biko',
-                                              fontSize: 16,
+                                              fontSize: LABEL_CAJA,
                                               color: Colors.black),
                                         ),
                                       ),
@@ -469,6 +482,7 @@ Widget AutosInfo(
                                 Expanded(
                                   flex: 4,
                                   child: Container(
+                                    width: double.infinity,
                                     padding: EdgeInsets.all(5),
                                     child: Icon(
                                       Icons.directions_car,
@@ -480,28 +494,30 @@ Widget AutosInfo(
                                   flex: 6,
                                   child: Container(
                                     child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
                                       children: [
                                         Container(
+                                          width: double.infinity,
+                                          alignment: Alignment.centerLeft,
                                           padding: EdgeInsets.only(bottom: 5),
                                           child: Text(
                                             "Carrocería",
-                                            textAlign: TextAlign.left,
                                             style: TextStyle(
                                                 fontFamily: 'biko',
-                                                fontSize: 16,
+                                                fontSize: LABEL_CAJA,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.black),
                                           ),
                                         ),
-                                        Text(
-                                          '${carroceria}',
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              fontFamily: 'biko',
-                                              fontSize: 16,
-                                              color: Colors.black),
+                                        Container(
+                                          width: double.infinity,
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            '${carroceria}',
+                                            style: TextStyle(
+                                                fontFamily: 'biko',
+                                                fontSize: LABEL_CAJA,
+                                                color: Colors.black),
+                                          ),
                                         )
                                       ],
                                     ),
@@ -520,6 +536,7 @@ Widget AutosInfo(
                                 Expanded(
                                   flex: 4,
                                   child: Container(
+                                    width: double.infinity,
                                     padding: EdgeInsets.all(5),
                                     child: Icon(
                                       Icons.date_range,
@@ -531,28 +548,30 @@ Widget AutosInfo(
                                   flex: 6,
                                   child: Container(
                                     child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
                                       children: [
                                         Container(
+                                          width: double.infinity,
+                                          alignment: Alignment.centerLeft,
                                           padding: EdgeInsets.only(bottom: 5),
                                           child: Text(
                                             "Modelo",
-                                            textAlign: TextAlign.left,
                                             style: TextStyle(
                                                 fontFamily: 'biko',
-                                                fontSize: 16,
+                                                fontSize: LABEL_CAJA,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.black),
                                           ),
                                         ),
-                                        Text(
-                                          '${modelo}',
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              fontFamily: 'biko',
-                                              fontSize: 16,
-                                              color: Colors.black),
+                                        Container(
+                                          width: double.infinity,
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            '${modelo}',
+                                            style: TextStyle(
+                                                fontFamily: 'biko',
+                                                fontSize: LABEL_CAJA,
+                                                color: Colors.black),
+                                          ),
                                         )
                                       ],
                                     ),
@@ -567,6 +586,7 @@ Widget AutosInfo(
                                 Expanded(
                                   flex: 4,
                                   child: Container(
+                                    width: double.infinity,
                                     padding: EdgeInsets.all(5),
                                     child: Icon(
                                       Icons.schema,
@@ -578,28 +598,30 @@ Widget AutosInfo(
                                   flex: 6,
                                   child: Container(
                                     child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
                                       children: [
                                         Container(
+                                          width: double.infinity,
+                                          alignment: Alignment.centerLeft,
                                           padding: EdgeInsets.only(bottom: 5),
                                           child: Text(
-                                            "Transmisión",
-                                            textAlign: TextAlign.left,
+                                            "Transmición",
                                             style: TextStyle(
                                                 fontFamily: 'biko',
-                                                fontSize: 16,
+                                                fontSize: 14.9,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.black),
                                           ),
                                         ),
-                                        Text(
-                                          '${trans}',
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              fontFamily: 'biko',
-                                              fontSize: 16,
-                                              color: Colors.black),
+                                        Container(
+                                          width: double.infinity,
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            '${trans}',
+                                            style: TextStyle(
+                                                fontFamily: 'biko',
+                                                fontSize: LABEL_CAJA,
+                                                color: Colors.black),
+                                          ),
                                         )
                                       ],
                                     ),
@@ -822,6 +844,35 @@ Widget AutosInfo(
                         Container(
                           margin: EdgeInsets.only(right: 10),
                           child: Icon(
+                            Icons.shopping_bag,
+                            size: 30,
+                            color: RED_CAR,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Vehículos del Vendedor'.toTitleCase(),
+                            style: TextStyle(
+                              fontFamily: 'biko',
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18.5,
+                              color: RED_CAR,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    carrogeneral(id_vendedor: id_vendedor),
+                    Divider(
+                      thickness: 2,
+                      color: Colors.black.withOpacity(.3),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(right: 10),
+                          child: Icon(
                             Icons.verified_user,
                             size: 30,
                             color: RED_CAR,
@@ -833,7 +884,7 @@ Widget AutosInfo(
                             style: TextStyle(
                               fontFamily: 'biko',
                               fontWeight: FontWeight.w500,
-                              fontSize: 20,
+                              fontSize: 18.5,
                               color: RED_CAR,
                             ),
                           ),
@@ -862,7 +913,7 @@ Widget AutosInfo(
                               style: TextStyle(
                                 fontFamily: 'biko',
                                 fontWeight: FontWeight.w500,
-                                fontSize: 20,
+                                fontSize: 18.5,
                                 color: RED_CAR,
                               ),
                             ),
@@ -882,7 +933,7 @@ Widget AutosInfo(
                                   'Número de puertas'.toTitleCase(),
                                   style: TextStyle(
                                     fontFamily: 'biko',
-                                    fontSize: 19,
+                                    fontSize: LABEL_INFO,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.black,
                                   ),
@@ -892,12 +943,12 @@ Widget AutosInfo(
                             Expanded(
                               flex: 5,
                               child: Align(
-                                alignment: Alignment.centerRight,
+                                alignment: Alignment.centerLeft,
                                 child: Text(
-                                  puertas.toString().toTitleCase(),
+                                  "${puertas.toString().toTitleCase()} Puertas",
                                   style: TextStyle(
                                     fontFamily: 'biko',
-                                    fontSize: 16,
+                                    fontSize: LABEL_INFO,
                                     color: Colors.black,
                                   ),
                                 ),
@@ -921,7 +972,7 @@ Widget AutosInfo(
                                     style: TextStyle(
                                       fontFamily: 'biko',
                                       fontWeight: FontWeight.w500,
-                                      fontSize: 19,
+                                      fontSize: LABEL_INFO,
                                       color: Colors.black,
                                     ),
                                   ),
@@ -930,12 +981,12 @@ Widget AutosInfo(
                               Expanded(
                                 flex: 5,
                                 child: Align(
-                                  alignment: Alignment.centerRight,
+                                  alignment: Alignment.centerLeft,
                                   child: Text(
                                     garantia.toString().toTitleCase(),
                                     style: TextStyle(
                                       fontFamily: 'biko',
-                                      fontSize: 16,
+                                      fontSize: LABEL_INFO,
                                       color: Colors.black,
                                     ),
                                   ),
@@ -959,7 +1010,7 @@ Widget AutosInfo(
                                   style: TextStyle(
                                     fontFamily: 'biko',
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 19,
+                                    fontSize: LABEL_INFO,
                                     color: Colors.black,
                                   ),
                                 ),
@@ -968,12 +1019,12 @@ Widget AutosInfo(
                             Expanded(
                               flex: 5,
                               child: Align(
-                                alignment: Alignment.centerRight,
+                                alignment: Alignment.centerLeft,
                                 child: Text(
                                   '${traccion}'.toTitleCase(),
                                   style: TextStyle(
                                     fontFamily: 'biko',
-                                    fontSize: 16,
+                                    fontSize: LABEL_INFO,
                                     color: Colors.black,
                                   ),
                                 ),
@@ -1006,7 +1057,7 @@ Widget AutosInfo(
                           style: TextStyle(
                             fontFamily: 'biko',
                             fontWeight: FontWeight.w500,
-                            fontSize: 20,
+                            fontSize: 18.5,
                             color: RED_CAR,
                           ),
                         ),
@@ -1027,7 +1078,7 @@ Widget AutosInfo(
                               style: TextStyle(
                                 fontFamily: 'biko',
                                 fontWeight: FontWeight.w500,
-                                fontSize: 19,
+                                fontSize: LABEL_INFO,
                                 color: Colors.black,
                               ),
                             ),
@@ -1036,12 +1087,12 @@ Widget AutosInfo(
                         Expanded(
                           flex: 5,
                           child: Align(
-                            alignment: Alignment.centerRight,
+                            alignment: Alignment.centerLeft,
                             child: Text(
                               '${Kilometraje}'.toTitleCase(),
                               style: TextStyle(
                                 fontFamily: 'biko',
-                                fontSize: 16,
+                                fontSize: LABEL_INFO,
                                 color: Colors.black,
                               ),
                             ),
@@ -1064,7 +1115,7 @@ Widget AutosInfo(
                               style: TextStyle(
                                 fontFamily: 'biko',
                                 fontWeight: FontWeight.w500,
-                                fontSize: 19,
+                                fontSize: LABEL_INFO,
                                 color: Colors.black,
                               ),
                             ),
@@ -1073,12 +1124,12 @@ Widget AutosInfo(
                         Expanded(
                           flex: 5,
                           child: Align(
-                            alignment: Alignment.centerRight,
+                            alignment: Alignment.centerLeft,
                             child: Text(
                               '${Fecha}'.toTitleCase(),
                               style: TextStyle(
                                 fontFamily: 'biko',
-                                fontSize: 16,
+                                fontSize: LABEL_INFO,
                                 color: Colors.black,
                               ),
                             ),
@@ -1101,7 +1152,7 @@ Widget AutosInfo(
                               style: TextStyle(
                                 fontFamily: 'biko',
                                 fontWeight: FontWeight.w500,
-                                fontSize: 19,
+                                fontSize: LABEL_INFO,
                                 color: Colors.black,
                               ),
                             ),
@@ -1110,12 +1161,12 @@ Widget AutosInfo(
                         Expanded(
                           flex: 5,
                           child: Align(
-                            alignment: Alignment.centerRight,
+                            alignment: Alignment.centerLeft,
                             child: Text(
                               modelo.toString().toTitleCase(),
                               style: TextStyle(
                                 fontFamily: 'biko',
-                                fontSize: 16,
+                                fontSize: LABEL_INFO,
                                 color: Colors.black,
                               ),
                             ),
@@ -1138,7 +1189,7 @@ Widget AutosInfo(
                               style: TextStyle(
                                 fontFamily: 'biko',
                                 fontWeight: FontWeight.w500,
-                                fontSize: 19,
+                                fontSize: LABEL_INFO,
                                 color: Colors.black,
                               ),
                             ),
@@ -1147,12 +1198,12 @@ Widget AutosInfo(
                         Expanded(
                           flex: 5,
                           child: Align(
-                            alignment: Alignment.centerRight,
+                            alignment: Alignment.centerLeft,
                             child: Text(
                               '${Guia}'.toTitleCase(),
                               style: TextStyle(
                                 fontFamily: 'biko',
-                                fontSize: 16,
+                                fontSize: LABEL_INFO,
                                 color: Colors.black,
                               ),
                             ),
@@ -1162,6 +1213,87 @@ Widget AutosInfo(
                     ),
                     SizedBox(
                       height: 10,
+                    ),
+                    Divider(
+                      thickness: 2,
+                      color: Colors.black.withOpacity(.3),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(right: 10),
+                          child: Icon(
+                            Icons.place,
+                            size: 30,
+                            color: RED_CAR,
+                          ),
+                        ),
+                        Text(
+                          'Ubicación en el Mapa'.toTitleCase(),
+                          style: TextStyle(
+                            fontFamily: 'biko',
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18.5,
+                            color: RED_CAR,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      height: 250,
+                      child: StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection('users')
+                              .where('uid', isEqualTo: id_vendedor)
+                              .snapshots(),
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (!snapshot.hasData) {
+                              return Container(
+                                alignment: Alignment.center,
+                                child: Center(
+                                    child: Transform.scale(
+                                  scale: 1.6,
+                                  child: CircularProgressIndicator(
+                                    color: RED_CAR,
+                                  ),
+                                )),
+                              );
+                            } else {
+                              if (snapshot.data!.docs.length == 0) {
+                                return Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 20),
+                                  width: double.infinity,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    'No has registrado vehículos',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontFamily: 'biko',
+                                        fontSize: 22,
+                                        color: Colors.black),
+                                  ),
+                                );
+                              } else {
+                                return ListView.builder(
+                                    itemCount: snapshot.data!.docs.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      QueryDocumentSnapshot<Object?>
+                                          info_carro =
+                                          snapshot.data!.docs[index];
+                                      return mapa(
+                                          latitud: info_carro['Cor_lat'],
+                                          longitud: info_carro['Cor_long'],
+                                          nombre: info_carro['NombreLocal']);
+                                    });
+                              }
+                            }
+                          }),
                     ),
                     Divider(
                       thickness: 2,
@@ -1187,7 +1319,7 @@ Widget AutosInfo(
                             style: TextStyle(
                               fontFamily: 'biko',
                               fontWeight: FontWeight.w500,
-                              fontSize: 20,
+                              fontSize: 18.5,
                               color: RED_CAR,
                             ),
                           ),
@@ -1204,7 +1336,7 @@ Widget AutosInfo(
                           style: TextStyle(
                               fontFamily: 'biko',
                               fontWeight: FontWeight.w500,
-                              fontSize: 16,
+                              fontSize: LABEL_INFO,
                               color: Colors.black),
                         ),
                       ),
@@ -1232,7 +1364,7 @@ Widget AutosInfo(
                           style: TextStyle(
                             fontFamily: 'biko',
                             fontWeight: FontWeight.w500,
-                            fontSize: 20,
+                            fontSize: 18.5,
                             color: RED_CAR,
                           ),
                         ),
@@ -1383,7 +1515,7 @@ Widget _swiper({required int tipos, required List urll, String? porce}) {
           ),
         );
       },
-      itemCount: urll.length, //widget.noti.jsat_fname2.length
+      itemCount: urll.length,
       control: SwiperControl(),
     ),
   );

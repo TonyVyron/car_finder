@@ -68,7 +68,8 @@ class _RegisterPageState extends State<RegisterPage> {
   final _lastNameController = TextEditingController();
   final _directionController = TextEditingController();
   final _ageController = TextEditingController();
-
+  var latitud = "";
+  var longitud = "";
   final _NombreLocal = TextEditingController();
 
   File? _image;
@@ -413,12 +414,18 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   onTap: () async {
                     final placeId = predictions[index].placeId!;
+
                     final details = await googlePlace.details.get(placeId);
                     if (details != null && details.result != null && mounted) {
                       if (startFocusNode.hasFocus) {
                         setState(() {
                           startPosition = details.result;
                           _directionController.text = details.result!.name!;
+                          latitud = details.result!.geometry!.location!.lat
+                              .toString();
+                          longitud = details.result!.geometry!.location!.lng
+                              .toString();
+
                           predictions = [];
                         });
                       }
@@ -680,17 +687,23 @@ class _RegisterPageState extends State<RegisterPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Text(
-                                      "Tomar una foto",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 25,
-                                        fontFamily: 'biko',
+                                    Expanded(
+                                      flex: 7,
+                                      child: Text(
+                                        "Tomar una foto",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 25,
+                                          fontFamily: 'biko',
+                                        ),
                                       ),
                                     ),
-                                    Icon(
-                                      Icons.camera_alt_outlined,
-                                      size: 35,
+                                    Expanded(
+                                      flex: 3,
+                                      child: Icon(
+                                        Icons.camera_alt_outlined,
+                                        size: 35,
+                                      ),
                                     ),
                                   ],
                                 )),
@@ -709,17 +722,23 @@ class _RegisterPageState extends State<RegisterPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Text(
-                                      "Elegir una desde galería",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 25,
-                                        fontFamily: 'biko',
+                                    Expanded(
+                                      flex: 7,
+                                      child: Text(
+                                        "Elegir una desde galería",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 25,
+                                          fontFamily: 'biko',
+                                        ),
                                       ),
                                     ),
-                                    Icon(
-                                      Icons.photo_album_sharp,
-                                      size: 35,
+                                    Expanded(
+                                      flex: 3,
+                                      child: Icon(
+                                        Icons.photo_album_sharp,
+                                        size: 35,
+                                      ),
                                     ),
                                   ],
                                 )),
@@ -940,17 +959,23 @@ class _RegisterPageState extends State<RegisterPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Text(
-                                      "Tomar una foto",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 25,
-                                        fontFamily: 'biko',
+                                    Expanded(
+                                      flex: 7,
+                                      child: Text(
+                                        "Tomar una foto",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 25,
+                                          fontFamily: 'biko',
+                                        ),
                                       ),
                                     ),
-                                    Icon(
-                                      Icons.camera_alt_outlined,
-                                      size: 35,
+                                    Expanded(
+                                      flex: 3,
+                                      child: Icon(
+                                        Icons.camera_alt_outlined,
+                                        size: 35,
+                                      ),
                                     ),
                                   ],
                                 )),
@@ -969,17 +994,23 @@ class _RegisterPageState extends State<RegisterPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Text(
-                                      "Elegirlo desde galería",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 25,
-                                        fontFamily: 'biko',
+                                    Expanded(
+                                      flex: 7,
+                                      child: Text(
+                                        "Elegir una desde galería",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 25,
+                                          fontFamily: 'biko',
+                                        ),
                                       ),
                                     ),
-                                    Icon(
-                                      Icons.photo_album_sharp,
-                                      size: 35,
+                                    Expanded(
+                                      flex: 3,
+                                      child: Icon(
+                                        Icons.photo_album_sharp,
+                                        size: 35,
+                                      ),
                                     ),
                                   ],
                                 )),
@@ -1136,6 +1167,9 @@ class _RegisterPageState extends State<RegisterPage> {
     userModel.status = islighted == true ? "Cliente" : "Vendedor";
     userModel.Telefono = _numeroController.text;
     userModel.Direcc = _directionController.text;
+    userModel.Cor_lat = double.parse(latitud);
+    userModel.Cor_long = double.parse(longitud);
+
     if (islighted == true) {
       userModel.Favoritos = ["Carro"];
     } else {}

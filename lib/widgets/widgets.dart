@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 final Color RED_CAR = Color.fromARGB(255, 192, 0, 0);
 Color LABEL_COLOR = Colors.white;
 double LABEL_SIZE = 16;
-double LABEL_CAJA = 13;
+double LABEL_INFO = 17;
+double LABEL_CAJA = 15;
 
 TextTitulo({String? text, TextStyle? style, bool islighted = false}) => Padding(
     padding: EdgeInsets.all(10),

@@ -58,7 +58,7 @@ dependencies:
   firebase_storage: ^10.3.5
   url_launcher: ^6.1.5
   google_place: ^0.4.7
-  
+  flutter_custom_clippers: ^2.0.0
 
 dev_dependencies:
   flutter_test:

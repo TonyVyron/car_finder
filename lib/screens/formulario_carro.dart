@@ -225,6 +225,7 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                           fit: BoxFit.fill,
                         ),
                         Container(
+                          height: 60,
                           decoration: BoxDecoration(
                               border: Border.all(width: .5),
                               borderRadius: BorderRadius.circular(8),
@@ -264,28 +265,33 @@ class _Agregar_CarroState extends State<Agregar_Carro> {
                                     _imageFileList = [];
                                   }),
                               child: Container(
-                                padding: EdgeInsets.symmetric(vertical: 10),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
-                                    Container(
-                                      child: Icon(
-                                        Icons.directions_car,
-                                        size: 30,
+                                    Expanded(
+                                      flex: 2,
+                                      child: Container(
+                                        child: Icon(
+                                          Icons.directions_car,
+                                          size: 30,
+                                        ),
                                       ),
                                     ),
-                                    Container(
-                                      height: 35,
-                                      child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          'Agregar un nuevo vehículo',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: 'biko',
-                                              fontSize: 20),
+                                    Expanded(
+                                      flex: 8,
+                                      child: Container(
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            'Agregar un nuevo vehículo',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500,
+                                                fontFamily: 'biko',
+                                                fontSize: 20),
+                                          ),
                                         ),
                                       ),
                                     ),
