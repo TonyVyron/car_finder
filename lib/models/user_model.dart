@@ -10,6 +10,8 @@ class UserModel {
   String? Edad;
   String? status;
   String? Direcc;
+  String? Latitud;
+  String? Longitud;
 
   UserModel(
       {this.uid,
@@ -22,21 +24,26 @@ class UserModel {
       this.Apellidos,
       this.Edad,
       this.status,
-      this.Direcc});
+      this.Direcc,
+      this.Latitud,
+      this.Longitud});
 
   factory UserModel.fromMap(map) {
     return UserModel(
-        uid: map['uid'],
-        email: map['email'],
-        foto: map['foto'],
-        Favoritos: map['Favoritos'],
-        NombreLocal: map['NombreLocal'],
-        Telefono: map['Telefono'],
-        Nombre: map['Nombre'],
-        Apellidos: map['Apellidos'],
-        Edad: map['Edad'],
-        status: map['status'],
-        Direcc: map['Direcc']);
+      uid: map['uid'],
+      email: map['email'],
+      foto: map['foto'],
+      Favoritos: map['Favoritos'],
+      NombreLocal: map['NombreLocal'],
+      Telefono: map['Telefono'],
+      Nombre: map['Nombre'],
+      Apellidos: map['Apellidos'],
+      Edad: map['Edad'],
+      status: map['status'],
+      Direcc: map['Direcc'],
+      Latitud: map['Latitud'],
+      Longitud: map['Longitud'],
+    );
   }
   Map<String, dynamic> toMap() {
     return {
@@ -51,6 +58,8 @@ class UserModel {
       'NombreLocal': NombreLocal,
       'foto': foto,
       'Direcc': Direcc,
+      'Latitud': Latitud,
+      'Longitud': Longitud,
     };
   }
 }
