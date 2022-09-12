@@ -10,8 +10,8 @@ class UserModel {
   String? Edad;
   String? status;
   String? Direcc;
-  String? Latitud;
-  String? Longitud;
+  double? Cor_lat;
+  double? Cor_long;
 
   UserModel(
       {this.uid,
@@ -23,27 +23,26 @@ class UserModel {
       this.Telefono,
       this.Apellidos,
       this.Edad,
+      this.Cor_lat,
+      this.Cor_long,
       this.status,
-      this.Direcc,
-      this.Latitud,
-      this.Longitud});
+      this.Direcc});
 
   factory UserModel.fromMap(map) {
     return UserModel(
-      uid: map['uid'],
-      email: map['email'],
-      foto: map['foto'],
-      Favoritos: map['Favoritos'],
-      NombreLocal: map['NombreLocal'],
-      Telefono: map['Telefono'],
-      Nombre: map['Nombre'],
-      Apellidos: map['Apellidos'],
-      Edad: map['Edad'],
-      status: map['status'],
-      Direcc: map['Direcc'],
-      Latitud: map['Latitud'],
-      Longitud: map['Longitud'],
-    );
+        uid: map['uid'],
+        email: map['email'],
+        foto: map['foto'],
+        Favoritos: map['Favoritos'],
+        NombreLocal: map['NombreLocal'],
+        Telefono: map['Telefono'],
+        Nombre: map['Nombre'],
+        Apellidos: map['Apellidos'],
+        Cor_lat: map['Cor_lat'],
+        Cor_long: map['Cor_long'],
+        Edad: map['Edad'],
+        status: map['status'],
+        Direcc: map['Direcc']);
   }
   Map<String, dynamic> toMap() {
     return {
@@ -55,11 +54,11 @@ class UserModel {
       'Favoritos': Favoritos,
       'Telefono': Telefono,
       'status': status,
+      'Cor_long': Cor_long,
+      'Cor_lat': Cor_lat,
       'NombreLocal': NombreLocal,
       'foto': foto,
       'Direcc': Direcc,
-      'Latitud': Latitud,
-      'Longitud': Longitud,
     };
   }
 }

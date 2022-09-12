@@ -182,13 +182,13 @@ class _ElimImageState extends State<ElimImage> {
                                                                       'biko',
                                                                   color: Colors
                                                                       .black,
-                                                                  fontSize: 17,
+                                                                  fontSize: 22,
                                                                 )),
                                                             content: Text(
                                                                 "Se eliminará para siempre",
                                                                 style:
                                                                     TextStyle(
-                                                                  fontSize: 20,
+                                                                  fontSize: 19,
                                                                   color: Colors
                                                                       .black,
                                                                   fontFamily:

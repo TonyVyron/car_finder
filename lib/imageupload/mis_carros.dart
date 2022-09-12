@@ -79,7 +79,7 @@ class _mis_carrosState extends State<mis_carros> {
               width: double.infinity,
               alignment: Alignment.center,
               child: Text(
-                'No Tienes Vehículos Registrados',
+                'No tienes vehículos registrados',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontFamily: 'biko', fontSize: 22, color: Colors.black),
@@ -648,8 +648,125 @@ class _mis_carrosState extends State<mis_carros> {
                                                                       InkWell(
                                                                         onTap:
                                                                             () {
-                                                                          Navigator.pop(
-                                                                              context);
+                                                                          showDialog(
+                                                                              context: context,
+                                                                              builder: (BuildContext context) {
+                                                                                return AlertDialog(
+                                                                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), topRight: Radius.circular(50))),
+                                                                                  contentPadding: EdgeInsets.all(0),
+                                                                                  content: SingleChildScrollView(
+                                                                                      child: Column(
+                                                                                    children: [
+                                                                                      InkWell(
+                                                                                        onTap: () {
+                                                                                          showDialog(
+                                                                                              context: context,
+                                                                                              builder: (BuildContext context) {
+                                                                                                return Dialog(
+                                                                                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), topRight: Radius.circular(50))),
+                                                                                                  insetPadding: EdgeInsets.all(10),
+                                                                                                  child: Container(
+                                                                                                    child: AgregaFotos(id_carro: info_carro['uid']),
+                                                                                                  ),
+                                                                                                );
+                                                                                              });
+                                                                                        },
+                                                                                        child: Container(
+                                                                                            padding: EdgeInsets.all(15),
+                                                                                            child: Row(
+                                                                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                                                              children: [
+                                                                                                Expanded(
+                                                                                                  flex: 8,
+                                                                                                  child: Text(
+                                                                                                    "Agregar Fotos",
+                                                                                                    textAlign: TextAlign.center,
+                                                                                                    style: TextStyle(
+                                                                                                      fontSize: 22,
+                                                                                                      fontFamily: 'biko',
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ),
+                                                                                                Expanded(
+                                                                                                  flex: 2,
+                                                                                                  child: Icon(
+                                                                                                    Icons.filter,
+                                                                                                    size: 35,
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ],
+                                                                                            )),
+                                                                                      ),
+                                                                                      Divider(
+                                                                                        thickness: 2,
+                                                                                      ),
+                                                                                      InkWell(
+                                                                                        onTap: () {
+                                                                                          showDialog(
+                                                                                              context: context,
+                                                                                              builder: (BuildContext context) {
+                                                                                                return Dialog(shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), topRight: Radius.circular(50))), insetPadding: EdgeInsets.all(10), child: ElimImage(id_carro: info_carro['uid']));
+                                                                                              });
+                                                                                        },
+                                                                                        child: Container(
+                                                                                            padding: EdgeInsets.all(15),
+                                                                                            child: Row(
+                                                                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                                                              children: [
+                                                                                                Expanded(
+                                                                                                  flex: 8,
+                                                                                                  child: Text(
+                                                                                                    "Eliminar Fotos",
+                                                                                                    textAlign: TextAlign.center,
+                                                                                                    style: TextStyle(
+                                                                                                      fontSize: 22,
+                                                                                                      fontFamily: 'biko',
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ),
+                                                                                                Expanded(
+                                                                                                  flex: 2,
+                                                                                                  child: Icon(
+                                                                                                    Icons.close,
+                                                                                                    size: 35,
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ],
+                                                                                            )),
+                                                                                      ),
+                                                                                      Divider(
+                                                                                        thickness: 2,
+                                                                                      ),
+                                                                                      ElevatedButton(
+                                                                                        style: ElevatedButton.styleFrom(
+                                                                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                                                                                          onPrimary: Colors.white,
+                                                                                          primary: RED_CAR,
+                                                                                          shadowColor: Colors.white,
+                                                                                          elevation: 15,
+                                                                                        ),
+                                                                                        onPressed: () {
+                                                                                          Navigator.pop(context);
+                                                                                        },
+                                                                                        child: Padding(
+                                                                                          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                                                                                          child: Text(
+                                                                                            "Cancelar",
+                                                                                            style: TextStyle(
+                                                                                              color: Colors.white,
+                                                                                              fontFamily: 'biko',
+                                                                                              fontSize: 18,
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                      SizedBox(
+                                                                                        height: 10,
+                                                                                      )
+                                                                                    ],
+                                                                                  )),
+                                                                                );
+                                                                              });
                                                                         },
                                                                         child: Container(
                                                                             padding: EdgeInsets.all(15),
@@ -2408,7 +2525,125 @@ class _mis_carrosState extends State<mis_carros> {
                                                                           InkWell(
                                                                             onTap:
                                                                                 () {
-                                                                              Navigator.pop(context);
+                                                                              showDialog(
+                                                                                  context: context,
+                                                                                  builder: (BuildContext context) {
+                                                                                    return AlertDialog(
+                                                                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), topRight: Radius.circular(50))),
+                                                                                      contentPadding: EdgeInsets.all(0),
+                                                                                      content: SingleChildScrollView(
+                                                                                          child: Column(
+                                                                                        children: [
+                                                                                          InkWell(
+                                                                                            onTap: () {
+                                                                                              showDialog(
+                                                                                                  context: context,
+                                                                                                  builder: (BuildContext context) {
+                                                                                                    return Dialog(
+                                                                                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), topRight: Radius.circular(50))),
+                                                                                                      insetPadding: EdgeInsets.all(10),
+                                                                                                      child: Container(
+                                                                                                        child: AgregaFotos(id_carro: info_carro['uid']),
+                                                                                                      ),
+                                                                                                    );
+                                                                                                  });
+                                                                                            },
+                                                                                            child: Container(
+                                                                                                padding: EdgeInsets.all(15),
+                                                                                                child: Row(
+                                                                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                                                                  children: [
+                                                                                                    Expanded(
+                                                                                                      flex: 8,
+                                                                                                      child: Text(
+                                                                                                        "Agregar Fotos",
+                                                                                                        textAlign: TextAlign.center,
+                                                                                                        style: TextStyle(
+                                                                                                          fontSize: 22,
+                                                                                                          fontFamily: 'biko',
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    Expanded(
+                                                                                                      flex: 2,
+                                                                                                      child: Icon(
+                                                                                                        Icons.filter,
+                                                                                                        size: 35,
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ],
+                                                                                                )),
+                                                                                          ),
+                                                                                          Divider(
+                                                                                            thickness: 2,
+                                                                                          ),
+                                                                                          InkWell(
+                                                                                            onTap: () {
+                                                                                              showDialog(
+                                                                                                  context: context,
+                                                                                                  builder: (BuildContext context) {
+                                                                                                    return Dialog(shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), topRight: Radius.circular(50))), insetPadding: EdgeInsets.all(10), child: ElimImage(id_carro: info_carro['uid']));
+                                                                                                  });
+                                                                                            },
+                                                                                            child: Container(
+                                                                                                padding: EdgeInsets.all(15),
+                                                                                                child: Row(
+                                                                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                                                                  children: [
+                                                                                                    Expanded(
+                                                                                                      flex: 8,
+                                                                                                      child: Text(
+                                                                                                        "Eliminar Fotos",
+                                                                                                        textAlign: TextAlign.center,
+                                                                                                        style: TextStyle(
+                                                                                                          fontSize: 22,
+                                                                                                          fontFamily: 'biko',
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    Expanded(
+                                                                                                      flex: 2,
+                                                                                                      child: Icon(
+                                                                                                        Icons.close,
+                                                                                                        size: 35,
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ],
+                                                                                                )),
+                                                                                          ),
+                                                                                          Divider(
+                                                                                            thickness: 2,
+                                                                                          ),
+                                                                                          ElevatedButton(
+                                                                                            style: ElevatedButton.styleFrom(
+                                                                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                                                                                              onPrimary: Colors.white,
+                                                                                              primary: RED_CAR,
+                                                                                              shadowColor: Colors.white,
+                                                                                              elevation: 15,
+                                                                                            ),
+                                                                                            onPressed: () {
+                                                                                              Navigator.pop(context);
+                                                                                            },
+                                                                                            child: Padding(
+                                                                                              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                                                                                              child: Text(
+                                                                                                "Cancelar",
+                                                                                                style: TextStyle(
+                                                                                                  color: Colors.white,
+                                                                                                  fontFamily: 'biko',
+                                                                                                  fontSize: 18,
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                          SizedBox(
+                                                                                            height: 10,
+                                                                                          )
+                                                                                        ],
+                                                                                      )),
+                                                                                    );
+                                                                                  });
                                                                             },
                                                                             child: Container(
                                                                                 padding: EdgeInsets.all(15),
@@ -2421,7 +2656,7 @@ class _mis_carrosState extends State<mis_carros> {
                                                                                         "Actualizar Imagenes",
                                                                                         textAlign: TextAlign.center,
                                                                                         style: TextStyle(
-                                                                                          fontSize: 22,
+                                                                                          fontSize: 20,
                                                                                           fontFamily: 'biko',
                                                                                         ),
                                                                                       ),

@@ -454,18 +454,24 @@ class _InicioState extends State<Inicio> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Icon(
-                    Icons.message,
-                    size: 25,
-                    color: Colors.white,
+                  Expanded(
+                    flex: 2,
+                    child: Icon(
+                      Icons.message,
+                      size: 25,
+                      color: Colors.white,
+                    ),
                   ),
-                  Text(errorMessage!,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'biko',
-                        fontSize: 20,
-                        color: Colors.white,
-                      ))
+                  Expanded(
+                    flex: 8,
+                    child: Text(errorMessage!,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'biko',
+                          fontSize: 20,
+                          color: Colors.white,
+                        )),
+                  )
                 ],
               )),
           backgroundColor: RED_CAR,

@@ -56,7 +56,7 @@ class _homeState extends State<home> {
       case 3:
         return Favoritos();
       case 4:
-        return Atencion_Clientes();
+        return Atencionclientes();
       case 5:
         return Agregar_Carro();
       case 6:
@@ -94,7 +94,7 @@ class _homeState extends State<home> {
             ? "Atención a vendedores"
             : "Atención a clientes";
       case "5":
-        return "Agregar un nuevo vehículo";
+        return "Agregar un vehículo";
       case "6":
         return "Mis vehículos";
     }
@@ -104,398 +104,439 @@ class _homeState extends State<home> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _scaffoldkey,
-        appBar: _appBar(AppBar().preferredSize.height),
-        drawer: Drawer(
-            child: ListView(
-          children: [
-            SingleChildScrollView(
-              child: Container(
+        appBar: selectDrawerItem != 0
+            ? _appBar(AppBar().preferredSize.height)
+            : AppBar(
+                elevation: 0,
+                flexibleSpace: Container(
+                    decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.topRight,
+                      colors: [RED_CAR]),
+                )),
+                title: Container(
                   alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(horizontal: 25),
-                  width: double.infinity,
-                  height: 280,
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                        colors: [
-                          RED_CAR,
-                          Color.fromARGB(141, 250, 39, 39),
-                        ],
-                      ),
-                      borderRadius:
-                          BorderRadius.only(bottomRight: Radius.circular(50))),
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      Positioned(
-                          top: 20,
-                          right: 10,
-                          child: IconButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              icon: Icon(
-                                Icons.close,
-                                color: Colors.white,
-                                size: 40,
-                              ))),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            flex: 6,
-                            child: Container(
-                              padding: EdgeInsets.only(bottom: 10),
-                              alignment: Alignment.bottomLeft,
-                              width: double.infinity,
-                              child: Container(
-                                alignment: Alignment.centerLeft,
-                                height: 80,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  border: Border.all(
-                                      color: Colors.white, width: .5),
-                                  image: DecorationImage(
-                                      image: loggedInUser.foto == null
-                                          ? Image.network(
-                                                  'https://static.vecteezy.com/system/resources/previews/007/319/933/non_2x/black-avatar-person-icons-user-profile-icon-vector.jpg')
-                                              .image
-                                          : Image.network(
-                                                  '${loggedInUser.foto}')
-                                              .image,
-                                      fit: BoxFit.cover),
+                  child: Expanded(
+                      child: TextTitulo(
+                          text: getitulo(selectDrawerItem.toString()))),
+                ),
+                actions: [
+                  IconButton(
+                      onPressed: () {
+                        onSelectItem2(0);
+                      },
+                      icon: CircleAvatar(
+                        radius: 30,
+                        child: Container(
+                          height: 30,
+                          width: 34,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: Image.asset('assets/IconApp.png').image,
+                                fit: BoxFit.cover),
+                            color: Colors.black,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      )),
+                ],
+              ),
+        drawer: ClipPath(
+          clipper: Mycustomclipper3(),
+          child: Drawer(
+              child: ListView(
+            children: [
+              SingleChildScrollView(
+                child: Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.symmetric(horizontal: 25),
+                    width: double.infinity,
+                    height: 280,
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                          colors: [
+                            RED_CAR,
+                            Color.fromARGB(181, 250, 39, 39),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.only(
+                            bottomRight: Radius.circular(50))),
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Positioned(
+                            top: 20,
+                            right: 30,
+                            child: IconButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: Icon(
+                                  Icons.close,
                                   color: Colors.white,
-                                  shape: BoxShape.rectangle,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                '${loggedInUser.Nombre} ${loggedInUser.Apellidos}',
-                                style: TextStyle(
-                                    fontFamily: 'biko',
-                                    fontSize: 25,
-                                    color: Colors.white),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: Row(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(right: 15),
-                                  child: Text(
-                                    'Ver mi perfil',
-                                    style: TextStyle(
-                                        fontFamily: 'biko',
-                                        fontSize: 20,
-                                        color: Colors.white),
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    onSelectItem(0);
-                                  },
-                                  child: Icon(
-                                    Icons.arrow_circle_right,
-                                    size: 40,
+                                  size: 40,
+                                ))),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              flex: 6,
+                              child: Container(
+                                padding: EdgeInsets.only(bottom: 10),
+                                alignment: Alignment.bottomLeft,
+                                width: double.infinity,
+                                child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  height: 80,
+                                  width: 80,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    border: Border.all(
+                                        color: Colors.white, width: .5),
+                                    image: DecorationImage(
+                                        image: loggedInUser.foto == null
+                                            ? Image.network(
+                                                    'https://static.vecteezy.com/system/resources/previews/007/319/933/non_2x/black-avatar-person-icons-user-profile-icon-vector.jpg')
+                                                .image
+                                            : Image.network(
+                                                    '${loggedInUser.foto}')
+                                                .image,
+                                        fit: BoxFit.cover),
                                     color: Colors.white,
+                                    shape: BoxShape.rectangle,
                                   ),
-                                )
-                              ],
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                alignment: Alignment.bottomLeft,
+                                child: Text(
+                                  '${loggedInUser.Nombre} ${loggedInUser.Apellidos}',
+                                  style: TextStyle(
+                                      fontFamily: 'biko',
+                                      fontSize: 24.5,
+                                      color: Colors.white),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Row(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(right: 15),
+                                    child: Text(
+                                      'Ver mi perfil',
+                                      style: TextStyle(
+                                          fontFamily: 'biko',
+                                          fontSize: 20,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      onSelectItem(0);
+                                    },
+                                    child: Icon(
+                                      Icons.arrow_circle_right,
+                                      size: 40,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(left: 30),
+                        alignment: Alignment(0, 0),
+                        height: 50,
+                        color: selectDrawerItem == 1
+                            ? Color.fromARGB(255, 227, 226, 226)
+                            : Color.fromARGB(0, 0, 0, 0),
+                        margin: EdgeInsets.only(bottom: 2),
+                        child: ListTile(
+                          title: TextParrafo(
+                            text: 'Home',
+                            style: TextStyle(
+                              fontFamily: 'biko',
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18,
                             ),
                           ),
-                        ],
+                          leading: Icon(
+                            Icons.home,
+                            color: RED_CAR,
+                            size: 30,
+                          ),
+                          onTap: () {
+                            onSelectItem(1);
+                          },
+                        ),
                       ),
+                      if (loggedInUser.status.toString() == 'Cliente')
+                        Container(
+                          padding: EdgeInsets.only(left: 30),
+                          alignment: Alignment(0, 0),
+                          height: 50,
+                          color: selectDrawerItem == 2
+                              ? Color.fromARGB(255, 227, 226, 226)
+                              : Color.fromARGB(0, 0, 0, 0),
+                          margin: EdgeInsets.only(bottom: 2),
+                          child: ListTile(
+                            title: TextParrafo(
+                              text: 'Promociones',
+                              style: TextStyle(
+                                  fontFamily: 'biko',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                  color: Colors.black),
+                            ),
+                            leading: Icon(
+                              Icons.discount_rounded,
+                              color: RED_CAR,
+                              size: 30,
+                            ),
+                            onTap: () {
+                              onSelectItem(2);
+                            },
+                          ),
+                        ),
+                      if (loggedInUser.status.toString() == 'Cliente')
+                        Container(
+                          padding: EdgeInsets.only(left: 30),
+                          alignment: Alignment(0, 0),
+                          height: 50,
+                          color: selectDrawerItem == 3
+                              ? Color.fromARGB(255, 227, 226, 226)
+                              : Color.fromARGB(0, 0, 0, 0),
+                          margin: EdgeInsets.only(bottom: 2),
+                          child: ListTile(
+                            title: TextParrafo(
+                              text: 'Favoritos',
+                              style: TextStyle(
+                                  fontFamily: 'biko',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                  color: Colors.black),
+                            ),
+                            leading: Icon(
+                              Icons.favorite,
+                              color: RED_CAR,
+                              size: 30,
+                            ),
+                            onTap: () {
+                              onSelectItem(3);
+                            },
+                          ),
+                        ),
+                      if (loggedInUser.status.toString() == 'Vendedor')
+                        Container(
+                          padding: EdgeInsets.only(left: 30),
+                          alignment: Alignment(0, 0),
+                          height: 50,
+                          color: selectDrawerItem == 5
+                              ? Color.fromARGB(255, 227, 226, 226)
+                              : Color.fromARGB(0, 0, 0, 0),
+                          margin: EdgeInsets.only(bottom: 2),
+                          child: ListTile(
+                            title: TextParrafo(
+                              text: 'Agregar un vehículo',
+                              style: TextStyle(
+                                  fontFamily: 'biko',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                  color: Colors.black),
+                            ),
+                            leading: Icon(
+                              Icons.shopping_bag,
+                              color: RED_CAR,
+                              size: 30,
+                            ),
+                            onTap: () {
+                              onSelectItem(5);
+                            },
+                          ),
+                        ),
+                      if (loggedInUser.status.toString() == 'Vendedor')
+                        Container(
+                          padding: EdgeInsets.only(left: 30),
+                          alignment: Alignment(0, 0),
+                          height: 50,
+                          color: selectDrawerItem == 6
+                              ? Color.fromARGB(255, 227, 226, 226)
+                              : Color.fromARGB(0, 0, 0, 0),
+                          margin: EdgeInsets.only(bottom: 2),
+                          child: ListTile(
+                            title: TextParrafo(
+                              text: 'Mis vehículos',
+                              style: TextStyle(
+                                  fontFamily: 'biko',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                  color: Colors.black),
+                            ),
+                            leading: Icon(
+                              Icons.car_rental,
+                              color: RED_CAR,
+                              size: 30,
+                            ),
+                            onTap: () {
+                              onSelectItem(6);
+                            },
+                          ),
+                        ),
                     ],
-                  )),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              child: SingleChildScrollView(
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(left: 30),
+                margin: EdgeInsets.only(bottom: 2),
                 child: Column(
                   children: [
                     Container(
-                      padding: EdgeInsets.only(left: 30),
                       alignment: Alignment(0, 0),
                       height: 50,
-                      color: selectDrawerItem == 1
+                      color: selectDrawerItem == 4
                           ? Color.fromARGB(255, 227, 226, 226)
                           : Color.fromARGB(0, 0, 0, 0),
                       margin: EdgeInsets.only(bottom: 2),
                       child: ListTile(
+                        selected: false,
+                        title: Text(
+                            loggedInUser.status == 'Cliente'
+                                ? 'Atención a clientes'
+                                : 'Atención a vendedor',
+                            style: TextStyle(
+                                fontFamily: 'biko',
+                                fontWeight: FontWeight.w500,
+                                fontSize: loggedInUser.status == 'Cliente'
+                                    ? 18
+                                    : 17.5,
+                                color: Colors.black)),
+                        leading: loggedInUser.status == 'Cliente'
+                            ? Icon(
+                                Icons.person,
+                                color: RED_CAR,
+                                size: 30,
+                              )
+                            : Icon(
+                                Icons.shopping_cart,
+                                color: RED_CAR,
+                                size: 30,
+                              ),
+                        onTap: () {
+                          onSelectItem(4);
+                        },
+                      ),
+                    ),
+                    Container(
+                      height: 50,
+                      margin: EdgeInsets.only(bottom: 2),
+                      child: ListTile(
+                        selected: false,
                         title: TextParrafo(
-                          text: 'Home',
+                          text: 'Cerrar sesión',
                           style: TextStyle(
-                            fontFamily: 'biko',
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 18,
-                          ),
+                              fontFamily: 'biko',
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18,
+                              color: Colors.black),
                         ),
                         leading: Icon(
-                          Icons.home,
+                          Icons.login_rounded,
                           color: RED_CAR,
                           size: 30,
                         ),
                         onTap: () {
-                          onSelectItem(1);
-                        },
-                      ),
-                    ),
-                    if (loggedInUser.status.toString() == 'Cliente')
-                      Container(
-                        padding: EdgeInsets.only(left: 30),
-                        alignment: Alignment(0, 0),
-                        height: 50,
-                        color: selectDrawerItem == 2
-                            ? Color.fromARGB(255, 227, 226, 226)
-                            : Color.fromARGB(0, 0, 0, 0),
-                        margin: EdgeInsets.only(bottom: 2),
-                        child: ListTile(
-                          title: TextParrafo(
-                            text: 'Promociones',
-                            style: TextStyle(
-                                fontFamily: 'biko',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
-                                color: Colors.black),
-                          ),
-                          leading: Icon(
-                            Icons.discount_rounded,
-                            color: RED_CAR,
-                            size: 30,
-                          ),
-                          onTap: () {
-                            onSelectItem(2);
-                          },
-                        ),
-                      ),
-                    if (loggedInUser.status.toString() == 'Cliente')
-                      Container(
-                        padding: EdgeInsets.only(left: 30),
-                        alignment: Alignment(0, 0),
-                        height: 50,
-                        color: selectDrawerItem == 3
-                            ? Color.fromARGB(255, 227, 226, 226)
-                            : Color.fromARGB(0, 0, 0, 0),
-                        margin: EdgeInsets.only(bottom: 2),
-                        child: ListTile(
-                          title: TextParrafo(
-                            text: 'Favoritos',
-                            style: TextStyle(
-                                fontFamily: 'biko',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
-                                color: Colors.black),
-                          ),
-                          leading: Icon(
-                            Icons.favorite,
-                            color: RED_CAR,
-                            size: 30,
-                          ),
-                          onTap: () {
-                            onSelectItem(3);
-                          },
-                        ),
-                      ),
-                    if (loggedInUser.status.toString() == 'Vendedor')
-                      Container(
-                        padding: EdgeInsets.only(left: 30),
-                        alignment: Alignment(0, 0),
-                        height: 50,
-                        color: selectDrawerItem == 5
-                            ? Color.fromARGB(255, 227, 226, 226)
-                            : Color.fromARGB(0, 0, 0, 0),
-                        margin: EdgeInsets.only(bottom: 2),
-                        child: ListTile(
-                          title: TextParrafo(
-                            text: 'Agregar nuevo vehículo',
-                            style: TextStyle(
-                                fontFamily: 'biko',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
-                                color: Colors.black),
-                          ),
-                          leading: Icon(
-                            Icons.shopping_bag,
-                            color: RED_CAR,
-                            size: 30,
-                          ),
-                          onTap: () {
-                            onSelectItem(5);
-                          },
-                        ),
-                      ),
-                    if (loggedInUser.status.toString() == 'Vendedor')
-                      Container(
-                        padding: EdgeInsets.only(left: 30),
-                        alignment: Alignment(0, 0),
-                        height: 50,
-                        color: selectDrawerItem == 6
-                            ? Color.fromARGB(255, 227, 226, 226)
-                            : Color.fromARGB(0, 0, 0, 0),
-                        margin: EdgeInsets.only(bottom: 2),
-                        child: ListTile(
-                          title: TextParrafo(
-                            text: 'Mis vehículos',
-                            style: TextStyle(
-                                fontFamily: 'biko',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
-                                color: Colors.black),
-                          ),
-                          leading: Icon(
-                            Icons.car_rental,
-                            color: RED_CAR,
-                            size: 30,
-                          ),
-                          onTap: () {
-                            onSelectItem(6);
-                          },
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 30),
-              margin: EdgeInsets.only(bottom: 2),
-              child: Column(
-                children: [
-                  Container(
-                    alignment: Alignment(0, 0),
-                    height: 50,
-                    color: selectDrawerItem == 4
-                        ? Color.fromARGB(255, 227, 226, 226)
-                        : Color.fromARGB(0, 0, 0, 0),
-                    margin: EdgeInsets.only(bottom: 2),
-                    child: ListTile(
-                      selected: false,
-                      title: Text(
-                          loggedInUser.status == 'Cliente'
-                              ? 'Atención a clientes'
-                              : 'Atención a vendedor',
-                          style: TextStyle(
-                              fontFamily: 'biko',
-                              fontWeight: FontWeight.w500,
-                              fontSize:
-                                  loggedInUser.status == 'Cliente' ? 18 : 17.5,
-                              color: Colors.black)),
-                      leading: loggedInUser.status == 'Cliente'
-                          ? Icon(
-                              Icons.person,
-                              color: RED_CAR,
-                              size: 30,
-                            )
-                          : Icon(
-                              Icons.shopping_cart,
-                              color: RED_CAR,
-                              size: 30,
-                            ),
-                      onTap: () {
-                        onSelectItem(4);
-                      },
-                    ),
-                  ),
-                  Container(
-                    height: 50,
-                    margin: EdgeInsets.only(bottom: 2),
-                    child: ListTile(
-                      selected: false,
-                      title: TextParrafo(
-                        text: 'Cerrar sesión',
-                        style: TextStyle(
-                            fontFamily: 'biko',
-                            fontWeight: FontWeight.w500,
-                            fontSize: 18,
-                            color: Colors.black),
-                      ),
-                      leading: Icon(
-                        Icons.login_rounded,
-                        color: RED_CAR,
-                        size: 30,
-                      ),
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (_) => new AlertDialog(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(50))),
-                                  backgroundColor: Colors.white,
-                                  title: Text("Cerrar sesión",
-                                      style: TextStyle(
-                                        fontFamily: 'biko',
-                                        color: Colors.black,
-                                        fontSize: 25,
-                                      )),
-                                  content: Text(
-                                      "Está a punto de salir, ¿realmente desea hacerlo?",
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black,
-                                        fontFamily: 'biko',
-                                      )),
-                                  actions: [
-                                    TextButton(
+                          showDialog(
+                              context: context,
+                              builder: (_) => new AlertDialog(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(50))),
+                                    backgroundColor: Colors.white,
+                                    title: Text("Cerrar sesión",
+                                        style: TextStyle(
+                                          fontFamily: 'biko',
+                                          color: Colors.black,
+                                          fontSize: 25,
+                                        )),
+                                    content: Text(
+                                        "Está a punto de salir, ¿realmente desea hacerlo?",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.black,
+                                          fontFamily: 'biko',
+                                        )),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.all(10),
+                                            color: RED_CAR,
+                                            child: Text(
+                                              "No",
+                                              style: TextStyle(
+                                                  fontFamily: 'biko',
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          )),
+                                      TextButton(
                                         onPressed: () {
                                           Navigator.pop(context);
+                                          setState(() {
+                                            FirebaseAuth.instance.signOut();
+                                          });
                                         },
                                         child: Container(
-                                          padding: EdgeInsets.all(10),
+                                          padding: EdgeInsets.only(
+                                              right: 13,
+                                              top: 10,
+                                              bottom: 10,
+                                              left: 13),
                                           color: RED_CAR,
                                           child: Text(
-                                            "No",
+                                            "Sí",
                                             style: TextStyle(
                                                 fontFamily: 'biko',
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold),
                                           ),
-                                        )),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        setState(() {
-                                          FirebaseAuth.instance.signOut();
-                                        });
-                                      },
-                                      child: Container(
-                                        padding: EdgeInsets.only(
-                                            right: 13,
-                                            top: 10,
-                                            bottom: 10,
-                                            left: 13),
-                                        color: RED_CAR,
-                                        child: Text(
-                                          "Sí",
-                                          style: TextStyle(
-                                              fontFamily: 'biko',
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold),
                                         ),
-                                      ),
-                                    )
-                                  ],
-                                ));
-                      },
+                                      )
+                                    ],
+                                  ));
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
-        )),
+            ],
+          )),
+        ),
         body: getDrawerItemWidget(selectDrawerItem));
   }
 
@@ -926,6 +967,45 @@ class Mycustomclipper extends CustomClipper<Path> {
     path.quadraticBezierTo(
         size.width / 2, size.height, size.width, size.height - 30);
     path.lineTo(size.width, 0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return true;
+  }
+}
+
+class Mycustomclipper2 extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+    path.lineTo(0.0, size.height);
+    path.quadraticBezierTo(
+        size.width / 2, size.height - 80, size.width, size.height);
+    path.lineTo(size.width, 0.0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return true;
+  }
+}
+
+class Mycustomclipper3 extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path.lineTo(0, 0);
+    path.lineTo(size.width - 20, 0);
+    path.quadraticBezierTo(
+        size.width, size.height / 4, size.width, size.height / 2);
+    path.quadraticBezierTo(size.width, size.height - (size.height / 4),
+        size.width - 20, size.height);
+    path.lineTo(0, size.height);
     path.close();
     return path;
   }
