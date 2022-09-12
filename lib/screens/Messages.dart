@@ -29,9 +29,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
                         height: 50,
                         width: 50,
                         child: CircleAvatar(
-                          backgroundImage:
-                              Image.asset('assets/logob.png').image,
-                        ),
+                            backgroundImage:
+                                Image.asset('assets/logob.png').image,
+                            backgroundColor: Colors.white),
                       ),
                 Container(
                     padding: EdgeInsets.symmetric(vertical: 14, horizontal: 14),
