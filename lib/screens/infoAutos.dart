@@ -851,7 +851,7 @@ Widget AutosInfo(
                         ),
                         Expanded(
                           child: Text(
-                            'Vehículos del Vendedor'.toTitleCase(),
+                            'Más de esta tienda'.toTitleCase(),
                             style: TextStyle(
                               fontFamily: 'biko',
                               fontWeight: FontWeight.w500,
@@ -1053,7 +1053,7 @@ Widget AutosInfo(
                           ),
                         ),
                         Text(
-                          'Historial del vehículo'.toTitleCase(),
+                          'Historial'.toTitleCase(),
                           style: TextStyle(
                             fontFamily: 'biko',
                             fontWeight: FontWeight.w500,
@@ -1230,7 +1230,7 @@ Widget AutosInfo(
                           ),
                         ),
                         Text(
-                          'Ubicación en el Mapa'.toTitleCase(),
+                          'Se ubica en:'.toTitleCase(),
                           style: TextStyle(
                             fontFamily: 'biko',
                             fontWeight: FontWeight.w500,
@@ -1360,7 +1360,7 @@ Widget AutosInfo(
                           ),
                         ),
                         Text(
-                          'Vehículos Similares'.toTitleCase(),
+                          'También te pueden interesar'.toTitleCase(),
                           style: TextStyle(
                             fontFamily: 'biko',
                             fontWeight: FontWeight.w500,

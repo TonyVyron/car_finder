@@ -135,7 +135,7 @@ class _PerfilState extends State<Perfil> {
                       borderRadius: BorderRadius.circular(20)),
                   child: Icon(
                     loggedInUser.status.toString() == 'Vendedor'
-                        ? Icons.shopping_cart
+                        ? Icons.sell
                         : Icons.person,
                     size: 30,
                     color: RED_CAR,
@@ -227,7 +227,7 @@ class _PerfilState extends State<Perfil> {
                         Expanded(
                           flex: 2,
                           child: Icon(
-                            Icons.code,
+                            Icons.phone,
                             size: 26,
                             color: RED_CAR,
                           ),
@@ -240,9 +240,8 @@ class _PerfilState extends State<Perfil> {
                                 width: double.infinity,
                                 child: Text(
                                     loggedInUser.status.toString() == 'Vendedor'
-                                        ? "IDENTIFICADOR del Local:"
-                                            .toTitleCase()
-                                        : "IDENTIFICADOR:".toTitleCase(),
+                                        ? "Teléfono de contacto:".toTitleCase()
+                                        : "Número de teléfono:".toTitleCase(),
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontSize: LABEL_INFO,
@@ -252,7 +251,11 @@ class _PerfilState extends State<Perfil> {
                               ),
                               Container(
                                 width: double.infinity,
-                                child: Text("${loggedInUser.uid}".toTitleCase(),
+                                child: Text(
+                                    loggedInUser.Telefono == null
+                                        ? "Sin Número"
+                                        : "${loggedInUser.Telefono}"
+                                            .toTitleCase(),
                                     style: TextStyle(
                                         fontFamily: 'biko',
                                         color: Colors.black,
@@ -264,7 +267,7 @@ class _PerfilState extends State<Perfil> {
                         Expanded(
                           flex: 2,
                           child: Icon(
-                            Icons.arrow_forward_sharp,
+                            Icons.edit_sharp,
                             size: 30,
                           ),
                         ),
@@ -274,7 +277,7 @@ class _PerfilState extends State<Perfil> {
                   SizedBox(
                     height: 10,
                   ),
-                  if (loggedInUser.status.toString() == 'Vendedor')
+                  if (loggedInUser.status.toString() == 'Vendedor') ...[
                     Container(
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
@@ -330,16 +333,17 @@ class _PerfilState extends State<Perfil> {
                           Expanded(
                             flex: 2,
                             child: Icon(
-                              Icons.arrow_forward_sharp,
+                              Icons.edit,
                               size: 30,
                             ),
                           ),
                         ],
                       ),
                     ),
-                  SizedBox(
-                    height: 10,
-                  ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                  ],
                   if (loggedInUser.status.toString() == 'Vendedor') ...[
                     Container(
                       padding: EdgeInsets.all(10),
@@ -375,9 +379,9 @@ class _PerfilState extends State<Perfil> {
                                   child: Text(
                                       loggedInUser.status.toString() ==
                                               'Vendedor'
-                                          ? "NOMBRE Del Encargado:"
+                                          ? "Nombre Del Encargado:"
                                               .toTitleCase()
-                                          : "NOMBRE COMPLETO:".toTitleCase(),
+                                          : "Nombre Completo:".toTitleCase(),
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                         fontSize: LABEL_INFO,
@@ -401,7 +405,7 @@ class _PerfilState extends State<Perfil> {
                           Expanded(
                             flex: 2,
                             child: Icon(
-                              Icons.arrow_forward_sharp,
+                              Icons.edit,
                               size: 30,
                             ),
                           ),
@@ -445,7 +449,7 @@ class _PerfilState extends State<Perfil> {
                                 width: double.infinity,
                                 child: Text(
                                     loggedInUser.status.toString() == 'Vendedor'
-                                        ? "Edad Del Encargado:".toTitleCase()
+                                        ? "Edad del encargado:".toTitleCase()
                                         : "Edad:".toTitleCase(),
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
@@ -468,77 +472,7 @@ class _PerfilState extends State<Perfil> {
                         Expanded(
                           flex: 2,
                           child: Icon(
-                            Icons.arrow_forward_sharp,
-                            size: 30,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        border: Border.all(width: .4),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color.fromARGB(103, 0, 0, 0),
-                            offset: Offset(0, 5),
-                            blurRadius: 10.0,
-                          ),
-                        ],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20)),
-                    width: double.infinity,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Icon(
-                            Icons.phone,
-                            size: 26,
-                            color: RED_CAR,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 8,
-                          child: Column(
-                            children: [
-                              Container(
-                                width: double.infinity,
-                                child: Text(
-                                    loggedInUser.status.toString() == 'Vendedor'
-                                        ? "Teléfono de Contacto:".toTitleCase()
-                                        : "Número de Teléfono:".toTitleCase(),
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontSize: LABEL_INFO,
-                                      fontFamily: 'biko',
-                                      color: RED_CAR,
-                                    )),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                child: Text(
-                                    loggedInUser.Telefono == null
-                                        ? "Sin Número"
-                                        : "${loggedInUser.Telefono}"
-                                            .toTitleCase(),
-                                    style: TextStyle(
-                                        fontFamily: 'biko',
-                                        color: Colors.black,
-                                        fontSize: LABEL_CAJA)),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child: Icon(
-                            Icons.arrow_forward_sharp,
+                            Icons.edit_calendar,
                             size: 30,
                           ),
                         ),
@@ -604,71 +538,7 @@ class _PerfilState extends State<Perfil> {
                         Expanded(
                           flex: 2,
                           child: Icon(
-                            Icons.arrow_forward_sharp,
-                            size: 30,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        border: Border.all(width: .4),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color.fromARGB(103, 0, 0, 0),
-                            offset: Offset(0, 5),
-                            blurRadius: 10.0,
-                          ),
-                        ],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20)),
-                    width: double.infinity,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Icon(
-                            Icons.person,
-                            size: 26,
-                            color: RED_CAR,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 8,
-                          child: Column(
-                            children: [
-                              Container(
-                                width: double.infinity,
-                                child: Text("Status:".toTitleCase(),
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontSize: LABEL_INFO,
-                                      fontFamily: 'biko',
-                                      color: RED_CAR,
-                                    )),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                child: Text(
-                                    "${loggedInUser.status}".toTitleCase(),
-                                    style: TextStyle(
-                                        fontFamily: 'biko',
-                                        color: Colors.black,
-                                        fontSize: LABEL_CAJA)),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child: Icon(
-                            Icons.arrow_forward_sharp,
+                            Icons.edit_sharp,
                             size: 30,
                           ),
                         ),
@@ -735,8 +605,124 @@ class _PerfilState extends State<Perfil> {
                         Expanded(
                           flex: 2,
                           child: Icon(
-                            Icons.arrow_forward_sharp,
+                            Icons.edit_location,
                             size: 30,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        border: Border.all(width: .4),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color.fromARGB(103, 0, 0, 0),
+                            offset: Offset(0, 5),
+                            blurRadius: 10.0,
+                          ),
+                        ],
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20)),
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Icon(
+                            Icons.person,
+                            size: 26,
+                            color: RED_CAR,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 10,
+                          child: Column(
+                            children: [
+                              Container(
+                                width: double.infinity,
+                                child: Text("Status:".toTitleCase(),
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontSize: LABEL_INFO,
+                                      fontFamily: 'biko',
+                                      color: RED_CAR,
+                                    )),
+                              ),
+                              Container(
+                                width: double.infinity,
+                                child: Text(
+                                    "${loggedInUser.status}".toTitleCase(),
+                                    style: TextStyle(
+                                        fontFamily: 'biko',
+                                        color: Colors.black,
+                                        fontSize: LABEL_CAJA)),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        border: Border.all(width: .4),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color.fromARGB(103, 0, 0, 0),
+                            offset: Offset(0, 5),
+                            blurRadius: 10.0,
+                          ),
+                        ],
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20)),
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Icon(
+                            Icons.code,
+                            size: 26,
+                            color: RED_CAR,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 10,
+                          child: Column(
+                            children: [
+                              Container(
+                                width: double.infinity,
+                                child: Text(
+                                    loggedInUser.status.toString() == 'Vendedor'
+                                        ? "ID del Local:".toTitleCase()
+                                        : "ID:".toTitleCase(),
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontSize: LABEL_INFO,
+                                      fontFamily: 'biko',
+                                      color: RED_CAR,
+                                    )),
+                              ),
+                              Container(
+                                width: double.infinity,
+                                child: Text("${loggedInUser.uid}".toTitleCase(),
+                                    style: TextStyle(
+                                        fontFamily: 'biko',
+                                        color: Colors.black,
+                                        fontSize: LABEL_CAJA)),
+                              ),
+                            ],
                           ),
                         ),
                       ],

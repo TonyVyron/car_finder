@@ -35,7 +35,7 @@ class MaterialAppWithTheme extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'CAR FINDER',
+      title: 'Car Finder',
       theme: theme.getTheme(),
       home: splashsc(),
     );
