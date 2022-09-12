@@ -56,7 +56,7 @@ class _homeState extends State<home> {
       case 3:
         return Favoritos();
       case 4:
-        return Atencion_Clientes();
+        return Atencionclientes();
       case 5:
         return Agregar_Carro();
       case 6:
@@ -590,29 +590,32 @@ class _homeState extends State<home> {
                   ),
                   Expanded(
                     flex: 2,
-                    child: IconButton(
-                        onPressed: () {
-                          onSelectItem2(0);
-                        },
-                        icon: CircleAvatar(
-                          radius: 30,
-                          child: Container(
-                            height: 30,
-                            width: 34,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: loggedInUser.foto == null
-                                      ? Image.network(
-                                              'https://static.vecteezy.com/system/resources/previews/007/319/933/non_2x/black-avatar-person-icons-user-profile-icon-vector.jpg')
-                                          .image
-                                      : Image.network('${loggedInUser.foto}')
-                                          .image,
-                                  fit: BoxFit.cover),
-                              color: Colors.black,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                        )),
+                    child: selectDrawerItem == 4
+                        ? Container()
+                        : IconButton(
+                            onPressed: () {
+                              onSelectItem2(0);
+                            },
+                            icon: CircleAvatar(
+                              radius: 30,
+                              child: Container(
+                                height: 30,
+                                width: 34,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: loggedInUser.foto == null
+                                          ? Image.network(
+                                                  'https://static.vecteezy.com/system/resources/previews/007/319/933/non_2x/black-avatar-person-icons-user-profile-icon-vector.jpg')
+                                              .image
+                                          : Image.network(
+                                                  '${loggedInUser.foto}')
+                                              .image,
+                                      fit: BoxFit.cover),
+                                  color: Colors.black,
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                            )),
                   )
                 ],
               )),

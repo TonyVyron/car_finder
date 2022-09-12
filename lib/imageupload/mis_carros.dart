@@ -79,7 +79,7 @@ class _mis_carrosState extends State<mis_carros> {
               width: double.infinity,
               alignment: Alignment.center,
               child: Text(
-                'No Tienes Vehículos Registrados',
+                'No tienes vehículos registrados',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontFamily: 'biko', fontSize: 22, color: Colors.black),

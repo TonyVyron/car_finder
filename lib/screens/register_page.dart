@@ -525,6 +525,9 @@ class _RegisterPageState extends State<RegisterPage> {
         onTap: () {
           if (_image != null) {
             SignUp2(_emailController.text, _passwordController.text);
+            setState(() {
+              FirebaseAuth.instance.signOut();
+            });
           } else {
             showsnackbar(
                 'Imagen no seleccionada',
@@ -549,7 +552,7 @@ class _RegisterPageState extends State<RegisterPage> {
               Container(
                   margin: EdgeInsets.only(right: 20),
                   child: Icon(
-                    Icons.app_registration_outlined,
+                    Icons.save,
                     size: 30,
                     color: Colors.white,
                   )),
@@ -1185,7 +1188,7 @@ class _RegisterPageState extends State<RegisterPage> {
         .set(userModel.toMap());
 
     Fluttertoast.showToast(
-        msg: "Cuenta Registrada",
+        msg: "Cuenta registrada",
         backgroundColor: RED_CAR,
         textColor: Colors.white,
         fontSize: 16);

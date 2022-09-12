@@ -59,6 +59,9 @@ dependencies:
   url_launcher: ^6.1.5
   google_place: ^0.4.7
   flutter_custom_clippers: ^2.0.0
+  dialog_flowtter:
+  intl:
+  bubble: ^1.1.9+1
 
 dev_dependencies:
   flutter_test:
@@ -85,6 +88,7 @@ flutter_icons:
 flutter:
   assets:   
       - assets/
+      - assets/dialog_flow_auth.json
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
