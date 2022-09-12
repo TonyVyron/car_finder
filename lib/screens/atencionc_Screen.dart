@@ -23,24 +23,50 @@ class _AtencionclientesState extends State<Atencionclientes> {
     super.initState();
   }
 
+  List<String> DiaSemana = [
+    'Lunes',
+    'Martes',
+    'Miercoles',
+    'Jueves',
+    'Viernes',
+    'Sabado',
+    'Domingo'
+  ];
+  List<String> Mesname = [
+    'Enero',
+    'Febrero',
+    'Marzo',
+    'Abril',
+    'Mayo',
+    'Junio',
+    'Julio',
+    'Agosto',
+    'Septiembre',
+    'Octubre',
+    'Noviembre',
+    'Diciembre'
+  ];
   @override
   Widget build(BuildContext context) {
+    var w = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().month}",
-                  style: TextStyle(fontSize: 20, fontFamily: 'biko'),
-                ),
-                Text(
-                  " ${DateFormat("Hm").format(DateTime.now())}",
-                  style: TextStyle(fontSize: 20, fontFamily: 'biko'),
-                )
-              ],
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    "${DiaSemana[DateTime.now().weekday - 1]} ${DateTime.now().day} de ${Mesname[DateTime.now().month - 1]}",
+                    style: TextStyle(fontSize: 20, fontFamily: 'biko'),
+                  ),
+                  Text(
+                    " ${DateFormat("Hm").format(DateTime.now())}",
+                    style: TextStyle(fontSize: 20, fontFamily: 'biko'),
+                  )
+                ],
+              ),
             ),
             Expanded(
               child: messages.isNotEmpty
@@ -53,8 +79,8 @@ class _AtencionclientesState extends State<Atencionclientes> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            width: 180,
-                            height: 180,
+                            width: 100,
+                            height: 100,
                             child: Image.asset(
                               'assets/logob.png',
                               fit: BoxFit.fill,
@@ -68,9 +94,6 @@ class _AtencionclientesState extends State<Atencionclientes> {
                               fontSize: 20,
                             ),
                           ),
-                          SizedBox(
-                            height: 50,
-                          )
                         ],
                       ),
                     ),
@@ -89,8 +112,10 @@ class _AtencionclientesState extends State<Atencionclientes> {
                       );
                       _PreguntaUsuario.clear();
                     },
+                    autocorrect: true,
                     cursorColor: RED_CAR,
                     controller: _PreguntaUsuario,
+                    textCapitalization: TextCapitalization.sentences,
                     style: TextStyle(
                         color: Color.fromARGB(255, 36, 36, 36),
                         fontFamily: 'biko',

@@ -170,11 +170,51 @@ class _PerfilState extends State<Perfil> {
                         size: 30,
                         color: RED_CAR,
                       ),
-                      Text("30",
-                          style: TextStyle(
-                              fontFamily: 'biko',
-                              color: Colors.black,
-                              fontSize: 16))
+                      if (loggedInUser.status.toString() == 'Vendedor') ...[
+                        Container(
+                          child: StreamBuilder(
+                              stream: FirebaseFirestore.instance
+                                  .collection('carros')
+                                  .where('uid_vendedor',
+                                      isEqualTo: loggedInUser.uid)
+                                  .snapshots(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot snapshot) {
+                                if (!snapshot.hasData) {
+                                  return Container(
+                                    alignment: Alignment.center,
+                                    child: Center(
+                                        child: Transform.scale(
+                                      scale: 1.6,
+                                      child: CircularProgressIndicator(
+                                        color: RED_CAR,
+                                      ),
+                                    )),
+                                  );
+                                } else {
+                                  return Text(
+                                    snapshot.data!.docs.length.toString(),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontFamily: 'biko',
+                                        fontSize: 16,
+                                        color: Colors.black),
+                                  );
+                                }
+                              }),
+                        ),
+                      ],
+                      if (loggedInUser.status.toString() == 'Cliente') ...[
+                        Text(
+                            loggedInUser.Favoritos == null
+                                ? "0"
+                                : '${loggedInUser.Favoritos!.length - 1}',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily: 'biko',
+                                color: Colors.black,
+                                fontSize: 16))
+                      ],
                     ],
                   ),
                 ),
@@ -266,9 +306,58 @@ class _PerfilState extends State<Perfil> {
                         ),
                         Expanded(
                           flex: 2,
-                          child: Icon(
-                            Icons.edit_sharp,
-                            size: 30,
+                          child: IconButton(
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                              bottomLeft: Radius.circular(50),
+                                              topRight: Radius.circular(50))),
+                                      contentPadding: EdgeInsets.all(0),
+                                      content: SingleChildScrollView(
+                                          child: Column(
+                                        children: [
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          50)),
+                                              onPrimary: Colors.white,
+                                              primary: RED_CAR,
+                                              shadowColor: Colors.white,
+                                              elevation: 15,
+                                            ),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 15,
+                                                      horizontal: 10),
+                                              child: Text(
+                                                "Cancelar",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontFamily: 'biko',
+                                                  fontSize: 18,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                    );
+                                  });
+                            },
+                            icon: Icon(
+                              Icons.edit_sharp,
+                              size: 30,
+                            ),
                           ),
                         ),
                       ],
@@ -332,9 +421,58 @@ class _PerfilState extends State<Perfil> {
                           ),
                           Expanded(
                             flex: 2,
-                            child: Icon(
-                              Icons.edit,
-                              size: 30,
+                            child: IconButton(
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.only(
+                                                bottomLeft: Radius.circular(50),
+                                                topRight: Radius.circular(50))),
+                                        contentPadding: EdgeInsets.all(0),
+                                        content: SingleChildScrollView(
+                                            child: Column(
+                                          children: [
+                                            ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            50)),
+                                                onPrimary: Colors.white,
+                                                primary: RED_CAR,
+                                                shadowColor: Colors.white,
+                                                elevation: 15,
+                                              ),
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 15,
+                                                        horizontal: 10),
+                                                child: Text(
+                                                  "Cancelar",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontFamily: 'biko',
+                                                    fontSize: 18,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                      );
+                                    });
+                              },
+                              icon: Icon(
+                                Icons.edit,
+                                size: 30,
+                              ),
                             ),
                           ),
                         ],
@@ -404,9 +542,58 @@ class _PerfilState extends State<Perfil> {
                           ),
                           Expanded(
                             flex: 2,
-                            child: Icon(
-                              Icons.edit,
-                              size: 30,
+                            child: IconButton(
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.only(
+                                                bottomLeft: Radius.circular(50),
+                                                topRight: Radius.circular(50))),
+                                        contentPadding: EdgeInsets.all(0),
+                                        content: SingleChildScrollView(
+                                            child: Column(
+                                          children: [
+                                            ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            50)),
+                                                onPrimary: Colors.white,
+                                                primary: RED_CAR,
+                                                shadowColor: Colors.white,
+                                                elevation: 15,
+                                              ),
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 15,
+                                                        horizontal: 10),
+                                                child: Text(
+                                                  "Cancelar",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontFamily: 'biko',
+                                                    fontSize: 18,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                      );
+                                    });
+                              },
+                              icon: Icon(
+                                Icons.edit,
+                                size: 30,
+                              ),
                             ),
                           ),
                         ],
@@ -471,9 +658,58 @@ class _PerfilState extends State<Perfil> {
                         ),
                         Expanded(
                           flex: 2,
-                          child: Icon(
-                            Icons.edit_calendar,
-                            size: 30,
+                          child: IconButton(
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                              bottomLeft: Radius.circular(50),
+                                              topRight: Radius.circular(50))),
+                                      contentPadding: EdgeInsets.all(0),
+                                      content: SingleChildScrollView(
+                                          child: Column(
+                                        children: [
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          50)),
+                                              onPrimary: Colors.white,
+                                              primary: RED_CAR,
+                                              shadowColor: Colors.white,
+                                              elevation: 15,
+                                            ),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 15,
+                                                      horizontal: 10),
+                                              child: Text(
+                                                "Cancelar",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontFamily: 'biko',
+                                                  fontSize: 18,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                    );
+                                  });
+                            },
+                            icon: Icon(
+                              Icons.edit_calendar,
+                              size: 30,
+                            ),
                           ),
                         ),
                       ],
@@ -537,9 +773,58 @@ class _PerfilState extends State<Perfil> {
                         ),
                         Expanded(
                           flex: 2,
-                          child: Icon(
-                            Icons.edit_sharp,
-                            size: 30,
+                          child: IconButton(
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                              bottomLeft: Radius.circular(50),
+                                              topRight: Radius.circular(50))),
+                                      contentPadding: EdgeInsets.all(0),
+                                      content: SingleChildScrollView(
+                                          child: Column(
+                                        children: [
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          50)),
+                                              onPrimary: Colors.white,
+                                              primary: RED_CAR,
+                                              shadowColor: Colors.white,
+                                              elevation: 15,
+                                            ),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 15,
+                                                      horizontal: 10),
+                                              child: Text(
+                                                "Cancelar",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontFamily: 'biko',
+                                                  fontSize: 18,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                    );
+                                  });
+                            },
+                            icon: Icon(
+                              Icons.edit_sharp,
+                              size: 30,
+                            ),
                           ),
                         ),
                       ],
@@ -604,9 +889,58 @@ class _PerfilState extends State<Perfil> {
                         ),
                         Expanded(
                           flex: 2,
-                          child: Icon(
-                            Icons.edit_location,
-                            size: 30,
+                          child: IconButton(
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                              bottomLeft: Radius.circular(50),
+                                              topRight: Radius.circular(50))),
+                                      contentPadding: EdgeInsets.all(0),
+                                      content: SingleChildScrollView(
+                                          child: Column(
+                                        children: [
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          50)),
+                                              onPrimary: Colors.white,
+                                              primary: RED_CAR,
+                                              shadowColor: Colors.white,
+                                              elevation: 15,
+                                            ),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 15,
+                                                      horizontal: 10),
+                                              child: Text(
+                                                "Cancelar",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontFamily: 'biko',
+                                                  fontSize: 18,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                    );
+                                  });
+                            },
+                            icon: Icon(
+                              Icons.edit_location,
+                              size: 30,
+                            ),
                           ),
                         ),
                       ],
