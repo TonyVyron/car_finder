@@ -7,6 +7,7 @@ import 'package:car_finder/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 UserModel loggedInUser2 = UserModel();
@@ -729,55 +730,12 @@ Widget AutosInfo(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: [
-                                                Container(
-                                                  margin: EdgeInsets.symmetric(
-                                                      vertical: 5),
-                                                  child: InkWell(
-                                                    onTap: () {},
-                                                    child: Icon(Icons.star,
-                                                        size: 35,
-                                                        color: Colors.amber),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  margin: EdgeInsets.symmetric(
-                                                      vertical: 5),
-                                                  child: InkWell(
-                                                    onTap: () {},
-                                                    child: Icon(Icons.star,
-                                                        size: 35,
-                                                        color: Colors.amber),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  margin: EdgeInsets.symmetric(
-                                                      vertical: 5),
-                                                  child: InkWell(
-                                                    onTap: () {},
-                                                    child: Icon(Icons.star,
-                                                        size: 35,
-                                                        color: Colors.amber),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  margin: EdgeInsets.symmetric(
-                                                      vertical: 5),
-                                                  child: InkWell(
-                                                    onTap: () {},
-                                                    child: Icon(Icons.star,
-                                                        size: 35,
-                                                        color: Colors.amber),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  margin: EdgeInsets.symmetric(
-                                                      vertical: 5),
-                                                  child: InkWell(
-                                                    onTap: () {},
-                                                    child: Icon(Icons.star,
-                                                        size: 35,
-                                                        color: Colors.amber),
-                                                  ),
+                                                RatingBar.builder(
+                                                  minRating: 1,
+                                                  itemBuilder: (context, _) =>
+                                                      Icon(Icons.star,
+                                                          color: Colors.amber),
+                                                  onRatingUpdate: (rating) {},
                                                 ),
                                               ],
                                             ),
@@ -807,30 +765,11 @@ Widget AutosInfo(
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 5),
-                          child:
-                              Icon(Icons.star, size: 35, color: Colors.amber),
-                        ),
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 5),
-                          child:
-                              Icon(Icons.star, size: 35, color: Colors.amber),
-                        ),
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 5),
-                          child:
-                              Icon(Icons.star, size: 35, color: Colors.amber),
-                        ),
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 5),
-                          child:
-                              Icon(Icons.star, size: 35, color: Colors.amber),
-                        ),
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 5),
-                          child:
-                              Icon(Icons.star, size: 35, color: Colors.amber),
+                        RatingBar.builder(
+                          minRating: 1,
+                          itemBuilder: (context, _) =>
+                              Icon(Icons.star, color: Colors.amber),
+                          onRatingUpdate: (rating) {},
                         ),
                       ],
                     ),
@@ -945,7 +884,7 @@ Widget AutosInfo(
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  "${puertas.toString().toTitleCase()} Puertas",
+                                  "${puertas.toString().toTitleCase()} puertas",
                                   style: TextStyle(
                                     fontFamily: 'biko',
                                     fontSize: LABEL_INFO,
@@ -1111,7 +1050,7 @@ Widget AutosInfo(
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "Fecha de Adquisición".toTitleCase(),
+                              "Fecha de adquisición".toTitleCase(),
                               style: TextStyle(
                                 fontFamily: 'biko',
                                 fontWeight: FontWeight.w500,
@@ -1185,7 +1124,7 @@ Widget AutosInfo(
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              'Guía de Mantenimiento'.toTitleCase(),
+                              'Guía de mantenimiento'.toTitleCase(),
                               style: TextStyle(
                                 fontFamily: 'biko',
                                 fontWeight: FontWeight.w500,

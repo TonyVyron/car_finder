@@ -61,10 +61,6 @@ class _AtencionclientesState extends State<Atencionclientes> {
                     "${DiaSemana[DateTime.now().weekday - 1]} ${DateTime.now().day} de ${Mesname[DateTime.now().month - 1]}",
                     style: TextStyle(fontSize: 20, fontFamily: 'biko'),
                   ),
-                  Text(
-                    " ${DateFormat("Hm").format(DateTime.now())}",
-                    style: TextStyle(fontSize: 20, fontFamily: 'biko'),
-                  )
                 ],
               ),
             ),
