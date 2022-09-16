@@ -111,9 +111,12 @@ class _homeState extends State<home> {
                 flexibleSpace: Container(
                     decoration: BoxDecoration(
                   gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.topRight,
-                      colors: [RED_CAR]),
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [
+                        RED_CAR,
+                        RED_CAR,
+                      ]),
                 )),
                 title: Container(
                   alignment: Alignment.center,
@@ -158,8 +161,8 @@ class _homeState extends State<home> {
                           begin: Alignment.bottomCenter,
                           end: Alignment.topCenter,
                           colors: [
-                            RED_CAR,
-                            Color.fromARGB(181, 250, 39, 39),
+                            Color.fromARGB(255, 192, 0, 0),
+                            Color.fromARGB(198, 255, 94, 94),
                           ],
                         ),
                         borderRadius: BorderRadius.only(
@@ -188,41 +191,86 @@ class _homeState extends State<home> {
                                 padding: EdgeInsets.only(bottom: 10),
                                 alignment: Alignment.bottomLeft,
                                 width: double.infinity,
-                                child: Container(
-                                  alignment: Alignment.centerLeft,
-                                  height: 80,
-                                  width: 80,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    border: Border.all(
-                                        color: Colors.white, width: .5),
-                                    image: DecorationImage(
-                                        image: loggedInUser.foto == null
-                                            ? Image.network(
-                                                    'https://static.vecteezy.com/system/resources/previews/007/319/933/non_2x/black-avatar-person-icons-user-profile-icon-vector.jpg')
-                                                .image
-                                            : Image.network(
-                                                    '${loggedInUser.foto}')
-                                                .image,
-                                        fit: BoxFit.cover),
-                                    color: Colors.white,
-                                    shape: BoxShape.rectangle,
-                                  ),
-                                ),
+                                child: StreamBuilder(
+                                    stream: FirebaseFirestore.instance
+                                        .collection('users')
+                                        .where('uid',
+                                            isEqualTo: loggedInUser.uid)
+                                        .snapshots(),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return Container(
+                                          alignment: Alignment.center,
+                                          child: Center(
+                                              child: Transform.scale(
+                                            scale: 1.6,
+                                            child: CircularProgressIndicator(
+                                              color: RED_CAR,
+                                            ),
+                                          )),
+                                        );
+                                      } else {
+                                        QueryDocumentSnapshot<Object?> perfil =
+                                            snapshot.data!.docs[0];
+                                        return Container(
+                                          alignment: Alignment.centerLeft,
+                                          height: 80,
+                                          width: 80,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            border: Border.all(
+                                                color: Colors.white, width: .5),
+                                            image: DecorationImage(
+                                                image: perfil['foto'] == null
+                                                    ? Image.network(
+                                                            'https://static.vecteezy.com/system/resources/previews/007/319/933/non_2x/black-avatar-person-icons-user-profile-icon-vector.jpg')
+                                                        .image
+                                                    : Image.network(
+                                                            '${perfil['foto']}')
+                                                        .image,
+                                                fit: BoxFit.cover),
+                                            color: Colors.white,
+                                            shape: BoxShape.rectangle,
+                                          ),
+                                        );
+                                      }
+                                    }),
                               ),
                             ),
                             Expanded(
                               flex: 2,
-                              child: Container(
-                                alignment: Alignment.bottomLeft,
-                                child: Text(
-                                  '${loggedInUser.Nombre} ${loggedInUser.Apellidos}',
-                                  style: TextStyle(
-                                      fontFamily: 'biko',
-                                      fontSize: 24.5,
-                                      color: Colors.white),
-                                ),
-                              ),
+                              child: StreamBuilder(
+                                  stream: FirebaseFirestore.instance
+                                      .collection('users')
+                                      .where('uid', isEqualTo: loggedInUser.uid)
+                                      .snapshots(),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot snapshot) {
+                                    if (!snapshot.hasData) {
+                                      return Container(
+                                        alignment: Alignment.center,
+                                        child: Center(
+                                            child: Transform.scale(
+                                          scale: 1.6,
+                                          child: CircularProgressIndicator(
+                                            color: RED_CAR,
+                                          ),
+                                        )),
+                                      );
+                                    } else {
+                                      QueryDocumentSnapshot<Object?> perfil =
+                                          snapshot.data!.docs[0];
+                                      return Text(
+                                        '${perfil['Nombre']} ${perfil['Apellidos']}',
+                                        style: TextStyle(
+                                            fontFamily: 'biko',
+                                            fontSize: 24.5,
+                                            color: Colors.white),
+                                      );
+                                    }
+                                  }),
                             ),
                             Expanded(
                               flex: 2,
@@ -592,30 +640,53 @@ class _homeState extends State<home> {
                     flex: 2,
                     child: selectDrawerItem == 4
                         ? Container()
-                        : IconButton(
-                            onPressed: () {
-                              onSelectItem2(0);
-                            },
-                            icon: CircleAvatar(
-                              radius: 30,
-                              child: Container(
-                                height: 30,
-                                width: 34,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: loggedInUser.foto == null
-                                          ? Image.network(
-                                                  'https://static.vecteezy.com/system/resources/previews/007/319/933/non_2x/black-avatar-person-icons-user-profile-icon-vector.jpg')
-                                              .image
-                                          : Image.network(
-                                                  '${loggedInUser.foto}')
-                                              .image,
-                                      fit: BoxFit.cover),
-                                  color: Colors.black,
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-                            )),
+                        : StreamBuilder(
+                            stream: FirebaseFirestore.instance
+                                .collection('users')
+                                .where('uid', isEqualTo: loggedInUser.uid)
+                                .snapshots(),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (!snapshot.hasData) {
+                                return Container(
+                                  alignment: Alignment.center,
+                                  child: Center(
+                                      child: Transform.scale(
+                                    scale: 1.6,
+                                    child: CircularProgressIndicator(
+                                      color: RED_CAR,
+                                    ),
+                                  )),
+                                );
+                              } else {
+                                QueryDocumentSnapshot<Object?> perfil =
+                                    snapshot.data!.docs[0];
+                                return IconButton(
+                                    onPressed: () {
+                                      onSelectItem2(0);
+                                    },
+                                    icon: CircleAvatar(
+                                      radius: 30,
+                                      child: Container(
+                                        height: 30,
+                                        width: 34,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: perfil['foto'] == null
+                                                  ? Image.network(
+                                                          'https://static.vecteezy.com/system/resources/previews/007/319/933/non_2x/black-avatar-person-icons-user-profile-icon-vector.jpg')
+                                                      .image
+                                                  : Image.network(
+                                                          '${perfil['foto']}')
+                                                      .image,
+                                              fit: BoxFit.cover),
+                                          color: Colors.black,
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                    ));
+                              }
+                            }),
                   )
                 ],
               )),
@@ -986,7 +1057,7 @@ class Mycustomclipper2 extends CustomClipper<Path> {
     var path = Path();
     path.lineTo(0.0, size.height);
     path.quadraticBezierTo(
-        size.width / 2, size.height - 80, size.width, size.height);
+        size.width / 2, size.height - 50, size.width, size.height);
     path.lineTo(size.width, 0.0);
     path.close();
     return path;

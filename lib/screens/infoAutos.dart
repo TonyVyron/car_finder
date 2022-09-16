@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:car_finder/imageupload/show_horizontal.dart';
 import 'package:car_finder/models/user_model.dart';
 import 'package:car_finder/screens/carrosgeneral.dart';
+import 'package:car_finder/screens/infovende.dart';
 import 'package:car_finder/screens/mapa.dart';
 import 'package:car_finder/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,6 +16,7 @@ UserModel loggedInUser2 = UserModel();
 Widget AutosInfo(
     {required BuildContext context,
     required int tipoCaja,
+    required String id_visor,
     String? Marca,
     String? Nombre,
     String? yo,
@@ -647,101 +649,9 @@ Widget AutosInfo(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(25))),
                                     insetPadding: EdgeInsets.all(20),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          image: DecorationImage(
-                                              image: AssetImage(
-                                                  'assets/fondo.png'),
-                                              fit: BoxFit.fill)),
-                                      height: 400,
-                                      alignment: Alignment.center,
-                                      width: double.infinity,
-                                      child: SingleChildScrollView(
-                                        child: Column(
-                                          children: [
-                                            CircleAvatar(
-                                              radius: 68,
-                                              child: Container(
-                                                height: 130,
-                                                width: 130,
-                                                decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                      image: Image.network(
-                                                              loggedInUser2.foto
-                                                                  .toString())
-                                                          .image,
-                                                      fit: BoxFit.cover),
-                                                  color: Colors.white,
-                                                  shape: BoxShape.circle,
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.symmetric(
-                                                  vertical: 10),
-                                              child: Text(
-                                                loggedInUser2.NombreLocal
-                                                    .toString(),
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    fontFamily: 'biko',
-                                                    fontSize: 22,
-                                                    color: RED_CAR),
-                                              ),
-                                            ),
-                                            Text(
-                                              loggedInUser2.Telefono.toString(),
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontFamily: 'biko',
-                                                  fontSize: LABEL_CAJA,
-                                                  color: Colors.black),
-                                            ),
-                                            Text(
-                                              loggedInUser2.Direcc.toString(),
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontFamily: 'biko',
-                                                  fontSize: LABEL_CAJA,
-                                                  color: Colors.black),
-                                            ),
-                                            Text(
-                                              loggedInUser2.email.toString(),
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontFamily: 'biko',
-                                                  fontSize: LABEL_CAJA,
-                                                  color: Colors.black),
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.only(top: 10),
-                                              child: Text(
-                                                'Puntuar Vendedor:'.toString(),
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    fontFamily: 'biko',
-                                                    fontSize: 22,
-                                                    color: RED_CAR),
-                                              ),
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                RatingBar.builder(
-                                                  minRating: 1,
-                                                  itemBuilder: (context, _) =>
-                                                      Icon(Icons.star,
-                                                          color: Colors.amber),
-                                                  onRatingUpdate: (rating) {},
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
+                                    child: infovende(
+                                      id_per: id_visor,
+                                      id_vendedor: id_vendedor,
                                     ));
                               });
                       },
@@ -762,17 +672,52 @@ Widget AutosInfo(
                         ),
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        RatingBar.builder(
-                          minRating: 1,
-                          itemBuilder: (context, _) =>
-                              Icon(Icons.star, color: Colors.amber),
-                          onRatingUpdate: (rating) {},
-                        ),
-                      ],
+                    Container(
+                      child: StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection('estrellas')
+                              .doc(id_vendedor)
+                              .collection('personas')
+                              .snapshots(),
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (!snapshot.hasData) {
+                              return Container(
+                                alignment: Alignment.center,
+                                child: Center(
+                                    child: Transform.scale(
+                                  scale: 1.3,
+                                  child: CircularProgressIndicator(
+                                    color: RED_CAR,
+                                  ),
+                                )),
+                              );
+                            } else {
+                              double estre = 0;
+                              for (var i = 0;
+                                  i < snapshot.data!.docs.length;
+                                  i++) {
+                                QueryDocumentSnapshot<Object?> info_carro =
+                                    snapshot.data!.docs[i];
+                                print(info_carro['estrellas']);
+
+                                estre += info_carro['estrellas'];
+                              }
+
+                              return RatingBarIndicator(
+                                rating: snapshot.data!.docs.length != 0
+                                    ? estre / snapshot.data!.docs.length
+                                    : 5.0,
+                                itemBuilder: (context, index) => Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                ),
+                                itemCount: 5,
+                              );
+                            }
+                          }),
                     ),
+
                     Divider(
                       thickness: 2,
                       color: Colors.black.withOpacity(.3),
@@ -1182,58 +1127,59 @@ Widget AutosInfo(
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 250,
-                      child: StreamBuilder(
-                          stream: FirebaseFirestore.instance
-                              .collection('users')
-                              .where('uid', isEqualTo: id_vendedor)
-                              .snapshots(),
-                          builder:
-                              (BuildContext context, AsyncSnapshot snapshot) {
-                            if (!snapshot.hasData) {
-                              return Container(
-                                alignment: Alignment.center,
-                                child: Center(
-                                    child: Transform.scale(
-                                  scale: 1.6,
-                                  child: CircularProgressIndicator(
-                                    color: RED_CAR,
-                                  ),
-                                )),
-                              );
-                            } else {
-                              if (snapshot.data!.docs.length == 0) {
-                                return Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 20),
-                                  width: double.infinity,
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'No has registrado vehículos',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontFamily: 'biko',
-                                        fontSize: 22,
-                                        color: Colors.black),
-                                  ),
-                                );
-                              } else {
-                                return ListView.builder(
-                                    itemCount: snapshot.data!.docs.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      QueryDocumentSnapshot<Object?>
-                                          info_carro =
-                                          snapshot.data!.docs[index];
-                                      return mapa(
-                                          latitud: info_carro['Cor_lat'],
-                                          longitud: info_carro['Cor_long'],
-                                          nombre: info_carro['NombreLocal']);
-                                    });
-                              }
-                            }
-                          }),
-                    ),
+                    // Container(
+                    //   height: 250,
+                    //   child: StreamBuilder(
+                    //       stream: FirebaseFirestore.instance
+                    //           .collection('users')
+                    //           .where('uid', isEqualTo: id_vendedor)
+                    //           .snapshots(),
+                    //       builder:
+                    //           (BuildContext context, AsyncSnapshot snapshot) {
+                    //         if (!snapshot.hasData) {
+                    //           return Container(
+                    //             alignment: Alignment.center,
+                    //             child: Center(
+                    //                 child: Transform.scale(
+                    //               scale: 1.6,
+                    //               child: CircularProgressIndicator(
+                    //                 color: RED_CAR,
+                    //               ),
+                    //             )),
+                    //           );
+                    //         } else {
+                    //           if (snapshot.data!.docs.length == 0) {
+                    //             return Container(
+                    //               margin: EdgeInsets.symmetric(horizontal: 20),
+                    //               width: double.infinity,
+                    //               alignment: Alignment.center,
+                    //               child: Text(
+                    //                 'No has registrado vehículos',
+                    //                 textAlign: TextAlign.center,
+                    //                 style: TextStyle(
+                    //                     fontFamily: 'biko',
+                    //                     fontSize: 22,
+                    //                     color: Colors.black),
+                    //               ),
+                    //             );
+                    //           } else {
+                    //             return ListView.builder(
+                    //                 itemCount: snapshot.data!.docs.length,
+                    //                 itemBuilder:
+                    //                     (BuildContext context, int index) {
+                    // QueryDocumentSnapshot<Object?>
+                    //     info_carro =
+                    //     snapshot.data!.docs[index];
+                    //                   return mapa(
+                    //                       latitud: info_carro['Cor_lat'],
+                    //                       longitud: info_carro['Cor_long'],
+                    //                       nombre: info_carro['NombreLocal']);
+                    //                 });
+                    //           }
+                    //         }
+                    //       }),
+                    // ),
+
                     Divider(
                       thickness: 2,
                       color: Colors.black.withOpacity(.3),

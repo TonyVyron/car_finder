@@ -347,6 +347,7 @@ class _InicioState extends State<Inicio> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              SizedBox(height: 20),
               Image.asset('assets/logob.png', width: 210, height: 220),
               Container(
                 width: double.infinity,
@@ -382,8 +383,6 @@ class _InicioState extends State<Inicio> {
               forgotpass,
               SizedBox(height: 15),
               butinicio,
-              SizedBox(height: 15),
-              entrargoogle,
               SizedBox(height: 15),
               buttonRegister,
               SizedBox(height: 15),

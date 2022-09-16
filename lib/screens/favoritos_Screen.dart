@@ -143,6 +143,8 @@ class _FavoritosState extends State<Favoritos> {
                                           child: AutosInfo(
                                               imagen: info_carro['fotos'],
                                               context: context,
+                                              id_visor:
+                                                  loggedInUser.uid.toString(),
                                               yo: loggedInUser.status
                                                   .toString(),
                                               precio: numberFormat2(
@@ -504,45 +506,105 @@ class _FavoritosState extends State<Favoritos> {
                                                         .toString() ==
                                                     'Cliente')
                                                   Expanded(
-                                                      flex: 2,
-                                                      child: IconButton(
-                                                        icon: Icon(
-                                                          Icons.favorite,
-                                                          size: 35,
-                                                          color: loggedInUser
-                                                                  .Favoritos!
-                                                                  .contains(
-                                                                      info_carro[
-                                                                          'uid'])
-                                                              ? Colors.amber
-                                                              : Colors.black,
-                                                        ),
-                                                        onPressed: () {
-                                                          if (loggedInUser
-                                                              .Favoritos!
-                                                              .contains(
-                                                                  info_carro[
-                                                                      'uid'])) {
-                                                            setState(() {
-                                                              quitarFav(
-                                                                  info_carro[
-                                                                      'nombre_carro'],
-                                                                  info_carro[
-                                                                      'uid']);
-                                                            });
-                                                          } else {
-                                                            setState(() {
-                                                              agregarFav(
-                                                                  info_carro[
-                                                                          'nombre_carro']
-                                                                      .toString(),
-                                                                  info_carro[
-                                                                          'uid']
-                                                                      .toString());
-                                                            });
-                                                          }
-                                                        },
-                                                      )),
+                                                    flex: 2,
+                                                    child: Container(
+                                                      height: 50,
+                                                      child: StreamBuilder(
+                                                          stream: FirebaseFirestore
+                                                              .instance
+                                                              .collection(
+                                                                  'users')
+                                                              .where('uid',
+                                                                  isEqualTo:
+                                                                      loggedInUser
+                                                                          .uid)
+                                                              .snapshots(),
+                                                          builder: (BuildContext
+                                                                  context,
+                                                              AsyncSnapshot
+                                                                  snapshot2) {
+                                                            if (!snapshot2
+                                                                .hasData) {
+                                                              return Container(
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
+                                                                child: Center(
+                                                                    child: Transform
+                                                                        .scale(
+                                                                  scale: 1.6,
+                                                                  child:
+                                                                      CircularProgressIndicator(
+                                                                    color:
+                                                                        RED_CAR,
+                                                                  ),
+                                                                )),
+                                                              );
+                                                            } else {
+                                                              if (snapshot2
+                                                                      .data!
+                                                                      .docs
+                                                                      .length ==
+                                                                  0) {
+                                                                return Container(
+                                                                  margin: EdgeInsets
+                                                                      .symmetric(
+                                                                          horizontal:
+                                                                              20),
+                                                                  width: double
+                                                                      .infinity,
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .center,
+                                                                  child: Text(
+                                                                    'No',
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style: TextStyle(
+                                                                        fontFamily:
+                                                                            'biko',
+                                                                        fontSize:
+                                                                            22,
+                                                                        color: Colors
+                                                                            .black),
+                                                                  ),
+                                                                );
+                                                              } else {
+                                                                return ListView
+                                                                    .builder(
+                                                                        itemCount: snapshot2
+                                                                            .data!
+                                                                            .docs
+                                                                            .length,
+                                                                        itemBuilder:
+                                                                            (BuildContext context,
+                                                                                int index) {
+                                                                          QueryDocumentSnapshot<Object?>
+                                                                              info_carro2 =
+                                                                              snapshot2.data!.docs[index];
+                                                                          return IconButton(
+                                                                            icon:
+                                                                                Icon(
+                                                                              Icons.favorite,
+                                                                              size: 35,
+                                                                              color: info_carro2['Favoritos'].contains(info_carro['uid']) ? Colors.amber : Colors.black,
+                                                                            ),
+                                                                            onPressed:
+                                                                                () {
+                                                                              if (info_carro2['Favoritos'].contains(info_carro['uid'])) {
+                                                                                quitarFav(info_carro['nombre_carro'], info_carro['uid']);
+                                                                              } else {
+                                                                                agregarFav(info_carro['nombre_carro'].toString(), info_carro['uid'].toString());
+                                                                              }
+                                                                            },
+                                                                          );
+                                                                        });
+                                                              }
+                                                            }
+                                                          }),
+                                                    ),
+                                                  ),
                                               ],
                                             ),
                                           ],
@@ -607,6 +669,8 @@ class _FavoritosState extends State<Favoritos> {
                                                   child: AutosInfo(
                                                       imagen:
                                                           info_carro['fotos'],
+                                                      id_visor: loggedInUser.uid
+                                                          .toString(),
                                                       context: context,
                                                       precio: numberFormat2(
                                                           info_carro['precio']),
@@ -976,46 +1040,96 @@ class _FavoritosState extends State<Favoritos> {
                                                             .toString() ==
                                                         'Cliente')
                                                       Expanded(
-                                                          flex: 2,
-                                                          child: IconButton(
-                                                            icon: Icon(
-                                                              Icons.favorite,
-                                                              size: 35,
-                                                              color: loggedInUser
-                                                                      .Favoritos!
-                                                                      .contains(
-                                                                          info_carro[
-                                                                              'uid'])
-                                                                  ? Colors.amber
-                                                                  : Colors
-                                                                      .black,
-                                                            ),
-                                                            onPressed: () {
-                                                              if (loggedInUser
-                                                                  .Favoritos!
-                                                                  .contains(
-                                                                      info_carro[
-                                                                          'uid'])) {
-                                                                setState(() {
-                                                                  quitarFav(
-                                                                      info_carro[
-                                                                          'nombre_carro'],
-                                                                      info_carro[
-                                                                          'uid']);
-                                                                });
-                                                              } else {
-                                                                setState(() {
-                                                                  agregarFav(
-                                                                      info_carro[
-                                                                              'nombre_carro']
-                                                                          .toString(),
-                                                                      info_carro[
-                                                                              'uid']
-                                                                          .toString());
-                                                                });
-                                                              }
-                                                            },
-                                                          )),
+                                                        flex: 2,
+                                                        child: Container(
+                                                          height: 50,
+                                                          child: StreamBuilder(
+                                                              stream: FirebaseFirestore
+                                                                  .instance
+                                                                  .collection(
+                                                                      'users')
+                                                                  .where('uid',
+                                                                      isEqualTo:
+                                                                          loggedInUser
+                                                                              .uid)
+                                                                  .snapshots(),
+                                                              builder: (BuildContext
+                                                                      context,
+                                                                  AsyncSnapshot
+                                                                      snapshot2) {
+                                                                if (!snapshot2
+                                                                    .hasData) {
+                                                                  return Container(
+                                                                    alignment:
+                                                                        Alignment
+                                                                            .center,
+                                                                    child: Center(
+                                                                        child: Transform.scale(
+                                                                      scale:
+                                                                          1.6,
+                                                                      child:
+                                                                          CircularProgressIndicator(
+                                                                        color:
+                                                                            RED_CAR,
+                                                                      ),
+                                                                    )),
+                                                                  );
+                                                                } else {
+                                                                  if (snapshot2
+                                                                          .data!
+                                                                          .docs
+                                                                          .length ==
+                                                                      0) {
+                                                                    return Container(
+                                                                      margin: EdgeInsets.symmetric(
+                                                                          horizontal:
+                                                                              20),
+                                                                      width: double
+                                                                          .infinity,
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .center,
+                                                                      child:
+                                                                          Text(
+                                                                        'No',
+                                                                        textAlign:
+                                                                            TextAlign.center,
+                                                                        style: TextStyle(
+                                                                            fontFamily:
+                                                                                'biko',
+                                                                            fontSize:
+                                                                                22,
+                                                                            color:
+                                                                                Colors.black),
+                                                                      ),
+                                                                    );
+                                                                  } else {
+                                                                    return ListView
+                                                                        .builder(
+                                                                            itemCount:
+                                                                                snapshot2.data!.docs.length,
+                                                                            itemBuilder: (BuildContext context, int index) {
+                                                                              QueryDocumentSnapshot<Object?> info_carro2 = snapshot2.data!.docs[index];
+                                                                              return IconButton(
+                                                                                icon: Icon(
+                                                                                  Icons.favorite,
+                                                                                  size: 35,
+                                                                                  color: info_carro2['Favoritos'].contains(info_carro['uid']) ? Colors.amber : Colors.black,
+                                                                                ),
+                                                                                onPressed: () {
+                                                                                  if (info_carro2['Favoritos'].contains(info_carro['uid'])) {
+                                                                                    quitarFav(info_carro['nombre_carro'], info_carro['uid']);
+                                                                                  } else {
+                                                                                    agregarFav(info_carro['nombre_carro'].toString(), info_carro['uid'].toString());
+                                                                                  }
+                                                                                },
+                                                                              );
+                                                                            });
+                                                                  }
+                                                                }
+                                                              }),
+                                                        ),
+                                                      ),
                                                   ],
                                                 ),
                                               ],
@@ -1045,6 +1159,8 @@ class _FavoritosState extends State<Favoritos> {
                                                 controller: scrollController,
                                                 child: AutosInfo(
                                                     imagen: info_carro['fotos'],
+                                                    id_visor: loggedInUser.uid
+                                                        .toString(),
                                                     context: context,
                                                     yo: loggedInUser.status
                                                         .toString(),
@@ -1079,13 +1195,11 @@ class _FavoritosState extends State<Favoritos> {
                                                         info_carro['garantia'],
                                                     detalles:
                                                         info_carro['detalles'],
-                                                    Fecha: info_carro[
-                                                        'fecha_compra'],
+                                                    Fecha:
+                                                        info_carro['fecha_compra'],
                                                     potencia: '6.21/100 km',
-                                                    traccion:
-                                                        info_carro['traccion'],
-                                                    carroceria:
-                                                        info_carro['carroceria'],
+                                                    traccion: info_carro['traccion'],
+                                                    carroceria: info_carro['carroceria'],
                                                     tipoCaja: info_carro['tipo_agregado']),
                                               );
                                             }),
@@ -1490,46 +1604,96 @@ class _FavoritosState extends State<Favoritos> {
                                                             .toString() ==
                                                         'Cliente')
                                                       Expanded(
-                                                          flex: 2,
-                                                          child: IconButton(
-                                                            icon: Icon(
-                                                              Icons.favorite,
-                                                              size: 35,
-                                                              color: loggedInUser
-                                                                      .Favoritos!
-                                                                      .contains(
-                                                                          info_carro[
-                                                                              'uid'])
-                                                                  ? Colors.amber
-                                                                  : Colors
-                                                                      .black,
-                                                            ),
-                                                            onPressed: () {
-                                                              if (loggedInUser
-                                                                  .Favoritos!
-                                                                  .contains(
-                                                                      info_carro[
-                                                                          'uid'])) {
-                                                                setState(() {
-                                                                  quitarFav(
-                                                                      info_carro[
-                                                                          'nombre_carro'],
-                                                                      info_carro[
-                                                                          'uid']);
-                                                                });
-                                                              } else {
-                                                                setState(() {
-                                                                  agregarFav(
-                                                                      info_carro[
-                                                                              'nombre_carro']
-                                                                          .toString(),
-                                                                      info_carro[
-                                                                              'uid']
-                                                                          .toString());
-                                                                });
-                                                              }
-                                                            },
-                                                          )),
+                                                        flex: 2,
+                                                        child: Container(
+                                                          height: 50,
+                                                          child: StreamBuilder(
+                                                              stream: FirebaseFirestore
+                                                                  .instance
+                                                                  .collection(
+                                                                      'users')
+                                                                  .where('uid',
+                                                                      isEqualTo:
+                                                                          loggedInUser
+                                                                              .uid)
+                                                                  .snapshots(),
+                                                              builder: (BuildContext
+                                                                      context,
+                                                                  AsyncSnapshot
+                                                                      snapshot2) {
+                                                                if (!snapshot2
+                                                                    .hasData) {
+                                                                  return Container(
+                                                                    alignment:
+                                                                        Alignment
+                                                                            .center,
+                                                                    child: Center(
+                                                                        child: Transform.scale(
+                                                                      scale:
+                                                                          1.6,
+                                                                      child:
+                                                                          CircularProgressIndicator(
+                                                                        color:
+                                                                            RED_CAR,
+                                                                      ),
+                                                                    )),
+                                                                  );
+                                                                } else {
+                                                                  if (snapshot2
+                                                                          .data!
+                                                                          .docs
+                                                                          .length ==
+                                                                      0) {
+                                                                    return Container(
+                                                                      margin: EdgeInsets.symmetric(
+                                                                          horizontal:
+                                                                              20),
+                                                                      width: double
+                                                                          .infinity,
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .center,
+                                                                      child:
+                                                                          Text(
+                                                                        'No',
+                                                                        textAlign:
+                                                                            TextAlign.center,
+                                                                        style: TextStyle(
+                                                                            fontFamily:
+                                                                                'biko',
+                                                                            fontSize:
+                                                                                22,
+                                                                            color:
+                                                                                Colors.black),
+                                                                      ),
+                                                                    );
+                                                                  } else {
+                                                                    return ListView
+                                                                        .builder(
+                                                                            itemCount:
+                                                                                snapshot2.data!.docs.length,
+                                                                            itemBuilder: (BuildContext context, int index) {
+                                                                              QueryDocumentSnapshot<Object?> info_carro2 = snapshot2.data!.docs[index];
+                                                                              return IconButton(
+                                                                                icon: Icon(
+                                                                                  Icons.favorite,
+                                                                                  size: 35,
+                                                                                  color: info_carro2['Favoritos'].contains(info_carro['uid']) ? Colors.amber : Colors.black,
+                                                                                ),
+                                                                                onPressed: () {
+                                                                                  if (info_carro2['Favoritos'].contains(info_carro['uid'])) {
+                                                                                    quitarFav(info_carro['nombre_carro'], info_carro['uid']);
+                                                                                  } else {
+                                                                                    agregarFav(info_carro['nombre_carro'].toString(), info_carro['uid'].toString());
+                                                                                  }
+                                                                                },
+                                                                              );
+                                                                            });
+                                                                  }
+                                                                }
+                                                              }),
+                                                        ),
+                                                      ),
                                                   ],
                                                 ),
                                               ],
