@@ -158,6 +158,8 @@ class _mis_carrosState extends State<mis_carros> {
                                           child: AutosInfo(
                                               imagen: info_carro['fotos'],
                                               context: context,
+                                              id_visor:
+                                                  loggedInUser.uid.toString(),
                                               yo: loggedInUser.status
                                                   .toString(),
                                               precio: numberFormat2(
@@ -1054,6 +1056,8 @@ class _mis_carrosState extends State<mis_carros> {
                                                       imagen:
                                                           info_carro['fotos'],
                                                       context: context,
+                                                      id_visor: loggedInUser.uid
+                                                          .toString(),
                                                       precio: numberFormat2(
                                                           info_carro['precio']),
                                                       yo: loggedInUser.status
@@ -1955,6 +1959,8 @@ class _mis_carrosState extends State<mis_carros> {
                                                       imagen:
                                                           info_carro['fotos'],
                                                       context: context,
+                                                      id_visor: loggedInUser.uid
+                                                          .toString(),
                                                       yo: loggedInUser.status
                                                           .toString(),
                                                       precio: numberFormat2(
@@ -1986,8 +1992,8 @@ class _mis_carrosState extends State<mis_carros> {
                                                           'garantia'],
                                                       detalles: info_carro[
                                                           'detalles'],
-                                                      Guia: info_carro[
-                                                          'guia_mantenimiento'],
+                                                      Guia:
+                                                          info_carro['guia_mantenimiento'],
                                                       Fecha: info_carro['fecha_compra'],
                                                       potencia: '6.21/100 km',
                                                       traccion: info_carro['traccion'],

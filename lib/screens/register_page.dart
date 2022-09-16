@@ -696,7 +696,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                         "Tomar una foto",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          fontSize: 25,
+                                          fontSize: 20,
                                           fontFamily: 'biko',
                                         ),
                                       ),
@@ -731,7 +731,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                         "Elegir una desde galería",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          fontSize: 25,
+                                          fontSize: 20,
                                           fontFamily: 'biko',
                                         ),
                                       ),
@@ -749,47 +749,51 @@ class _RegisterPageState extends State<RegisterPage> {
                           Divider(
                             thickness: 2,
                           ),
-                          InkWell(
-                            onTap: () {
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50)),
+                              onPrimary: Colors.white,
+                              primary: RED_CAR,
+                              shadowColor: Colors.white,
+                              elevation: 15,
+                            ),
+                            onPressed: () {
                               Navigator.pop(context);
                             },
-                            child: Container(
-                                margin: EdgeInsets.only(bottom: 10),
-                                decoration: BoxDecoration(
-                                    color: RED_CAR,
-                                    borderRadius: BorderRadius.circular(10)),
-                                padding: EdgeInsets.all(10),
-                                child: Text(
-                                  "Cancelar",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 25,
-                                    fontFamily: 'biko',
-                                    color: Colors.white,
-                                  ),
-                                )),
-                          )
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 10),
+                              child: Text(
+                                "Cancelar",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'biko',
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 20),
                         ],
                       )),
                     );
                   });
             },
-            child: CircleAvatar(
-                backgroundColor: Colors.black,
-                radius: 80,
-                child: Container(
-                  height: 160,
-                  width: 158,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: _image == null
-                            ? Image.asset('assets/Imagen1.png').image
-                            : Image.file(_image!).image,
-                        fit: BoxFit.fill),
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                  ),
-                )),
+            child: Container(
+              height: 160,
+              width: 150,
+              decoration: BoxDecoration(
+                border: Border.all(width: .5),
+                image: DecorationImage(
+                    image: _image == null
+                        ? Image.asset('assets/Imagen1.png').image
+                        : Image.file(_image!).image,
+                    fit: BoxFit.fill),
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+            ),
           ),
           SizedBox(height: 10),
           emailfield,
@@ -968,7 +972,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                         "Tomar una foto",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          fontSize: 25,
+                                          fontSize: 20,
                                           fontFamily: 'biko',
                                         ),
                                       ),
@@ -1003,7 +1007,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                         "Elegir una desde galería",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          fontSize: 25,
+                                          fontSize: 20,
                                           fontFamily: 'biko',
                                         ),
                                       ),
@@ -1021,26 +1025,32 @@ class _RegisterPageState extends State<RegisterPage> {
                           Divider(
                             thickness: 2,
                           ),
-                          InkWell(
-                            onTap: () {
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50)),
+                              onPrimary: Colors.white,
+                              primary: RED_CAR,
+                              shadowColor: Colors.white,
+                              elevation: 15,
+                            ),
+                            onPressed: () {
                               Navigator.pop(context);
                             },
-                            child: Container(
-                                margin: EdgeInsets.only(bottom: 10),
-                                decoration: BoxDecoration(
-                                    color: RED_CAR,
-                                    borderRadius: BorderRadius.circular(10)),
-                                padding: EdgeInsets.all(10),
-                                child: Text(
-                                  "Cancelar",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 25,
-                                    fontFamily: 'biko',
-                                    color: Colors.white,
-                                  ),
-                                )),
-                          )
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 10),
+                              child: Text(
+                                "Cancelar",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'biko',
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 20),
                         ],
                       )),
                     );
@@ -1158,7 +1168,7 @@ class _RegisterPageState extends State<RegisterPage> {
     Reference ref = FirebaseStorage.instance
         .ref()
         .child("${user?.uid}/images")
-        .child('Subido_$PostId');
+        .child('Foto_Perfil');
     await ref.putFile(_image!);
     UrlImage = await ref.getDownloadURL();
 
@@ -1180,6 +1190,10 @@ class _RegisterPageState extends State<RegisterPage> {
     userModel.foto = UrlImage;
     if (islighted == false) {
       userModel.NombreLocal = _NombreLocal.text;
+      await firebaseFirestore
+          .collection('estrellas')
+          .doc(user.uid)
+          .set({'raiting': 5.0, 'uid_vendedor': user.uid});
     }
 
     await firebaseFirestore
