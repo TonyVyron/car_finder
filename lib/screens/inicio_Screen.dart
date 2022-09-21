@@ -1,4 +1,3 @@
-import 'package:car_finder/Authenticator.dart';
 import 'package:car_finder/widgets/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -48,40 +47,42 @@ class _InicioState extends State<Inicio> {
   Widget build(BuildContext context) {
     Firebase.initializeApp();
     return Scaffold(
-        body: Container(
-            padding: EdgeInsets.only(bottom: 5),
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("assets/fondo.png"), fit: BoxFit.fill)),
-            alignment: Alignment(0, 0),
-            child: PageIndicatorContainer(
-              child: PageView(
-                children: [
-                  _DescriptionPage(
-                      title: 'Encuentra opciones de acuerdo a tu medida',
-                      text:
-                          'No importa el número de puertas, de seguro encuentras la opción que más se ajuste a tu presupuesto y gustos',
-                      imagePath: 'assets/Page1.png'),
-                  _DescriptionPage(
-                      title: 'Seguridad',
-                      text:
-                          'Nos aseguramos de que nuestros vendedores cuenten con los documentos necesarios para hacer de forma práctica y confiable el trato con usted',
-                      imagePath: 'assets/Page2.png'),
-                  _DescriptionPage(
-                      title: '¡Estas y más marcas!',
-                      text:
-                          'La más amplia variedad que tendrá al alcance de un toque',
-                      imagePath: 'assets/Page3.png'),
-                  Container(
-                    child: _LoginPage(),
-                  ),
-                ],
+      body: Container(
+        padding: EdgeInsets.only(bottom: 5),
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/fondo.png"), fit: BoxFit.fill)),
+        alignment: Alignment(0, 0),
+        child: PageIndicatorContainer(
+          child: PageView(
+            children: [
+              _DescriptionPage(
+                  title: 'Encuentra opciones de acuerdo a tu medida',
+                  text:
+                      'No importa el número de puertas, de seguro encuentras la opción que más se ajuste a tu presupuesto y gustos',
+                  imagePath: 'assets/Page1.png'),
+              _DescriptionPage(
+                  title: 'Seguridad',
+                  text:
+                      'Nos aseguramos de que nuestros vendedores cuenten con los documentos necesarios para hacer de forma práctica y confiable el trato con usted',
+                  imagePath: 'assets/Page2.png'),
+              _DescriptionPage(
+                  title: '¡Estas y más marcas!',
+                  text:
+                      'La más amplia variedad que tendrá al alcance de un toque',
+                  imagePath: 'assets/Page3.png'),
+              Container(
+                child: _LoginPage(),
               ),
-              length: 4,
-              align: IndicatorAlign.bottom,
-              indicatorSpace: 10,
-              indicatorColor: RED_CAR,
-            )));
+            ],
+          ),
+          length: 4,
+          align: IndicatorAlign.bottom,
+          indicatorSpace: 10,
+          indicatorColor: RED_CAR,
+        ),
+      ),
+    );
   }
 
   Widget _LoginPage() {
@@ -93,12 +94,12 @@ class _InicioState extends State<Inicio> {
             keyboardType: TextInputType.emailAddress,
             validator: (value) {
               if (value!.isEmpty) {
-                return ("Porfavor Ingresa Tu Email");
+                return ("Por favor ingresa Tu Email");
               }
               // reg expression for email validation
               if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
                   .hasMatch(value)) {
-                return ("Porfavor Verifica Tu Email");
+                return ("Por favor verifica Tu Email");
               }
               return null;
             },
@@ -231,69 +232,6 @@ class _InicioState extends State<Inicio> {
             ),
           )),
     );
-    final entrargoogle = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-      child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            onPrimary: Colors.white,
-            primary: Colors.blue,
-            shadowColor: Colors.black,
-            elevation: 15,
-          ),
-          onPressed: () async {
-            User? user = await Authenticator.iniciarSesion(context: context);
-            print(user?.displayName);
-          },
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                    flex: 2,
-                    child: Container(
-                      width: double.infinity,
-                      child: CircleAvatar(
-                        radius: 14,
-                        child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: Image.network(
-                                        'https://e7.pngegg.com/pngimages/337/722/png-clipart-google-search-google-account-google-s-google-play-google-company-text.png')
-                                    .image,
-                                fit: BoxFit.cover),
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                      ),
-                    )),
-                Expanded(
-                  flex: 8,
-                  child: Container(
-                    width: double.infinity,
-                    height: 30,
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Entrar con Google',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: ax,
-                            fontSize: 20),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          )),
-    );
     final buttonRegister = Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 25),
@@ -326,7 +264,7 @@ class _InicioState extends State<Inicio> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                 child: Text(
-                  "Registro",
+                  "Regístrate",
                   style: TextStyle(
                     color: Colors.white,
                     fontFamily: ax,
