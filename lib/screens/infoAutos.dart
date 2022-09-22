@@ -648,7 +648,7 @@ Widget AutosInfo(
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(25))),
-                                    insetPadding: EdgeInsets.all(20),
+                                    insetPadding: EdgeInsets.all(15),
                                     child: infovende(
                                       id_per: id_visor,
                                       id_vendedor: id_vendedor,
@@ -717,7 +717,6 @@ Widget AutosInfo(
                             }
                           }),
                     ),
-
                     Divider(
                       thickness: 2,
                       color: Colors.black.withOpacity(.3),
@@ -1127,59 +1126,58 @@ Widget AutosInfo(
                     SizedBox(
                       height: 10,
                     ),
-                    // Container(
-                    //   height: 250,
-                    //   child: StreamBuilder(
-                    //       stream: FirebaseFirestore.instance
-                    //           .collection('users')
-                    //           .where('uid', isEqualTo: id_vendedor)
-                    //           .snapshots(),
-                    //       builder:
-                    //           (BuildContext context, AsyncSnapshot snapshot) {
-                    //         if (!snapshot.hasData) {
-                    //           return Container(
-                    //             alignment: Alignment.center,
-                    //             child: Center(
-                    //                 child: Transform.scale(
-                    //               scale: 1.6,
-                    //               child: CircularProgressIndicator(
-                    //                 color: RED_CAR,
-                    //               ),
-                    //             )),
-                    //           );
-                    //         } else {
-                    //           if (snapshot.data!.docs.length == 0) {
-                    //             return Container(
-                    //               margin: EdgeInsets.symmetric(horizontal: 20),
-                    //               width: double.infinity,
-                    //               alignment: Alignment.center,
-                    //               child: Text(
-                    //                 'No has registrado vehículos',
-                    //                 textAlign: TextAlign.center,
-                    //                 style: TextStyle(
-                    //                     fontFamily: 'biko',
-                    //                     fontSize: 22,
-                    //                     color: Colors.black),
-                    //               ),
-                    //             );
-                    //           } else {
-                    //             return ListView.builder(
-                    //                 itemCount: snapshot.data!.docs.length,
-                    //                 itemBuilder:
-                    //                     (BuildContext context, int index) {
-                    // QueryDocumentSnapshot<Object?>
-                    //     info_carro =
-                    //     snapshot.data!.docs[index];
-                    //                   return mapa(
-                    //                       latitud: info_carro['Cor_lat'],
-                    //                       longitud: info_carro['Cor_long'],
-                    //                       nombre: info_carro['NombreLocal']);
-                    //                 });
-                    //           }
-                    //         }
-                    //       }),
-                    // ),
-
+                    Container(
+                      height: 250,
+                      child: StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection('users')
+                              .where('uid', isEqualTo: id_vendedor)
+                              .snapshots(),
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (!snapshot.hasData) {
+                              return Container(
+                                alignment: Alignment.center,
+                                child: Center(
+                                    child: Transform.scale(
+                                  scale: 1.6,
+                                  child: CircularProgressIndicator(
+                                    color: RED_CAR,
+                                  ),
+                                )),
+                              );
+                            } else {
+                              if (snapshot.data!.docs.length == 0) {
+                                return Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 20),
+                                  width: double.infinity,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    'No has registrado vehículos',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontFamily: 'biko',
+                                        fontSize: 22,
+                                        color: Colors.black),
+                                  ),
+                                );
+                              } else {
+                                return ListView.builder(
+                                    itemCount: snapshot.data!.docs.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      QueryDocumentSnapshot<Object?>
+                                          info_carro =
+                                          snapshot.data!.docs[index];
+                                      return mapa(
+                                          latitud: info_carro['Cor_lat'],
+                                          longitud: info_carro['Cor_long'],
+                                          nombre: info_carro['NombreLocal']);
+                                    });
+                              }
+                            }
+                          }),
+                    ),
                     Divider(
                       thickness: 2,
                       color: Colors.black.withOpacity(.3),

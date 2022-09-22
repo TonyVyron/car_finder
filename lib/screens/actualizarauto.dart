@@ -1228,18 +1228,24 @@ class _ActuCarroState extends State<ActuCarro> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Icon(
-                Icons.update,
-                size: 25,
-                color: Colors.white,
+              Expanded(
+                flex: 2,
+                child: Icon(
+                  Icons.update,
+                  size: 25,
+                  color: Colors.white,
+                ),
               ),
-              Text('La información ha sido actualizada',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'biko',
-                    fontSize: 20,
-                    color: Colors.white,
-                  ))
+              Expanded(
+                flex: 8,
+                child: Text('La información ha sido actualizada',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'biko',
+                      fontSize: 20,
+                      color: Colors.white,
+                    )),
+              )
             ],
           )),
       backgroundColor: RED_CAR,
