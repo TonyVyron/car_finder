@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:io';
 import 'package:car_finder/models/user_model.dart';
 import 'package:car_finder/widgets/widgets.dart';
@@ -575,25 +576,40 @@ class _RegisterPageState extends State<RegisterPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset('assets/logob.png', width: 210, height: 200),
+          SizedBox(
+            height: 10,
+          ),
+          ClipRect(
+            child: Align(
+              alignment: Alignment.center,
+              widthFactor: .85,
+              heightFactor: .80,
+              child: Image.asset('assets/logob.png', width: 200, height: 200),
+            ),
+          ),
+          SizedBox(
+            height: 2,
+          ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 25),
+            padding: EdgeInsets.only(right: 25),
             child: Text(
               '¡Nos alegra recibirlo!',
+              textAlign: TextAlign.left,
               style: TextStyle(
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 fontFamily: ax,
                 fontSize: 30,
               ),
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 4),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 25),
             child: Text(
               'Regístrese a continuación con sus datos',
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 19,
                 fontFamily: ax,
               ),
             ),
@@ -602,9 +618,16 @@ class _RegisterPageState extends State<RegisterPage> {
           Container(
               margin: EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
-                  border: Border.all(width: 1),
-                  color: RED_CAR,
-                  borderRadius: BorderRadius.circular(15)),
+                  border: Border.all(width: .5),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color.fromARGB(103, 0, 0, 0),
+                      offset: Offset(0, 5),
+                      blurRadius: 15.0,
+                    )
+                  ],
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20)),
               width: double.infinity,
               alignment: Alignment(0, 0),
               child: Row(
@@ -614,7 +637,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     flex: 3,
                     child: Icon(
                       Icons.person,
-                      color: Colors.white,
+                      color: RED_CAR,
                       size: 35,
                     ),
                   ),
@@ -627,7 +650,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.white,
                           fontFamily: ax,
                           fontWeight: FontWeight.w500,
                         ),
@@ -637,7 +659,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   Expanded(
                     flex: 3,
                     child: Switch(
-                        activeColor: Colors.white,
                         value: islighted,
                         onChanged: (state) {
                           setState(() {
@@ -647,197 +668,240 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ],
               )),
-          SizedBox(height: 20),
+          SizedBox(height: 5),
           Container(
-            padding: EdgeInsets.all(8),
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(width: 1),
-                color: Colors.white),
-            margin: EdgeInsets.symmetric(horizontal: 25),
-            child: Text(
-              'Escoga su foto de perfil',
-              style: TextStyle(
-                fontSize: 21,
-                fontFamily: ax,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-          SizedBox(height: 10),
-          InkWell(
-            onTap: () {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(50),
-                              topRight: Radius.circular(50))),
-                      contentPadding: EdgeInsets.all(0),
-                      content: SingleChildScrollView(
-                          child: Column(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              imagepickerCamara();
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                                padding: EdgeInsets.all(15),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Expanded(
-                                      flex: 7,
-                                      child: Text(
-                                        "Tomar una foto",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontFamily: 'biko',
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Icon(
-                                        Icons.camera_alt_outlined,
-                                        size: 35,
-                                      ),
-                                    ),
-                                  ],
-                                )),
-                          ),
-                          Divider(
-                            thickness: 2,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              imagepickerMethod();
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                                padding: EdgeInsets.all(15),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Expanded(
-                                      flex: 7,
-                                      child: Text(
-                                        "Elegir una desde galería",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontFamily: 'biko',
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Icon(
-                                        Icons.photo_album_sharp,
-                                        size: 35,
-                                      ),
-                                    ),
-                                  ],
-                                )),
-                          ),
-                          Divider(
-                            thickness: 2,
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50)),
-                              onPrimary: Colors.white,
-                              primary: RED_CAR,
-                              shadowColor: Colors.white,
-                              elevation: 15,
-                            ),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 10),
-                              child: Text(
-                                "Cancelar",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'biko',
-                                  fontSize: 18,
+                border: Border.all(width: .5),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color.fromARGB(103, 0, 0, 0),
+                    offset: Offset(0, 5),
+                    blurRadius: 15.0,
+                  )
+                ],
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20)),
+            child: Column(
+              children: [
+                SizedBox(height: 10),
+                Container(
+                  height: 100,
+                  width: 100,
+                  decoration: BoxDecoration(
+                    border: Border.all(width: .5),
+                    image: DecorationImage(
+                        image: _image == null
+                            ? Image.asset('assets/Imagen1.png').image
+                            : Image.file(_image!).image,
+                        fit: BoxFit.fill),
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                SizedBox(height: 5),
+                InkWell(
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(50),
+                                    topRight: Radius.circular(50))),
+                            contentPadding: EdgeInsets.all(0),
+                            content: SingleChildScrollView(
+                                child: Column(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    imagepickerCamara();
+                                    Navigator.pop(context);
+                                  },
+                                  child: Container(
+                                      padding: EdgeInsets.all(15),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Expanded(
+                                            flex: 7,
+                                            child: Text(
+                                              "Tomar una foto",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontFamily: 'biko',
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 3,
+                                            child: Icon(
+                                              Icons.camera_alt_outlined,
+                                              size: 35,
+                                            ),
+                                          ),
+                                        ],
+                                      )),
                                 ),
-                              ),
+                                Divider(
+                                  thickness: 2,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    imagepickerMethod();
+                                    Navigator.pop(context);
+                                  },
+                                  child: Container(
+                                      padding: EdgeInsets.all(15),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Expanded(
+                                            flex: 7,
+                                            child: Text(
+                                              "Elegir una desde galería",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontFamily: 'biko',
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 3,
+                                            child: Icon(
+                                              Icons.photo_album_sharp,
+                                              size: 35,
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                ),
+                                Divider(
+                                  thickness: 2,
+                                ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(50)),
+                                    onPrimary: Colors.white,
+                                    primary: RED_CAR,
+                                    shadowColor: Colors.white,
+                                    elevation: 15,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 15, horizontal: 10),
+                                    child: Text(
+                                      "Cancelar",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'biko',
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+                              ],
+                            )),
+                          );
+                        });
+                  },
+                  child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Añadir Foto',
+                            style: TextStyle(
+                              fontFamily: ax,
+                              fontSize: 22,
+                              color: RED_CAR,
                             ),
                           ),
-                          SizedBox(height: 20),
+                          Icon(
+                            Icons.photo_album_sharp,
+                            size: 25,
+                            color: RED_CAR,
+                          )
                         ],
                       )),
-                    );
-                  });
-            },
-            child: Container(
-              height: 160,
-              width: 150,
-              decoration: BoxDecoration(
-                border: Border.all(width: .5),
-                image: DecorationImage(
-                    image: _image == null
-                        ? Image.asset('assets/Imagen1.png').image
-                        : Image.file(_image!).image,
-                    fit: BoxFit.fill),
-                color: Colors.white,
-                shape: BoxShape.circle,
-              ),
+                ),
+                SizedBox(height: 10),
+                emailfield,
+                SizedBox(height: 10),
+                namefield,
+                SizedBox(height: 10),
+                lastnamefield,
+                SizedBox(height: 10),
+                agefield,
+                SizedBox(height: 10),
+                numerofield,
+                SizedBox(height: 10),
+                direccionfield,
+                SizedBox(height: 10),
+                passfield,
+                SizedBox(height: 10),
+                confirmpassfield,
+                SizedBox(height: 10),
+                buttonregis,
+                SizedBox(height: 10),
+              ],
             ),
           ),
-          SizedBox(height: 10),
-          emailfield,
-          SizedBox(height: 10),
-          namefield,
-          SizedBox(height: 10),
-          lastnamefield,
-          SizedBox(height: 10),
-          agefield,
-          SizedBox(height: 10),
-          numerofield,
-          SizedBox(height: 10),
-          direccionfield,
-          SizedBox(height: 10),
-          passfield,
-          SizedBox(height: 10),
-          confirmpassfield,
-          SizedBox(height: 10),
-          buttonregis,
-          SizedBox(height: 20),
           Container(
             width: double.infinity,
             margin: EdgeInsets.symmetric(horizontal: 25),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  '¿Ya estás registrado?',
-                  style: TextStyle(
-                    fontFamily: ax,
-                    fontSize: 18,
-                  ),
-                ),
-                GestureDetector(
-                  onTap: widget.showInicio,
+                Expanded(
+                  flex: 5,
                   child: Text(
-                    'Iniciar sesión',
+                    '¿Ya estás registrado?',
                     style: TextStyle(
-                      color: Colors.blue,
                       fontFamily: ax,
-                      fontSize: 18,
+                      fontSize: 15,
                     ),
                   ),
-                )
+                ),
+                Expanded(
+                  flex: 5,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)),
+                      onPrimary: Colors.white,
+                      primary: Colors.black,
+                      shadowColor: Colors.black,
+                      elevation: 15,
+                    ),
+                    onPressed: widget.showInicio,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 5),
+                      child: Text(
+                        "Iniciar Sesión",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: ax,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -851,25 +915,40 @@ class _RegisterPageState extends State<RegisterPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset('assets/logob.png', width: 210, height: 200),
+          SizedBox(
+            height: 10,
+          ),
+          ClipRect(
+            child: Align(
+              alignment: Alignment.center,
+              widthFactor: .85,
+              heightFactor: .80,
+              child: Image.asset('assets/logob.png', width: 200, height: 200),
+            ),
+          ),
+          SizedBox(
+            height: 2,
+          ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 25),
+            padding: EdgeInsets.only(right: 25),
             child: Text(
               '¡Nos alegra recibirlo!',
+              textAlign: TextAlign.left,
               style: TextStyle(
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 fontFamily: ax,
                 fontSize: 30,
               ),
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 4),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 25),
             child: Text(
               'Regístrese a continuación con sus datos',
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 19,
                 fontFamily: ax,
               ),
             ),
@@ -878,9 +957,16 @@ class _RegisterPageState extends State<RegisterPage> {
           Container(
               margin: EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
-                  border: Border.all(width: 1),
-                  color: RED_CAR,
-                  borderRadius: BorderRadius.circular(15)),
+                  border: Border.all(width: .5),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color.fromARGB(103, 0, 0, 0),
+                      offset: Offset(0, 5),
+                      blurRadius: 15.0,
+                    )
+                  ],
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20)),
               width: double.infinity,
               alignment: Alignment(0, 0),
               child: Row(
@@ -890,7 +976,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     flex: 3,
                     child: Icon(
                       Icons.shopping_cart,
-                      color: Colors.white,
+                      color: RED_CAR,
                       size: 35,
                     ),
                   ),
@@ -903,7 +989,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.white,
                           fontFamily: ax,
                           fontWeight: FontWeight.w500,
                         ),
@@ -913,7 +998,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   Expanded(
                     flex: 3,
                     child: Switch(
-                        activeColor: Colors.white,
                         value: islighted,
                         onChanged: (state) {
                           setState(() {
@@ -923,146 +1007,28 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ],
               )),
-          SizedBox(height: 20),
+          SizedBox(height: 5),
           Container(
-            padding: EdgeInsets.all(8),
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(width: 1),
-                color: Colors.white),
-            margin: EdgeInsets.symmetric(horizontal: 25),
-            child: Text(
-              'Suba el logo de tienda',
-              style: TextStyle(
-                fontSize: 21,
-                fontFamily: ax,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-          SizedBox(height: 10),
-          InkWell(
-            onTap: () {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(50),
-                              topRight: Radius.circular(50))),
-                      contentPadding: EdgeInsets.all(0),
-                      content: SingleChildScrollView(
-                          child: Column(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              imagepickerCamara();
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                                padding: EdgeInsets.all(15),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Expanded(
-                                      flex: 7,
-                                      child: Text(
-                                        "Tomar una foto",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontFamily: 'biko',
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Icon(
-                                        Icons.camera_alt_outlined,
-                                        size: 35,
-                                      ),
-                                    ),
-                                  ],
-                                )),
-                          ),
-                          Divider(
-                            thickness: 2,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              imagepickerMethod();
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                                padding: EdgeInsets.all(15),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Expanded(
-                                      flex: 7,
-                                      child: Text(
-                                        "Elegir una desde galería",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontFamily: 'biko',
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Icon(
-                                        Icons.photo_album_sharp,
-                                        size: 35,
-                                      ),
-                                    ),
-                                  ],
-                                )),
-                          ),
-                          Divider(
-                            thickness: 2,
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50)),
-                              onPrimary: Colors.white,
-                              primary: RED_CAR,
-                              shadowColor: Colors.white,
-                              elevation: 15,
-                            ),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 10),
-                              child: Text(
-                                "Cancelar",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'biko',
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 20),
-                        ],
-                      )),
-                    );
-                  });
-            },
-            child: CircleAvatar(
-                backgroundColor: Colors.black,
-                radius: 80,
-                child: Container(
-                  height: 160,
-                  width: 158,
+                border: Border.all(width: .5),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color.fromARGB(103, 0, 0, 0),
+                    offset: Offset(0, 5),
+                    blurRadius: 15.0,
+                  )
+                ],
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20)),
+            child: Column(
+              children: [
+                SizedBox(height: 10),
+                Container(
+                  height: 100,
+                  width: 100,
                   decoration: BoxDecoration(
+                    border: Border.all(width: .5),
                     image: DecorationImage(
                         image: _image == null
                             ? Image.network(
@@ -1073,57 +1039,216 @@ class _RegisterPageState extends State<RegisterPage> {
                     color: Colors.white,
                     shape: BoxShape.circle,
                   ),
-                )),
+                ),
+                SizedBox(height: 5),
+                InkWell(
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(50),
+                                    topRight: Radius.circular(50))),
+                            contentPadding: EdgeInsets.all(0),
+                            content: SingleChildScrollView(
+                                child: Column(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    imagepickerCamara();
+                                    Navigator.pop(context);
+                                  },
+                                  child: Container(
+                                      padding: EdgeInsets.all(15),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Expanded(
+                                            flex: 7,
+                                            child: Text(
+                                              "Tomar una foto",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontFamily: 'biko',
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 3,
+                                            child: Icon(
+                                              Icons.camera_alt_outlined,
+                                              size: 35,
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                ),
+                                Divider(
+                                  thickness: 2,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    imagepickerMethod();
+                                    Navigator.pop(context);
+                                  },
+                                  child: Container(
+                                      padding: EdgeInsets.all(15),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Expanded(
+                                            flex: 7,
+                                            child: Text(
+                                              "Elegir una desde galería",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontFamily: 'biko',
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 3,
+                                            child: Icon(
+                                              Icons.photo_album_sharp,
+                                              size: 35,
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                ),
+                                Divider(
+                                  thickness: 2,
+                                ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(50)),
+                                    onPrimary: Colors.white,
+                                    primary: RED_CAR,
+                                    shadowColor: Colors.white,
+                                    elevation: 15,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 15, horizontal: 10),
+                                    child: Text(
+                                      "Cancelar",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'biko',
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+                              ],
+                            )),
+                          );
+                        });
+                  },
+                  child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Añadir Foto',
+                            style: TextStyle(
+                              fontFamily: ax,
+                              fontSize: 22,
+                              color: RED_CAR,
+                            ),
+                          ),
+                          Icon(
+                            Icons.photo_album_sharp,
+                            size: 25,
+                            color: RED_CAR,
+                          )
+                        ],
+                      )),
+                ),
+                SizedBox(height: 10),
+                localfield,
+                SizedBox(height: 10),
+                emailfield,
+                SizedBox(height: 10),
+                namefield,
+                SizedBox(height: 10),
+                lastnamefield,
+                SizedBox(height: 10),
+                agefield,
+                SizedBox(height: 10),
+                numerofield,
+                SizedBox(height: 10),
+                direccionfield,
+                SizedBox(height: 10),
+                passfield,
+                SizedBox(height: 10),
+                confirmpassfield,
+                SizedBox(height: 10),
+                buttonregis,
+                SizedBox(height: 10),
+              ],
+            ),
           ),
-          SizedBox(height: 10),
-          localfield,
-          SizedBox(height: 10),
-          emailfield,
-          SizedBox(height: 10),
-          namefield,
-          SizedBox(height: 10),
-          lastnamefield,
-          SizedBox(height: 10),
-          agefield,
-          SizedBox(height: 10),
-          numerofield,
-          SizedBox(height: 10),
-          direccionfield,
-          SizedBox(height: 10),
-          passfield,
-          SizedBox(height: 10),
-          confirmpassfield,
-          SizedBox(height: 10),
-          buttonregis,
-          SizedBox(height: 20),
           Container(
             width: double.infinity,
             margin: EdgeInsets.symmetric(horizontal: 25),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  '¿Ya estás registrado?',
-                  style: TextStyle(
-                    fontFamily: ax,
-                    fontSize: 18,
-                  ),
-                ),
-                GestureDetector(
-                  onTap: widget.showInicio,
+                Expanded(
+                  flex: 5,
                   child: Text(
-                    'Iniciar sesión',
+                    '¿Ya estás registrado?',
                     style: TextStyle(
-                      color: Colors.blue,
                       fontFamily: ax,
-                      fontSize: 18,
+                      fontSize: 15,
                     ),
                   ),
-                )
+                ),
+                Expanded(
+                  flex: 5,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)),
+                      onPrimary: Colors.white,
+                      primary: Colors.black,
+                      shadowColor: Colors.black,
+                      elevation: 15,
+                    ),
+                    onPressed: widget.showInicio,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 5),
+                      child: Text(
+                        "Iniciar Sesión",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: ax,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
-          SizedBox(height: 30),
+          SizedBox(height: 40),
         ],
       ),
     );

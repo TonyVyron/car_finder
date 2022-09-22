@@ -124,21 +124,31 @@ class _InicioState extends State<Inicio> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          GestureDetector(
-            onTap: () {
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50)),
+              onPrimary: Colors.white,
+              primary: Colors.black,
+              shadowColor: Colors.black,
+              elevation: 15,
+            ),
+            onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return ForgotPasswordPage();
               }));
             },
-            child: Text(
-              '¿Olvidaste tu contraseña?',
-              style: TextStyle(
-                color: Colors.blue,
-                fontFamily: ax,
-                fontSize: 18,
+            child: Container(
+              margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+              child: Text(
+                '¿Olvidaste tu contraseña?',
+                style: TextStyle(
+                  fontFamily: ax,
+                  fontSize: 16,
+                ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -202,28 +212,24 @@ class _InicioState extends State<Inicio> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(
-                    flex: 2,
-                    child: Container(
-                        width: double.infinity,
-                        child: Icon(
-                          Icons.login,
-                          size: 25,
-                        ))),
-                Expanded(
-                  flex: 8,
-                  child: Container(
-                    width: double.infinity,
-                    height: 30,
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Iniciar Sesión',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'biko',
-                          fontSize: 20,
-                        ),
+                Container(
+                    child: Icon(
+                  Icons.login,
+                  size: 25,
+                )),
+                SizedBox(
+                  width: 20,
+                ),
+                Container(
+                  height: 30,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Iniciar Sesión',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'biko',
+                        fontSize: 20,
                       ),
                     ),
                   ),
@@ -239,12 +245,12 @@ class _InicioState extends State<Inicio> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            flex: 6,
+            flex: 5,
             child: Text(
               '¿Aún no eres usuario? ',
               style: TextStyle(
                 fontFamily: ax,
-                fontSize: 17,
+                fontSize: 16,
               ),
             ),
           ),
@@ -268,7 +274,7 @@ class _InicioState extends State<Inicio> {
                   style: TextStyle(
                     color: Colors.white,
                     fontFamily: ax,
-                    fontSize: 18,
+                    fontSize: 17,
                   ),
                 ),
               ),
@@ -277,13 +283,12 @@ class _InicioState extends State<Inicio> {
         ],
       ),
     );
-    return SafeArea(
+    return Container(
+      alignment: Alignment.center,
       child: SingleChildScrollView(
         child: Form(
           key: _formkey,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: 20),
               Image.asset('assets/logob.png', width: 210, height: 220),
@@ -294,7 +299,7 @@ class _InicioState extends State<Inicio> {
                   '¡Sea Bienvenido!',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                     fontFamily: ax,
                     fontSize: 35,
                   ),
@@ -442,8 +447,8 @@ class _DescriptionPage extends StatelessWidget {
           children: [
             Image.asset(
               imagePath,
-              width: 250,
-              height: 250,
+              width: 210,
+              height: 210,
             ),
             SizedBox(height: 20),
             Text(
@@ -452,7 +457,7 @@ class _DescriptionPage extends StatelessWidget {
               style: TextStyle(
                 fontFamily: 'biko',
                 fontSize: 30,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
               ),
             ),
             SizedBox(
@@ -461,7 +466,7 @@ class _DescriptionPage extends StatelessWidget {
             Text(
               text,
               textAlign: TextAlign.justify,
-              style: TextStyle(fontFamily: 'biko', fontSize: 20),
+              style: TextStyle(fontFamily: 'biko', fontSize: 18),
             ),
           ],
         ),

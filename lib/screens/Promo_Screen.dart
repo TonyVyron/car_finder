@@ -642,6 +642,7 @@ class _PromocionesState extends State<Promociones> {
       "Favoritos": FieldValue.arrayUnion([idcar])
     }).whenComplete(() {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        duration: Duration(seconds: 1),
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30), topRight: Radius.circular(30))),
@@ -678,6 +679,7 @@ class _PromocionesState extends State<Promociones> {
       "Favoritos": FieldValue.arrayRemove([idcar])
     }).whenComplete(() {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        duration: Duration(seconds: 1),
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30), topRight: Radius.circular(30))),

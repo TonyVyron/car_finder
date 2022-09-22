@@ -43,8 +43,8 @@ class _infovendeState extends State<infovende> {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           image: DecorationImage(
-              image: AssetImage('assets/fofo2.png'), fit: BoxFit.fill)),
-      height: 600,
+              image: AssetImage('assets/fondo.png'), fit: BoxFit.fill)),
+      height: 630,
       width: double.infinity,
       child: SingleChildScrollView(
         child: Column(
@@ -99,6 +99,215 @@ class _infovendeState extends State<infovende> {
                 style:
                     TextStyle(fontFamily: 'biko', fontSize: 22, color: RED_CAR),
               ),
+            ),
+            Container(
+              child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('estrellas')
+                      .doc(widget.id_vendedor)
+                      .collection('personas')
+                      .where('uid_persona', isEqualTo: widget.id_per)
+                      .snapshots(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (!snapshot.hasData) {
+                      return Container(
+                        alignment: Alignment.center,
+                        child: Center(
+                            child: Transform.scale(
+                          scale: 1.6,
+                          child: CircularProgressIndicator(
+                            color: RED_CAR,
+                          ),
+                        )),
+                      );
+                    } else {
+                      if (snapshot.data!.docs.length == 0) {
+                        return RatingBar.builder(
+                          minRating: 1,
+                          itemBuilder: (context, _) =>
+                              Icon(Icons.star, color: Colors.amber),
+                          onRatingUpdate: (rating) {
+                            setState(() {
+                              _rating = rating;
+                            });
+                            showDialog(
+                                context: context,
+                                builder: (_) => new AlertDialog(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                              topRight: Radius.circular(50))),
+                                      backgroundColor: Colors.white,
+                                      title: Text("Puntuar al Vendedor",
+                                          style: TextStyle(
+                                            fontFamily: 'biko',
+                                            color: Colors.black,
+                                            fontSize: 25,
+                                          )),
+                                      content: Text(
+                                          "¿Desea Puntuar al vendedor con ${_rating} estrellas?",
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.black,
+                                            fontFamily: 'biko',
+                                          )),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(10),
+                                              color: RED_CAR,
+                                              child: Text(
+                                                "No",
+                                                style: TextStyle(
+                                                    fontFamily: 'biko',
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            )),
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            postestrellas();
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.only(
+                                                right: 13,
+                                                top: 10,
+                                                bottom: 10,
+                                                left: 13),
+                                            color: RED_CAR,
+                                            child: Text(
+                                              "Sí",
+                                              style: TextStyle(
+                                                  fontFamily: 'biko',
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ));
+                          },
+                        );
+                      } else {
+                        return Container(
+                          child: StreamBuilder(
+                              stream: FirebaseFirestore.instance
+                                  .collection('estrellas')
+                                  .doc(widget.id_vendedor)
+                                  .collection('personas')
+                                  .where('uid_persona',
+                                      isEqualTo: widget.id_per)
+                                  .snapshots(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot snapshot) {
+                                if (!snapshot.hasData) {
+                                  return Container(
+                                    alignment: Alignment.center,
+                                    child: Center(
+                                        child: Transform.scale(
+                                      scale: 1.6,
+                                      child: CircularProgressIndicator(
+                                        color: RED_CAR,
+                                      ),
+                                    )),
+                                  );
+                                } else {
+                                  QueryDocumentSnapshot<Object?> rate =
+                                      snapshot.data!.docs[0];
+                                  return RatingBar.builder(
+                                    minRating: 1,
+                                    initialRating: rate['estrellas'],
+                                    itemBuilder: (context, _) =>
+                                        Icon(Icons.star, color: Colors.amber),
+                                    onRatingUpdate: (rating) {
+                                      setState(() {
+                                        _rating = rating;
+                                      });
+                                      showDialog(
+                                          context: context,
+                                          builder: (_) => new AlertDialog(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    50))),
+                                                backgroundColor: Colors.white,
+                                                title:
+                                                    Text("Cambiar Puntuación",
+                                                        style: TextStyle(
+                                                          fontFamily: 'biko',
+                                                          color: Colors.black,
+                                                          fontSize: 25,
+                                                        )),
+                                                content: Text(
+                                                    "¿Desea Cambiar la Puntuación con ${_rating} estrellas?",
+                                                    style: TextStyle(
+                                                      fontSize: 20,
+                                                      color: Colors.black,
+                                                      fontFamily: 'biko',
+                                                    )),
+                                                actions: [
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Container(
+                                                        padding:
+                                                            EdgeInsets.all(10),
+                                                        color: RED_CAR,
+                                                        child: Text(
+                                                          "No",
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  'biko',
+                                                              color:
+                                                                  Colors.white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      )),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                      actuestrellas();
+                                                    },
+                                                    child: Container(
+                                                      padding: EdgeInsets.only(
+                                                          right: 13,
+                                                          top: 10,
+                                                          bottom: 10,
+                                                          left: 13),
+                                                      color: RED_CAR,
+                                                      child: Text(
+                                                        "Sí",
+                                                        style: TextStyle(
+                                                            fontFamily: 'biko',
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ));
+                                    },
+                                  );
+                                }
+                              }),
+                        );
+                      }
+                    }
+                  }),
+            ),
+            SizedBox(
+              height: 10,
             ),
             Container(
               padding: EdgeInsets.all(10),
@@ -338,279 +547,31 @@ class _infovendeState extends State<infovende> {
               ),
             ),
             SizedBox(
-              height: 10,
+              height: 20,
             ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-              decoration: BoxDecoration(
-                  border: Border.all(width: .4),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color.fromARGB(103, 0, 0, 0),
-                      offset: Offset(0, 5),
-                      blurRadius: 10.0,
-                    ),
-                  ],
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20)),
-              margin: EdgeInsets.only(top: 10),
-              child: Text(
-                'Puntuar Vendedor:'.toString(),
-                textAlign: TextAlign.center,
-                style:
-                    TextStyle(fontFamily: 'biko', fontSize: 22, color: RED_CAR),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              child: StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection('estrellas')
-                      .doc(widget.id_vendedor)
-                      .collection('personas')
-                      .where('uid_persona', isEqualTo: widget.id_per)
-                      .snapshots(),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (!snapshot.hasData) {
-                      return Container(
-                        alignment: Alignment.center,
-                        child: Center(
-                            child: Transform.scale(
-                          scale: 1.6,
-                          child: CircularProgressIndicator(
-                            color: RED_CAR,
-                          ),
-                        )),
-                      );
-                    } else {
-                      if (snapshot.data!.docs.length == 0) {
-                        return RatingBar.builder(
-                          minRating: 1,
-                          itemBuilder: (context, _) =>
-                              Icon(Icons.star, color: Colors.amber),
-                          onRatingUpdate: (rating) {
-                            setState(() {
-                              _rating = rating;
-                            });
-                            showDialog(
-                                context: context,
-                                builder: (_) => new AlertDialog(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(50))),
-                                      backgroundColor: Colors.white,
-                                      title: Text("Puntuar al Vendedor",
-                                          style: TextStyle(
-                                            fontFamily: 'biko',
-                                            color: Colors.black,
-                                            fontSize: 25,
-                                          )),
-                                      content: Text(
-                                          "¿Desea Puntuar al vendedor con ${_rating} estrellas?",
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.black,
-                                            fontFamily: 'biko',
-                                          )),
-                                      actions: [
-                                        TextButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: Container(
-                                              padding: EdgeInsets.all(10),
-                                              color: RED_CAR,
-                                              child: Text(
-                                                "No",
-                                                style: TextStyle(
-                                                    fontFamily: 'biko',
-                                                    color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            )),
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                            postestrellas();
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.only(
-                                                right: 13,
-                                                top: 10,
-                                                bottom: 10,
-                                                left: 13),
-                                            color: RED_CAR,
-                                            child: Text(
-                                              "Sí",
-                                              style: TextStyle(
-                                                  fontFamily: 'biko',
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ));
-                          },
-                        );
-                      } else {
-                        return Container(
-                          child: StreamBuilder(
-                              stream: FirebaseFirestore.instance
-                                  .collection('estrellas')
-                                  .doc(widget.id_vendedor)
-                                  .collection('personas')
-                                  .where('uid_persona',
-                                      isEqualTo: widget.id_per)
-                                  .snapshots(),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot snapshot) {
-                                if (!snapshot.hasData) {
-                                  return Container(
-                                    alignment: Alignment.center,
-                                    child: Center(
-                                        child: Transform.scale(
-                                      scale: 1.6,
-                                      child: CircularProgressIndicator(
-                                        color: RED_CAR,
-                                      ),
-                                    )),
-                                  );
-                                } else {
-                                  QueryDocumentSnapshot<Object?> rate =
-                                      snapshot.data!.docs[0];
-                                  return RatingBar.builder(
-                                    minRating: 1,
-                                    initialRating: rate['estrellas'],
-                                    itemBuilder: (context, _) =>
-                                        Icon(Icons.star, color: Colors.amber),
-                                    onRatingUpdate: (rating) {
-                                      setState(() {
-                                        _rating = rating;
-                                      });
-                                      showDialog(
-                                          context: context,
-                                          builder: (_) => new AlertDialog(
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.only(
-                                                            topRight:
-                                                                Radius.circular(
-                                                                    50))),
-                                                backgroundColor: Colors.white,
-                                                title:
-                                                    Text("Cambiar Puntuación",
-                                                        style: TextStyle(
-                                                          fontFamily: 'biko',
-                                                          color: Colors.black,
-                                                          fontSize: 25,
-                                                        )),
-                                                content: Text(
-                                                    "¿Desea Cambiar la Puntuación con ${_rating} estrellas?",
-                                                    style: TextStyle(
-                                                      fontSize: 20,
-                                                      color: Colors.black,
-                                                      fontFamily: 'biko',
-                                                    )),
-                                                actions: [
-                                                  TextButton(
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: Container(
-                                                        padding:
-                                                            EdgeInsets.all(10),
-                                                        color: RED_CAR,
-                                                        child: Text(
-                                                          "No",
-                                                          style: TextStyle(
-                                                              fontFamily:
-                                                                  'biko',
-                                                              color:
-                                                                  Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      )),
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                      actuestrellas();
-                                                    },
-                                                    child: Container(
-                                                      padding: EdgeInsets.only(
-                                                          right: 13,
-                                                          top: 10,
-                                                          bottom: 10,
-                                                          left: 13),
-                                                      color: RED_CAR,
-                                                      child: Text(
-                                                        "Sí",
-                                                        style: TextStyle(
-                                                            fontFamily: 'biko',
-                                                            color: Colors.white,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ));
-                                    },
-                                  );
-                                }
-                              }),
-                        );
-                      }
-                    }
-                  }),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-              decoration: BoxDecoration(
-                  border: Border.all(width: .4),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color.fromARGB(103, 0, 0, 0),
-                      offset: Offset(0, 5),
-                      blurRadius: 10.0,
-                    ),
-                  ],
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20)),
-              margin: EdgeInsets.symmetric(horizontal: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(right: 10),
-                    child: Icon(
-                      Icons.store_mall_directory,
-                      size: 30,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(right: 10),
+                  child: Icon(
+                    Icons.store_mall_directory,
+                    size: 30,
+                    color: RED_CAR,
+                  ),
+                ),
+                Container(
+                  child: Text(
+                    'Más de esta tienda'.toTitleCase(),
+                    style: TextStyle(
+                      fontFamily: 'biko',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 18.5,
                       color: RED_CAR,
                     ),
                   ),
-                  Container(
-                    child: Text(
-                      'Más de esta tienda'.toTitleCase(),
-                      style: TextStyle(
-                        fontFamily: 'biko',
-                        fontWeight: FontWeight.w500,
-                        fontSize: 18.5,
-                        color: RED_CAR,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
             carrogeneral(id_vendedor: widget.id_vendedor),
             SizedBox(

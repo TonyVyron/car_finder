@@ -42,7 +42,7 @@ class _AgregaFotosState extends State<AgregaFotos> {
       } else {
         showsnackbar(
             'No hay imagen para mostrar',
-            Duration(milliseconds: 600),
+            Duration(milliseconds: 1000),
             Icon(
               Icons.close,
               size: 25,
@@ -63,14 +63,16 @@ class _AgregaFotosState extends State<AgregaFotos> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ic,
-              Text(texto,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'biko',
-                    fontSize: 20,
-                    color: Colors.white,
-                  ))
+              Expanded(child: ic),
+              Expanded(
+                child: Text(texto,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'biko',
+                      fontSize: 20,
+                      color: Colors.white,
+                    )),
+              )
             ],
           )),
       backgroundColor: RED_CAR,
@@ -81,165 +83,176 @@ class _AgregaFotosState extends State<AgregaFotos> {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      height: 500,
+      height: 480,
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                flex: 8,
-                child: Text(
-                  '${carro.nombre_carro} ${carro.nombre_marca}',
-                  style: TextStyle(
-                      fontFamily: 'biko', fontSize: 25, color: Colors.black),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  flex: 8,
+                  child: Text(
+                    '${carro.nombre_carro} ${carro.nombre_marca}',
+                    style: TextStyle(
+                        fontFamily: 'biko', fontSize: 25, color: Colors.black),
+                  ),
                 ),
-              ),
-              Expanded(
-                  flex: 2,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: RED_CAR,
-                      border: Border.all(),
-                      shape: BoxShape.circle,
-                    ),
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.close,
-                        size: 35,
-                        color: Colors.white,
+                Expanded(
+                    flex: 2,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: RED_CAR,
+                        border: Border.all(),
+                        shape: BoxShape.circle,
                       ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                      },
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.close,
+                          size: 35,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ))
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            InkWell(
+                onTap: () {
+                  imagepickerMethod();
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Añadir Fotos',
+                      style: TextStyle(
+                        fontFamily: 'biko',
+                        fontSize: 25,
+                        color: RED_CAR,
+                      ),
                     ),
-                  ))
-            ],
-          ),
-          InkWell(
-            onTap: () {
-              imagepickerMethod();
-            },
-            child: Container(
+                    Icon(
+                      Icons.photo_album_sharp,
+                      size: 30,
+                      color: RED_CAR,
+                    )
+                  ],
+                )),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
               decoration: BoxDecoration(
                   border: Border.all(width: 1),
-                  borderRadius: BorderRadius.circular(20)),
-              padding: EdgeInsets.all(8),
-              margin: EdgeInsets.symmetric(vertical: 15),
-              child: Text(
-                "Subir una imagen del vehículo",
-                style: TextStyle(
-                  fontFamily: 'biko',
-                  fontSize: 20,
-                ),
-              ),
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-                border: Border.all(width: 1),
-                borderRadius: BorderRadius.circular(5)),
-            height: 300,
-            alignment: Alignment.center,
-            child: _imageFileList!.length > 0
-                ? GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                    ),
-                    itemCount: _imageFileList!.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          Image.file(
-                            File(_imageFileList![index].path),
-                            fit: BoxFit.cover,
-                          ),
-                          Positioned(
-                              right: 0,
-                              top: 0,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Color.fromARGB(210, 255, 255, 255),
-                                    borderRadius: BorderRadius.circular(5)),
-                                width: 35,
-                                height: 35,
-                                child: IconButton(
-                                    color: RED_CAR,
-                                    onPressed: () {
-                                      _imageFileList!.removeAt(index);
-                                      setState(() {});
-                                    },
-                                    icon: Icon(
-                                      Icons.delete,
-                                      size: 20,
-                                    )),
-                              ))
-                        ],
-                      );
-                    },
-                  )
-                : Text(
-                    "Sin Imagenes Subidas",
-                    style: TextStyle(
-                      fontFamily: 'biko',
-                      fontSize: 20,
-                    ),
-                  ),
-          ),
-          Container(
-            width: double.infinity,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15)),
-                onPrimary: Colors.white,
-                shadowColor: Colors.black,
-                elevation: 15,
-              ),
-              onPressed: () {
-                if (_imageFileList!.length > 0) {
-                  agregarfoto(carro.uid_vendedor.toString(),
-                      carro.uid.toString(), carro.fotos!.length.toInt());
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    duration: Duration(seconds: 1),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30))),
-                    content: Container(
-                        width: double.infinity,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  borderRadius: BorderRadius.circular(5)),
+              height: 300,
+              alignment: Alignment.center,
+              child: _imageFileList!.length > 0
+                  ? GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                      ),
+                      itemCount: _imageFileList!.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Stack(
+                          fit: StackFit.expand,
                           children: [
-                            Icon(
-                              Icons.details,
-                              size: 25,
-                              color: Colors.white,
+                            Image.file(
+                              File(_imageFileList![index].path),
+                              fit: BoxFit.cover,
                             ),
-                            Text('No se encuentran fotos',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: 'biko',
-                                  fontSize: 20,
-                                  color: Colors.white,
+                            Positioned(
+                                right: 0,
+                                top: 0,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Color.fromARGB(210, 255, 255, 255),
+                                      borderRadius: BorderRadius.circular(5)),
+                                  width: 35,
+                                  height: 35,
+                                  child: IconButton(
+                                      color: RED_CAR,
+                                      onPressed: () {
+                                        _imageFileList!.removeAt(index);
+                                        setState(() {});
+                                      },
+                                      icon: Icon(
+                                        Icons.delete,
+                                        size: 20,
+                                      )),
                                 ))
                           ],
-                        )),
-                    backgroundColor: RED_CAR,
-                  ));
-                }
-              },
-              child: Text(
-                "Subir fotos",
-                style: TextStyle(fontFamily: 'biko', fontSize: 25),
-              ),
+                        );
+                      },
+                    )
+                  : Text(
+                      "Sin Imagenes Subidas",
+                      style: TextStyle(
+                        fontFamily: 'biko',
+                        fontSize: 20,
+                      ),
+                    ),
             ),
-          )
-        ],
+            Container(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
+                  onPrimary: Colors.white,
+                  shadowColor: Colors.black,
+                  elevation: 15,
+                ),
+                onPressed: () {
+                  if (_imageFileList!.length > 0) {
+                    agregarfoto(carro.uid_vendedor.toString(),
+                        carro.uid.toString(), carro.fotos!.length.toInt());
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      duration: Duration(seconds: 1),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(30),
+                              topRight: Radius.circular(30))),
+                      content: Container(
+                          width: double.infinity,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Icon(
+                                Icons.details,
+                                size: 25,
+                                color: Colors.white,
+                              ),
+                              Text('No se encuentran fotos',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontFamily: 'biko',
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                  ))
+                            ],
+                          )),
+                      backgroundColor: RED_CAR,
+                    ));
+                  }
+                },
+                child: Text(
+                  "Subir fotos",
+                  style: TextStyle(fontFamily: 'biko', fontSize: 25),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
