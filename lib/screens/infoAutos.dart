@@ -18,6 +18,7 @@ Widget AutosInfo(
     required int tipoCaja,
     required String id_visor,
     String? Marca,
+    String? color,
     String? Nombre,
     String? yo,
     String? Gasolina,
@@ -216,7 +217,7 @@ Widget AutosInfo(
                                     String subject =
                                         'Información sobre vehículo en Car Finder';
                                     String body =
-                                        'Buen día, por medio del presente solicito información acerca de:\n';
+                                        'Buen día, por medio del presente solicito información acerca del Vehículo ${Nombre} ${Marca} color ${color}:\n';
 
                                     String? encodeQueryParameters(
                                         Map<String, String> params) {
@@ -829,6 +830,43 @@ Widget AutosInfo(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
                                   "${puertas.toString().toTitleCase()} puertas",
+                                  style: TextStyle(
+                                    fontFamily: 'biko',
+                                    fontSize: LABEL_INFO,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Expanded(
+                              flex: 5,
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Color'.toTitleCase(),
+                                  style: TextStyle(
+                                    fontFamily: 'biko',
+                                    fontSize: LABEL_INFO,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 5,
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "${color.toString().toTitleCase()}",
                                   style: TextStyle(
                                     fontFamily: 'biko',
                                     fontSize: LABEL_INFO,

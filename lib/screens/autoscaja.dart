@@ -162,6 +162,7 @@ class _CajaAutosState extends State<CajaAutos> {
                                         child: AutosInfo(
                                             imagen: info_carro['fotos'],
                                             context: context,
+                                            color: info_carro['color'],
                                             id_visor:
                                                 loggedInUser.uid.toString(),
                                             yo: loggedInUser.status.toString(),
@@ -666,6 +667,7 @@ class _CajaAutosState extends State<CajaAutos> {
                                                 child: AutosInfo(
                                                     id_visor: loggedInUser.uid
                                                         .toString(),
+                                                    color: info_carro['color'],
                                                     imagen: info_carro['fotos'],
                                                     context: context,
                                                     precio: numberFormat2(
@@ -1154,6 +1156,7 @@ class _CajaAutosState extends State<CajaAutos> {
                                                   context: context,
                                                   id_visor: loggedInUser.uid
                                                       .toString(),
+                                                  color: info_carro['color'],
                                                   yo: loggedInUser.status
                                                       .toString(),
                                                   precio: numberFormat2(

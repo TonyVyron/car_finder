@@ -158,6 +158,7 @@ class _PromocionesState extends State<Promociones> {
                                         context: context,
                                         id_visor: loggedInUser.uid.toString(),
                                         yo: loggedInUser.status.toString(),
+                                        color: info_carro['color'],
                                         precio:
                                             numberFormat2(info_carro['precio']),
                                         Marca: info_carro['nombre_marca'],
