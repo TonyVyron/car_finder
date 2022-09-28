@@ -728,35 +728,6 @@ Widget AutosInfo(
                         Container(
                           margin: EdgeInsets.only(right: 10),
                           child: Icon(
-                            Icons.shopping_bag,
-                            size: 30,
-                            color: RED_CAR,
-                          ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            'Más de esta tienda'.toTitleCase(),
-                            style: TextStyle(
-                              fontFamily: 'biko',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18.5,
-                              color: RED_CAR,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    carrogeneral(id_vendedor: id_vendedor),
-                    Divider(
-                      thickness: 2,
-                      color: Colors.black.withOpacity(.3),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(right: 10),
-                          child: Icon(
                             Icons.verified_user,
                             size: 30,
                             color: RED_CAR,
