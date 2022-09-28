@@ -217,7 +217,7 @@ Widget AutosInfo(
                                     String subject =
                                         'Información sobre vehículo en Car Finder';
                                     String body =
-                                        'Buen día, por medio del presente solicito información acerca del Vehículo ${Nombre} ${Marca} color ${color}:\n';
+                                        'Buen día, por medio del presente solicito información acerca del vehículo ${Marca} ${Nombre}, de color ${color}. \nLo que quiero saber es';
 
                                     String? encodeQueryParameters(
                                         Map<String, String> params) {
